@@ -28,3 +28,13 @@
 .question-header{
   width: 500px !important;
 }
+
+.new-question{
+  margin: 20px !important;
+}
+
+.question-table{
+  height: 300px !important;
+  padding: 0 10px 10px 10px !important;
+  overflow: scroll !important;
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form } from 'semantic-ui-react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 export default function Update() {
@@ -7,6 +8,7 @@ export default function Update() {
     const [question, setQuestion] = useState('');
     const [difficultyLevel, setDifficultyLevel] = useState('');
     const [id, setID] = useState(null);
+    const navigate = useNavigate();
 
     const updateAPIData = () => {
         axios.put(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`, {
@@ -14,6 +16,8 @@ export default function Update() {
             question,
             difficultyLevel
         })
+
+        navigate('/read')
     }
 
     useEffect(() => {

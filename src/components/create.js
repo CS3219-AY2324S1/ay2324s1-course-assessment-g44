@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 export default function Create() {
     const [questionName, setQuestionName] = useState('');
     const [question, setQuestion] = useState('');
     const [difficultyLevel, setDifficultyLevel] = useState('');
-    const navigate = useNavigate();
 
 
     const postData = () => {
@@ -16,8 +14,6 @@ export default function Create() {
             question,
             difficultyLevel
         })
-
-        navigate('/read')
     }
     return (
         <div>

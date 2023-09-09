@@ -4,16 +4,18 @@ import Read from "./components/read";
 import Update from "./components/update";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+
 function App() {
   return (
     <div className="main">
       <Router>
         <h2 className="main-header">Peer Prep (Team 44)</h2>
-        <div>
-          <Routes>
-            <Route path="/create" element={<Create/>} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Read/>} />
+        </Routes>
+        <Routes>
+          <Route path="/create" element={<Create/>} />
+        </Routes>
         <div style={{ marginTop: 20 }}>
           <Routes>
             <Route path="/read" element={<Read/>} />

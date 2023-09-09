@@ -35,6 +35,10 @@ export default function Read() {
     }, [])
     return (
         <div>
+            <Link to='/create'>
+                <Button className='new-question'>Add New Question</Button>
+            </Link>
+            <div className='question-table'>
             <Table singleLine>
                 <Table.Header>
                     <Table.Row>
@@ -65,6 +69,8 @@ export default function Read() {
                     )})}
                 </Table.Body>
             </Table>
+            </div>
+ 
         </div>
     )
 }

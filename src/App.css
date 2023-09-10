@@ -22,7 +22,6 @@
 
 .question-field{
   width: 500px !important;
-  height: 200px !important;
 }
 
 .question-header{
@@ -31,10 +30,35 @@
 
 .new-question{
   margin: 20px !important;
+  /* padding: 10px 10px 10px 10px; */
 }
 
 .question-table{
   height: 300px !important;
   padding: 0 10px 10px 10px !important;
   overflow: scroll !important;
+}
+
+#main-page{
+  overflow-y: scroll;
+}
+
+.create-form{
+  display:flex !important;
+  flex-direction: row !important;
+}
+
+.post-question-button{
+  margin-left: 20px !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+}
+
+.question-name-field{
+  margin-left: 10px !important;
+}
+
+.question-field{
+  margin-left: 20px !important;
+  margin-right: 20px !important;
 }

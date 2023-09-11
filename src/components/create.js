@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Dropdown } from 'semantic-ui-react';
+
+
+const DifficultyOptions = [
+  { key: 'easy', text: 'Easy', value: 'easy' },
+  { key: 'medium', text: 'Medium', value: 'medium' },
+  { key: 'hard', text: 'Hard', value: 'hard' },
+];
+
 
 export default function Create() {
   const [questionName, setQuestionName] = useState("");
@@ -28,6 +38,10 @@ export default function Create() {
     }
   };
 
+  const handleDifficultyChange = (e, { value }) => {
+    setDifficultyLevel(value);
+  };
+
   return (
     <div>
       <div className="error-message">{errorMessage && <p className="error"> {errorMessage} </p>}</div>
@@ -46,17 +60,15 @@ export default function Create() {
             onChange={(e) => setQuestion(e.target.value)}
           />
         </Form.Field>
-        <Form.Field className="difficulty-level">
-          <select
-            onChange={(e) => {
-              setDifficultyLevel(e.target.value);
-            }}
-          >
-            <option value="">Please select</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+        <Form.Field>
+          <label>Difficulty Level</label>
+          <Dropdown
+            placeholder="Select Difficulty Level"
+            selection
+            options={DifficultyOptions}
+            onChange={handleDifficultyChange}
+            value={difficultyLevel}
+          />
         </Form.Field>
         <Button
           className="post-question-button"

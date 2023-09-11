@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { Dropdown } from 'semantic-ui-react';
 
 
@@ -16,18 +15,26 @@ export default function Create() {
   const [questionName, setQuestionName] = useState("");
   const [question, setQuestion] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const postData = () => {
-    axios
-      .post(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`, {
-        questionName,
-        question,
-        difficultyLevel,
-      })
-      .then(() => {
-        window.location.reload(true);
-      });
+    if (questionName === "") {
+      setErrorMessage("Please enter a question name!");
+    } else if (question === "") {
+      setErrorMessage("Please enter a question!");
+    } else if (difficultyLevel === "") {
+      setErrorMessage("Please select difficulty level!");
+    } else {
+      axios
+        .post(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`, {
+          questionName,
+          question,
+          difficultyLevel,
+        })
+        .then(() => {
+          window.location.reload(true);
+        });
+    }
   };
 
   const handleDifficultyChange = (e, { value }) => {
@@ -36,6 +43,7 @@ export default function Create() {
 
   return (
     <div>
+      <div className="error-message">{errorMessage && <p className="error"> {errorMessage} </p>}</div>
       <Form className="create-form">
         <Form.Field className="question-name-field">
           <label>Question Name</label>

@@ -20,9 +20,6 @@
   font-size: 12px !important;
 }
 
-.question-field{
-  width: 500px !important;
-}
 
 .question-header{
   width: 500px !important;
@@ -59,6 +56,19 @@
 }
 
 .question-field{
+  width: 500px !important;
   margin-left: 20px !important;
   margin-right: 20px !important;
+}
+
+.difficulty-level{
+  width: 300px !important;
+  margin-top: 22px !important;
+}
+
+.error-message{
+  color: red;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }

@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Dropdown from "react-bootstrap/Dropdown";
+import { Dropdown } from 'semantic-ui-react';
+
+
+const DifficultyOptions = [
+  { key: 'easy', text: 'Easy', value: 'easy' },
+  { key: 'medium', text: 'Medium', value: 'medium' },
+  { key: 'hard', text: 'Hard', value: 'hard' },
+];
+
 
 export default function Create() {
   const [questionName, setQuestionName] = useState("");
@@ -21,6 +29,11 @@ export default function Create() {
         window.location.reload(true);
       });
   };
+
+  const handleDifficultyChange = (e, { value }) => {
+    setDifficultyLevel(value);
+  };
+
   return (
     <div>
       <Form className="create-form">
@@ -40,9 +53,12 @@ export default function Create() {
         </Form.Field>
         <Form.Field>
           <label>Difficulty Level</label>
-          <input
-            placeholder="Difficulty Level"
-            onChange={(e) => setDifficultyLevel(e.target.value)}
+          <Dropdown
+            placeholder="Select Difficulty Level"
+            selection
+            options={DifficultyOptions}
+            onChange={handleDifficultyChange}
+            value={difficultyLevel}
           />
         </Form.Field>
         <Button

@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Dropdown from "react-bootstrap/Dropdown";
 
 export default function Create() {
   const [questionName, setQuestionName] = useState("");
   const [question, setQuestion] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const postData = () => {
-    axios
-      .post(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`, {
-        questionName,
-        question,
-        difficultyLevel,
-      })
-      .then(() => {
-        window.location.reload(true);
-      });
+    if (questionName === "") {
+      setErrorMessage("Please enter a question name!");
+    } else if (question === "") {
+      setErrorMessage("Please enter a question!");
+    } else if (difficultyLevel === "") {
+      setErrorMessage("Please select difficulty level!");
+    } else {
+      axios
+        .post(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`, {
+          questionName,
+          question,
+          difficultyLevel,
+        })
+        .then(() => {
+          window.location.reload(true);
+        });
+    }
   };
+
   return (
     <div>
+      <div className="error-message">{errorMessage && <p className="error"> {errorMessage} </p>}</div>
       <Form className="create-form">
         <Form.Field className="question-name-field">
           <label>Question Name</label>
@@ -38,12 +46,17 @@ export default function Create() {
             onChange={(e) => setQuestion(e.target.value)}
           />
         </Form.Field>
-        <Form.Field>
-          <label>Difficulty Level</label>
-          <input
-            placeholder="Difficulty Level"
-            onChange={(e) => setDifficultyLevel(e.target.value)}
-          />
+        <Form.Field className="difficulty-level">
+          <select
+            onChange={(e) => {
+              setDifficultyLevel(e.target.value);
+            }}
+          >
+            <option value="">Please select</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
         </Form.Field>
         <Button
           className="post-question-button"

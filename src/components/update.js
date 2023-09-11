@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Dropdown } from "semantic-ui-react";
 import axios from "axios";
+
+const DifficultyOptions = [
+  { key: "easy", text: "Easy", value: "easy" },
+  { key: "medium", text: "Medium", value: "medium" },
+  { key: "hard", text: "Hard", value: "hard" },
+];
 
 export default function Update() {
   const [questionName, setQuestionName] = useState("");
@@ -14,8 +20,6 @@ export default function Update() {
       setErrorMessage("Please enter a question name!");
     } else if (question === "") {
       setErrorMessage("Please enter a question!");
-    } else if (difficultyLevel === "") {
-      setErrorMessage("Please select difficulty level!");
     } else {
       axios
         .put(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`, {
@@ -27,6 +31,10 @@ export default function Update() {
           window.location.reload(true);
         });
     }
+  };
+
+  const handleDifficultyChange = (e, { value }) => {
+    setDifficultyLevel(value);
   };
 
   useEffect(() => {
@@ -60,16 +68,14 @@ export default function Update() {
         </Form.Field>
 
         <Form.Field>
-          <select
-            onChange={(e) => {
-              setDifficultyLevel(e.target.value);
-            }}
-          >
-            <option value="">Please select</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+          <label>Difficulty Level</label>
+          <Dropdown
+            placeholder="Select Difficulty Level"
+            selection
+            options={DifficultyOptions}
+            onChange={handleDifficultyChange}
+            value={difficultyLevel}
+          />
         </Form.Field>
         <Button
           className="post-question-button"

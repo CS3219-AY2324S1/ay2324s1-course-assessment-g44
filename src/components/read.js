@@ -129,7 +129,6 @@ export default function Read() {
 
             <Table.Body>
               {/* {APIData.map((data) => { */}
-              {console.log(storageData)}
               {storageData.map((data) => {
                 data = JSON.parse(data);
                 return (

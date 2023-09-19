@@ -5,10 +5,11 @@ const uuid2 = uuid();
 
 var exampleQuestion1 = {
   id: uuid1,
-  questionName: "Koko Eating Bananas",
+  questionName: "Reverse a String",
   question:
-    "testing",
+    "Write a function that reverses a string. The input string is given as an array of characters s.",
   difficultyLevel: "Medium",
+  category: "Strings, Algorithms"
 };
 
 var exampleQuestion2 = {
@@ -17,6 +18,7 @@ var exampleQuestion2 = {
   question:
     "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
   difficultyLevel: "Easy",
+  category: "Data Structures"
 };
 localStorage.clear();
 localStorage.setItem(uuid1.toString(), JSON.stringify(exampleQuestion1));

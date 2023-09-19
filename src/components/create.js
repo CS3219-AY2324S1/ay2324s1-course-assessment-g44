@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
-import axios from "axios";
 import { Dropdown } from "semantic-ui-react";
 import values  from "../data/data";
 import { v4 as uuid } from 'uuid';
@@ -15,6 +14,7 @@ export default function Create(props) {
   const [questionName, setQuestionName] = useState("");
   const [question, setQuestion] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
+  const [category, setCategory] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const getAllData = () => {
@@ -53,6 +53,7 @@ export default function Create(props) {
         questionName: questionName,
         question: question,
         difficultyLevel: difficultyLevel,
+        category: category
       };
       localStorage.setItem(newQuestionID.toString(), JSON.stringify(newQuestion));
       const questions = getAllData();
@@ -92,11 +93,20 @@ export default function Create(props) {
             onChange={(e) => setQuestionName(e.target.value)}
           />
         </Form.Field>
-        <Form.Field className="question-field">
-          <label>Question</label>
+        <div className="question-field">
+        <Form.Field>
+          <label>Question Description</label>
           <input
-            placeholder="Question"
+            placeholder="Question Description"
             onChange={(e) => setQuestion(e.target.value)}
+          />
+        </Form.Field>
+        </div>
+        <Form.Field>
+          <label>Category</label>
+          <input
+            placeholder="Category"
+            onChange={(e) => setCategory(e.target.value)}
           />
         </Form.Field>
         <Form.Field>

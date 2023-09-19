@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Dropdown } from "semantic-ui-react";
-import axios from "axios";
-import values from "../data/data";
 
 const DifficultyOptions = [
-  { key: "easy", text: "Easy", value: "easy" },
-  { key: "medium", text: "Medium", value: "medium" },
-  { key: "hard", text: "Hard", value: "hard" },
+  { key: "easy", text: "Easy", value: "Easy" },
+  { key: "medium", text: "Medium", value: "Medium" },
+  { key: "hard", text: "Hard", value: "Hard" },
 ];
 
 export default function Update(props) {
   const [questionName, setQuestionName] = useState("");
   const [question, setQuestion] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
+  const [category, setCategory] = useState("");
   const [id, setID] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -49,12 +48,14 @@ export default function Update(props) {
         questionName: questionName,
         question: question,
         difficultyLevel: difficultyLevel,
+        category: category
       };
       localStorage.setItem(id.toString(), JSON.stringify(updatedQuestion));
       localStorage.removeItem("ID");
       localStorage.removeItem("Question Name");
       localStorage.removeItem("Question");
       localStorage.removeItem("Difficulty Level");
+      localStorage.removeItem("Category")
       const questions = getAllData();
       props.onUpdateStorage(questions);
       props.onUpdateQuestion(false);
@@ -91,6 +92,7 @@ export default function Update(props) {
     setQuestionName(localStorage.getItem("Question Name"));
     setQuestion(localStorage.getItem("Question"));
     setDifficultyLevel(localStorage.getItem("Difficulty Level"));
+    setCategory(localStorage.getItem("Category"))
   }, []);
 
   return (
@@ -108,11 +110,19 @@ export default function Update(props) {
           />
         </Form.Field>
         <Form.Field className="question-field">
-          <label>Question</label>
+          <label>Question Description</label>
           <input
-            placeholder="Question"
+            placeholder="Question Description"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Category</label>
+          <input
+            placeholder="Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
           />
         </Form.Field>
 

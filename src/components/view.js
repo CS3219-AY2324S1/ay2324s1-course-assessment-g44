@@ -10,6 +10,11 @@ export default function View(props) {
 
   const goBack = () => {
     props.onUpdateQuestion(false);
+    localStorage.removeItem("ID");
+    localStorage.removeItem("Question Name");
+    localStorage.removeItem("Question");
+    localStorage.removeItem("Difficulty Level");
+    localStorage.removeItem("Category");
   };
 
   useEffect(() => {

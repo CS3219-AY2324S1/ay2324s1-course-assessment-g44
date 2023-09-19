@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Dropdown } from "semantic-ui-react";
 import axios from "axios";
+import values from "../data/data";
 
 const DifficultyOptions = [
   { key: "easy", text: "Easy", value: "easy" },
@@ -8,34 +9,82 @@ const DifficultyOptions = [
   { key: "hard", text: "Hard", value: "hard" },
 ];
 
-export default function Update() {
+export default function Update(props) {
   const [questionName, setQuestionName] = useState("");
   const [question, setQuestion] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
   const [id, setID] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const updateAPIData = () => {
+  const getAllData = () => {
+    const values = [];
+
+    var keys = Object.keys(localStorage);
+
+    for (let i = 0; i < keys.length; i++) {
+      values.push(localStorage.getItem(keys[i]));
+    }
+    return values;
+  }
+
+  const updateData = () => {
     if (questionName === "") {
       setErrorMessage("Please enter a question name!");
     } else if (question === "") {
       setErrorMessage("Please enter a question!");
+    } else if (isDuplicateQuestionName()){
+      setErrorMessage("You already have this question!");
     } else {
-      axios
-        .put(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`, {
-          questionName,
-          question,
-          difficultyLevel,
-        })
-        .then(() => {
-          window.location.reload(true);
-        });
+      // axios
+      //   .put(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`, {
+      //     questionName,
+      //     question,
+      //     difficultyLevel,
+      //   })
+      //   .then(() => {
+      //     window.location.reload(true);
+      //   });
+      const updatedQuestion = {
+        id: id,
+        questionName: questionName,
+        question: question,
+        difficultyLevel: difficultyLevel,
+      };
+      localStorage.setItem(id.toString(), JSON.stringify(updatedQuestion));
+      localStorage.removeItem("ID");
+      localStorage.removeItem("Question Name");
+      localStorage.removeItem("Question");
+      localStorage.removeItem("Difficulty Level");
+      const questions = getAllData();
+      props.onUpdateStorage(questions);
+      props.onUpdateQuestion(false);
     }
   };
 
   const handleDifficultyChange = (e, { value }) => {
     setDifficultyLevel(value);
   };
+
+  const isDuplicateQuestionName = () => {
+    if (questionName === localStorage.getItem("Question Name")) {
+      return false;
+    }
+    const allData = getAllData();
+    console.log("all data: " + allData);
+    for (const data of allData) {
+      try {
+        const json_data = JSON.parse(data);
+        console.log("current_data: " + json_data);
+        console.log("current name: " + json_data.questionName);
+        if (json_data.questionName.toLowerCase() === questionName.toLowerCase()) {
+          return true;
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+    return false;
+  }
 
   useEffect(() => {
     setID(localStorage.getItem("ID"));
@@ -80,7 +129,7 @@ export default function Update() {
         <Button
           className="post-question-button"
           type="submit"
-          onClick={updateAPIData}
+          onClick={updateData}
         >
           Update
         </Button>

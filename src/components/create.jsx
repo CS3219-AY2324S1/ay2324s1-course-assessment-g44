@@ -19,7 +19,7 @@ export default function Create(props) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const getAllData = async () => {
-    const values = axios.get('http://localhost:3000/api/getAll').then((response) => {
+    const values = axios.get('http://localhost:3000/questions/getQuestions').then((response) => {
       console.log(response.data);
     }).catch((error) => console.log(error)).data;
      // const values = [];
@@ -44,7 +44,7 @@ export default function Create(props) {
       setErrorMessage("You already have this question!");
     } else {
       axios
-        .post(`http://localhost:3000/api/post`, {
+        .post(`http://localhost:3000/questions/post`, {
           questionId: length(values) + 1,
           title: questionName,
           description: question,

@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router()
 
 module.exports = router;
-const Model = require('../models/question_model');
 const questionController = require('../controllers/question_controller');
 const { model } = require('mongoose');
 

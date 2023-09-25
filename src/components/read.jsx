@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button } from "semantic-ui-react";
 import Create from "./create";
 import Update from "./update";
 import View from "./view";
 import values from "../data/data";
+import axios from 'axios';
+
+const basePath = "http://localhost:3000/questions";
 
 export default function Read() {
   const [storageData, setStorageData] = useState(values);
   const [createState, setCreateState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [detailsState, setDetailsState] = useState(false);
+  const [questions, setQuestions] = useState([]);
 
-  const getAllData = () => {
+  useEffect(() => {
+    axios.get(`${basePath}/getQuestions`)
+    .then((response) => setQuestions(response.data))
+    .catch((error) => console.log(error));
+  }, [])
+
+  const getAllData = async () => {
     // const values = [];
 
     // var keys = Object.keys(localStorage);
@@ -20,22 +30,22 @@ export default function Read() {
     //   values.push(localStorage.getItem(keys[i]));
     // }
     // return values;
-    const values = axios.get('http://localhost:3000/api/getAll').then((response) => {
+    const values = await axios.get(`${basePath}/getQuestions`).then((response) => {
       console.log(response.data);
     }).catch((error) => console.log(error)).data;
     
     return values;
   };
 
-  const setData = (data) => {
-    let { id, questionName, question, difficultyLevel, category } = data;
-    localStorage.setItem("ID", id);
-    localStorage.setItem("Question Name", questionName);
-    localStorage.setItem("Question", question);
-    localStorage.setItem("Difficulty Level", difficultyLevel);
-    localStorage.setItem("Category", category);
-    handleUpdate();
-  };
+  // const setData = (data) => {
+  //   let { id, questionName, question, difficultyLevel, category } = data;
+  //   localStorage.setItem("ID", id);
+  //   localStorage.setItem("Question Name", questionName);
+  //   localStorage.setItem("Question", question);
+  //   localStorage.setItem("Difficulty Level", difficultyLevel);
+  //   localStorage.setItem("Category", category);
+  //   handleUpdate();
+  // };
 
   const showDetails = (data) => {
     let { id, questionName, question, difficultyLevel, category } = data;
@@ -133,8 +143,8 @@ export default function Read() {
 
             <Table.Body>
               {/* {APIData.map((data) => { */}
-              {storageData.map((data) => {
-                data = JSON.parse(data);
+              {/*storageData.map((data) => { */}
+              { questions.map((data) => {
                 return (
                   <Table.Row>
                     <Table.Cell>

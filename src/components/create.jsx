@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Button, Form, Dropdown, TextArea } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Button, Form } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
+import values  from "../data/data";
+import { v4 as uuid } from 'uuid';
 
 const DifficultyOptions = [
   { key: "easy", text: "Easy", value: "Easy" },
@@ -7,12 +10,11 @@ const DifficultyOptions = [
   { key: "hard", text: "Hard", value: "Hard" },
 ];
 
-export default function Update(props) {
+export default function Create(props) {
   const [questionName, setQuestionName] = useState("");
   const [question, setQuestion] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
   const [category, setCategory] = useState("");
-  const [id, setID] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const getAllData = () => {
@@ -26,16 +28,18 @@ export default function Update(props) {
     return values;
   }
 
-  const updateData = () => {
+  const postData = () => {
     if (questionName === "") {
       setErrorMessage("Please enter a question name!");
     } else if (question === "") {
       setErrorMessage("Please enter a question!");
-    } else if (isDuplicateQuestionName()){
+    } else if (difficultyLevel === "") {
+      setErrorMessage("Please select difficulty level!");
+    } else if (isDuplicateQuestionName()) {
       setErrorMessage("You already have this question!");
     } else {
       // axios
-      //   .put(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`, {
+      //   .post(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`, {
       //     questionName,
       //     question,
       //     difficultyLevel,
@@ -43,22 +47,19 @@ export default function Update(props) {
       //   .then(() => {
       //     window.location.reload(true);
       //   });
-      const updatedQuestion = {
-        id: id,
+      const newQuestionID = uuid();
+      const newQuestion = {
+        id: newQuestionID,
         questionName: questionName,
         question: question,
         difficultyLevel: difficultyLevel,
         category: category
       };
-      localStorage.setItem(id.toString(), JSON.stringify(updatedQuestion));
-      localStorage.removeItem("ID");
-      localStorage.removeItem("Question Name");
-      localStorage.removeItem("Question");
-      localStorage.removeItem("Difficulty Level");
-      localStorage.removeItem("Category")
+      localStorage.setItem(newQuestionID.toString(), JSON.stringify(newQuestion));
       const questions = getAllData();
       props.onUpdateStorage(questions);
-      props.onUpdateQuestion(false);
+      props.onCreateQuestion(false);
+      console.log("values: " + values);
     }
   };
 
@@ -67,33 +68,17 @@ export default function Update(props) {
   };
 
   const isDuplicateQuestionName = () => {
-    if (questionName === localStorage.getItem("Question Name")) {
-      return false;
-    }
-    const allData = getAllData();
-    console.log("all data: " + allData);
-    for (const data of allData) {
-      try {
-        const json_data = JSON.parse(data);
-        console.log("current_data: " + json_data);
-        console.log("current name: " + json_data.questionName);
-        if (json_data.questionName.toLowerCase() === questionName.toLowerCase()) {
-          return true;
-        }
-      } catch (e) {
-        continue;
+    const questionNameList = getAllData().map(qn => {
+      return JSON.parse(qn).questionName;
+    });
+    console.log(questionName);
+    for (const qnName of questionNameList) {
+      if (questionName.toLowerCase() === qnName.toLowerCase()) {
+        return true;
       }
     }
     return false;
   }
-
-  useEffect(() => {
-    setID(localStorage.getItem("ID"));
-    setQuestionName(localStorage.getItem("Question Name"));
-    setQuestion(localStorage.getItem("Question"));
-    setDifficultyLevel(localStorage.getItem("Difficulty Level"));
-    setCategory(localStorage.getItem("Category"))
-  }, []);
 
   return (
     <div>
@@ -105,28 +90,25 @@ export default function Update(props) {
           <label>Question Name</label>
           <input
             placeholder="Question Name"
-            value={questionName}
             onChange={(e) => setQuestionName(e.target.value)}
           />
         </Form.Field>
-        <Form.Field className="question-field">
+        <div className="question-field">
+        <Form.Field>
           <label>Question Description</label>
-          <textarea
-            className="question-field-input"
+          <input
             placeholder="Question Description"
-            value={question}
             onChange={(e) => setQuestion(e.target.value)}
           />
         </Form.Field>
+        </div>
         <Form.Field>
           <label>Category</label>
           <input
             placeholder="Category"
-            value={category}
             onChange={(e) => setCategory(e.target.value)}
           />
         </Form.Field>
-
         <Form.Field>
           <label>Difficulty Level</label>
           <Dropdown
@@ -139,10 +121,10 @@ export default function Update(props) {
         </Form.Field>
         <Button
           className="post-question-button"
+          onClick={postData}
           type="submit"
-          onClick={updateData}
         >
-          Update
+          Add Question
         </Button>
       </Form>
     </div>

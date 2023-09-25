@@ -1,4 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  font-size: calc(10px + 2vmin);
+}
 
 .main{
   display: flex;
@@ -42,7 +84,9 @@
 
 .create-form{
   display:flex !important;
-  flex-direction: row !important;
+  flex-direction: column !important;
+  justify-content: left !important;
+  
 }
 
 .post-question-button{
@@ -51,14 +95,15 @@
   margin-bottom: 10px !important;
 }
 
-.question-name-field{
-  margin-left: 10px !important;
+.question-field {
+  width: 500px !important;
+  min-height: 100px !important;
 }
 
-.question-field{
-  width: 500px !important;
-  margin-left: 20px !important;
-  margin-right: 20px !important;
+.question-field-input {
+  width: 500px;
+  height: 100px;
+  overflow-wrap: break-word;
 }
 
 .difficulty-level{
@@ -71,4 +116,14 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+.view-details{
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+.description{
+  width: 500px !important;
+  text-overflow: clip;
 }

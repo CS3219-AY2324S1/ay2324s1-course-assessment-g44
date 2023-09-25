@@ -53,9 +53,15 @@
   margin-bottom: 10px !important;
 }
 
-
 .question-field {
   width: 500px !important;
+  min-height: 100px !important;
+}
+
+.question-field-input {
+  width: 500px;
+  height: 100px;
+  overflow-wrap: break-word;
 }
 
 .difficulty-level{

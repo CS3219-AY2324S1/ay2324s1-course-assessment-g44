@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Dropdown } from "semantic-ui-react";
+import { Button, Form, Dropdown, TextArea } from "semantic-ui-react";
 
 const DifficultyOptions = [
   { key: "easy", text: "Easy", value: "Easy" },
@@ -111,7 +111,8 @@ export default function Update(props) {
         </Form.Field>
         <Form.Field className="question-field">
           <label>Question Description</label>
-          <input
+          <textarea
+            className="question-field-input"
             placeholder="Question Description"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}

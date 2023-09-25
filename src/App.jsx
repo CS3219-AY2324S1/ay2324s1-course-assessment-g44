@@ -1,9 +1,9 @@
 import "./App.css";
+import Auth from "./components/auth";
 import Create from "./components/create";
 import Read from "./components/read";
 import Update from "./components/update";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 
 function App() {
   return (
@@ -11,18 +11,21 @@ function App() {
       <Router>
         <h2 className="main-header">Peer Prep (Team 44)</h2>
         <Routes>
-          <Route path="/" element={<Read/>} />
+          <Route path="/" element={<Read />} />
         </Routes>
         <Routes>
-          <Route path="/create" element={<Create/>} />
+          <Route path="/create" element={<Create />} />
         </Routes>
         <div style={{ marginTop: 20 }}>
           <Routes>
-            <Route path="/read" element={<Read/>} />
+            <Route path="/read" element={<Read />} />
           </Routes>
         </div>
         <Routes>
-          <Route path="/update" element={<Update/>} />
+          <Route path="/update" element={<Update />} />
+        </Routes>
+        <Routes>
+          <Route path="/auth" element={<Auth />} />
         </Routes>
       </Router>
     </div>

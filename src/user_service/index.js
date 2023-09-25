@@ -32,7 +32,6 @@ expressJSDocSwagger(app)(options);
 app.use(cors());
 app.use(express.json());
 
-//Routes
 app.use("/api", userRouter);
 
 app.get("/api/hello", (req, res) => {

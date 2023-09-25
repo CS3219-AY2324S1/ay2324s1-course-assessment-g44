@@ -96,7 +96,8 @@ export default function Create(props) {
         <div className="question-field">
         <Form.Field>
           <label>Question Description</label>
-          <input
+          <textarea
+            className="question-field-input"
             placeholder="Question Description"
             onChange={(e) => setQuestion(e.target.value)}
           />

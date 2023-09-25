@@ -1,7 +1,8 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
 const uuid1 = uuid();
 const uuid2 = uuid();
+const uuid3 = uuid();
 
 var exampleQuestion1 = {
   id: uuid1,
@@ -9,7 +10,7 @@ var exampleQuestion1 = {
   question:
     "Write a function that reverses a string. The input string is given as an array of characters s.",
   difficultyLevel: "Medium",
-  category: "Strings, Algorithms"
+  category: "Strings, Algorithms",
 };
 
 var exampleQuestion2 = {
@@ -18,11 +19,22 @@ var exampleQuestion2 = {
   question:
     "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
   difficultyLevel: "Easy",
-  category: "Data Structures"
+  category: "Data Structures",
 };
+
+var exampleQuestion3 = {
+  id: uuid3,
+  questionName: "Two Sum",
+  question:
+    "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+  difficultyLevel: "Easy",
+  category: "Algorithms",
+};
+
 localStorage.clear();
 localStorage.setItem(uuid1.toString(), JSON.stringify(exampleQuestion1));
 localStorage.setItem(uuid2.toString(), JSON.stringify(exampleQuestion2));
+localStorage.setItem(uuid3.toString(), JSON.stringify(exampleQuestion3));
 
 var values = [];
 
@@ -36,4 +48,4 @@ const getAllData = () => {
 
 getAllData();
 
-export default values; 
+export default values;

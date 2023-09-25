@@ -13,7 +13,7 @@ router.post('/post', async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         category: req.body.category,
-        complexity: req.body.complexity
+        difficulty: req.body.difficulty
     })
     try {
         await data.validate();
@@ -40,13 +40,13 @@ router.get('/getAll', async (req, res) => {
 router.patch('/update/:id', async (req, res) => {
     try {
         const questionId = req.params.id;
-        const {title, description, category, complexity} = req.body;
+        const {title, description, category, difficulty} = req.body;
         const updatedQuestion = new Model(
             {questionId: questionId, 
             title: title,
             description: description,
             category: category,
-            complexity: complexity});
+            difficulty: difficulty});
         await updatedQuestion.validate();
         const options = { new: true };
 

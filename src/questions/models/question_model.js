@@ -11,7 +11,7 @@ const questionSchema = new mongoose.Schema({
         required: true 
     },
 
-    description: {
+    description: {  
         type: String, 
         required: true 
     },
@@ -21,7 +21,7 @@ const questionSchema = new mongoose.Schema({
         required: true
     },
   
-    complexity: {
+    difficulty: {
         type: String,
         required: true 
     },

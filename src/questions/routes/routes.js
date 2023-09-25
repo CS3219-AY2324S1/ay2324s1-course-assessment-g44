@@ -17,3 +17,5 @@ router.delete("/deleteQuestion", questionController.deleteQuestion);
 
 // Get all questions
 router.get("/getQuestions", questionController.getQuestions);
+
+module.exports = router;

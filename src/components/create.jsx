@@ -3,6 +3,7 @@ import { Button, Form } from "semantic-ui-react";
 import { Dropdown } from "semantic-ui-react";
 import values  from "../data/data";
 import { v4 as uuid } from 'uuid';
+import axios from 'axios';
 
 const DifficultyOptions = [
   { key: "easy", text: "Easy", value: "Easy" },
@@ -17,14 +18,18 @@ export default function Create(props) {
   const [category, setCategory] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const getAllData = () => {
-    const values = [];
+  const getAllData = async () => {
+    const values = axios.get('http://localhost:3000/api/getAll').then((response) => {
+      console.log(response.data);
+    }).catch((error) => console.log(error)).data;
+     // const values = [];
 
-    var keys = Object.keys(localStorage);
+    // var keys = Object.keys(localStorage);
 
-    for (let i = 0; i < keys.length; i++) {
-      values.push(localStorage.getItem(keys[i]));
-    }
+    // for (let i = 0; i < keys.length; i++) {
+    //   values.push(localStorage.getItem(keys[i]));
+    // }
+    // return values;
     return values;
   }
 
@@ -38,28 +43,30 @@ export default function Create(props) {
     } else if (isDuplicateQuestionName()) {
       setErrorMessage("You already have this question!");
     } else {
-      // axios
-      //   .post(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`, {
-      //     questionName,
-      //     question,
-      //     difficultyLevel,
-      //   })
-      //   .then(() => {
-      //     window.location.reload(true);
-      //   });
-      const newQuestionID = uuid();
-      const newQuestion = {
-        id: newQuestionID,
-        questionName: questionName,
-        question: question,
-        difficultyLevel: difficultyLevel,
-        category: category
-      };
-      localStorage.setItem(newQuestionID.toString(), JSON.stringify(newQuestion));
-      const questions = getAllData();
-      props.onUpdateStorage(questions);
-      props.onCreateQuestion(false);
-      console.log("values: " + values);
+      axios
+        .post(`http://localhost:3000/api/post`, {
+          questionId: length(values) + 1,
+          title: questionName,
+          description: question,
+          category: category,
+          difficulty: difficultyLevel,
+        });
+        // .then(() => {
+        //   window.location.reload(true);
+        // });
+      // const newQuestionID = uuid();
+      // const newQuestion = {
+      //   id: newQuestionID,
+      //   questionName: questionName,
+      //   question: question,
+      //   difficultyLevel: difficultyLevel,
+      //   category: category
+      // };
+      // localStorage.setItem(newQuestionID.toString(), JSON.stringify(newQuestion));
+      // const questions = getAllData();
+      // props.onUpdateStorage(questions);
+      // props.onCreateQuestion(false);
+      // console.log("values: " + values);
     }
   };
 
@@ -67,13 +74,13 @@ export default function Create(props) {
     setDifficultyLevel(value);
   };
 
-  const isDuplicateQuestionName = () => {
-    const questionNameList = getAllData().map(qn => {
-      return JSON.parse(qn).questionName;
+  const isDuplicateQuestionName = async () => {
+    const questionNameList = await getAllData().map(qn => {
+      return JSON.parse(qn).title;
     });
     console.log(questionName);
-    for (const qnName of questionNameList) {
-      if (questionName.toLowerCase() === qnName.toLowerCase()) {
+    for (const title of questionNameList) {
+      if (questionName.toLowerCase() === title.toLowerCase()) {
         return true;
       }
     }

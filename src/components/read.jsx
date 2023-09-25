@@ -12,13 +12,18 @@ export default function Read() {
   const [detailsState, setDetailsState] = useState(false);
 
   const getAllData = () => {
-    const values = [];
+    // const values = [];
 
-    var keys = Object.keys(localStorage);
+    // var keys = Object.keys(localStorage);
 
-    for (let i = 0; i < keys.length; i++) {
-      values.push(localStorage.getItem(keys[i]));
-    }
+    // for (let i = 0; i < keys.length; i++) {
+    //   values.push(localStorage.getItem(keys[i]));
+    // }
+    // return values;
+    const values = axios.get('http://localhost:3000/api/getAll').then((response) => {
+      console.log(response.data);
+    }).catch((error) => console.log(error)).data;
+    
     return values;
   };
 

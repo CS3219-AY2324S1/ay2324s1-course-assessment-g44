@@ -10,24 +10,38 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const routes = require('./routes/routes');
-app.use('/questions', routes)
+// Import your questionController and any other required dependencies here.
+const questionController = require('./controllers/question_controller');
+
+// Define your routes directly in the index.js file.
+// Post question
+app.post("/addQuestion", questionController.addQuestion);
+
+// Update question
+app.patch("/updateQuestion", questionController.updateQuestion);
+
+// Delete question
+app.delete("/deleteQuestion", questionController.deleteQuestion);
+
+// Get all questions
+app.get("/getQuestions", questionController.getQuestions);
 
 mongoose.connect(mongoString)
-.then(() => {
+  .then(() => {
     app.listen(PORT, () => {
-      console.log('listening on port', PORT);
+      console.log('Listening on port', PORT);
     });
   })
   .catch((err) => {
     console.log(err);
   });
+
 const database = mongoose.connection;
 
 database.on('error', (error) => {
-    console.log(error)
-})
+  console.log(error);
+});
 
 database.once('connected', () => {
-    console.log('Database Connected');
-})
+  console.log('Database Connected');
+});

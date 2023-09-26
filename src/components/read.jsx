@@ -58,29 +58,6 @@ export default function Read() {
     setStorageData(getAllData());
   };
 
-  // const onDelete = (id) => {
-  //   axios
-  //     .delete(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`)
-  //     .then(() => {
-  //       getData();
-  //     });
-  // };
-
-  // const getData = () => {
-  //   axios
-  //     .get(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`)
-  //     .then((getData) => {
-  //       setAPIData(getData.data);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`)
-  //     .then((response) => {
-  //       setAPIData(response.data);
-  //     });
-  // }, []);
   return (
     <div id="main-page">
       <div className="view-details">
@@ -127,7 +104,6 @@ export default function Read() {
             </Table.Header>
 
             <Table.Body>
-              {/* {APIData.map((data) => { */}
               {storageData.map((data) => {
                 data = JSON.parse(data);
                 return (

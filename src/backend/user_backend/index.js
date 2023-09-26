@@ -5,9 +5,6 @@ const userController = require("./controller/user-controller");
 const app = express();
 const port = 4200;
 const cors = require("cors");
-const pool = require("./db.js");
-
-// const userRouter = require("./routes/routes");
 const userRouter = express.Router();
 
 const options = {
@@ -33,15 +30,6 @@ expressJSDocSwagger(app)(options);
 
 app.use(cors());
 
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-//     res.header(
-//       "Access-Control-Allow-Headers",
-//       "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-//     next();
-//   });
-
 app.use((_req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
@@ -58,6 +46,8 @@ app.get("/api/hello", (req, res) => {
   res.send("Hello world");
 });
 
-app.post("/api/registerUser", userController.createUser);
+app.post("/api/createUser", userController.createUser);
+
+app.post("/api/loginUser", userController.loginUser);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

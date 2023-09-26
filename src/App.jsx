@@ -1,5 +1,6 @@
 import "./App.css";
-import Auth from "./components/auth";
+import Login from "./components/login"
+import Signup from "./components/signup";
 import Create from "./components/create";
 import Read from "./components/read";
 import Update from "./components/update";
@@ -11,7 +12,7 @@ function App() {
       <Router>
         <h2 className="main-header">Peer Prep (Team 44)</h2>
         <Routes>
-          <Route path="/" element={<Read />} />
+          <Route path="/" element={<Signup />} />
         </Routes>
         <Routes>
           <Route path="/create" element={<Create />} />
@@ -25,7 +26,10 @@ function App() {
           <Route path="/update" element={<Update />} />
         </Routes>
         <Routes>
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </div>

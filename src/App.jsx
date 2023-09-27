@@ -2,6 +2,8 @@ import "./App.css";
 import Create from "./components/create";
 import Read from "./components/read";
 import Update from "./components/update";
+import View from "./components/view";
+import Home from "./components/home"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
@@ -11,7 +13,7 @@ function App() {
       <Router>
         <h2 className="main-header">Peer Prep (Team 44)</h2>
         <Routes>
-          <Route path="/" element={<Read/>} />
+          <Route path="/" element={<Home/>} />
         </Routes>
         <Routes>
           <Route path="/create" element={<Create/>} />
@@ -23,6 +25,9 @@ function App() {
         </div>
         <Routes>
           <Route path="/update" element={<Update/>} />
+        </Routes>
+        <Routes>
+          <Route path="/view" element={<View/>} />
         </Routes>
       </Router>
     </div>

@@ -3,15 +3,16 @@ import Create from "./components/create";
 import Read from "./components/read";
 import Update from "./components/update";
 import View from "./components/view";
-import Home from "./components/home"
+import Home from "./pages/home"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
 
 
 function App() {
   return (
-    <div className="main">
+    <MantineProvider >
       <Router>
-        <h2 className="main-header">Peer Prep (Team 44)</h2>
         <Routes>
           <Route path="/" element={<Home/>} />
         </Routes>
@@ -30,7 +31,7 @@ function App() {
           <Route path="/view" element={<View/>} />
         </Routes>
       </Router>
-    </div>
+    </MantineProvider>
   );
 }
 

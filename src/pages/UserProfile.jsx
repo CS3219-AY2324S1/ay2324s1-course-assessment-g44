@@ -22,8 +22,8 @@ function UserProfile() {
           <AppShell.Navbar p="lg">
             <Navbar/>
           </AppShell.Navbar>
-          
-          <AppShell.Main>UserProfile stuff here</AppShell.Main>
+
+          <AppShell.Main>UserProfile account stuff here</AppShell.Main>
         </AppShell>
       );
     }

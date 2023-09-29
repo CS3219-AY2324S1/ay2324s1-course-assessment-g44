@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Group, Code } from '@mantine/core';
-import {IconBellRinging,IconFingerprint,  IconKey,  IconSettings,  IconNotebook, IconDatabaseImport, IconReceipt2, IconSwitchHorizontal, IconLogout,
+import {IconBellRinging,IconFingerprint,  IconKey, IconUser,  IconSettings,  IconNotebook, IconDatabaseImport, IconReceipt2, IconSwitchHorizontal, IconLogout,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
 import classes from '../css/NavbarSimple.module.css';
 
 const data = [
   { link: '', label: 'Questions', icon: IconNotebook },
-  { link: '', label: 'Account', icon: IconKey },
+  { link: '', label: 'Profile', icon: IconUser },
   { link: '', label: 'Settings', icon: IconSettings },
 ];
 

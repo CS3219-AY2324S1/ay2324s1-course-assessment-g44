@@ -4,7 +4,6 @@ import { createTheme } from '@mantine/core';
 const theme = createTheme({
     colors: {
       // Add your color
-      deepBlue: ['#E9EDFC', '#C1CCF6', '#99ABF0' /* ... */],
       // or replace default theme color
       blue: ['#E9EDFC', '#C1CCF6', '#99ABF0' /* ... */],
     },

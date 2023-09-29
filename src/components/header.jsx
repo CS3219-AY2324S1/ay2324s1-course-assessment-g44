@@ -1,22 +1,28 @@
 import { useState } from 'react';
-import { Container, Group, Burger } from '@mantine/core';
+import { Container, Group, Burger, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Logo from '../../images/logo2.png';
 import classes from '../css/HeaderSimple.module.css';
-import CreateQuestionbutton from './createQuestionbutton';
+import CreateQuestionbutton from './buttons/createQuestionbutton';
+import MatchButton from './buttons/matchButton'
 import {MantineLogo} from '@mantine/ds';
+import Match from './buttons/matchButton';
 
 
 function Header() {
+  const [opened, { toggle }] = useDisclosure(false);
+
 
   return (
     <header className={classes.header}>
-        <div>
-        <img src={Logo} alt="PeerPrep Logo" width={100} height={50} style={{ paddingRight: '12px' }} />
-        </div>  
-        <Container size="md" className={classes.inner}>
-            <CreateQuestionbutton/>
-        </Container>
+      <Container size="md" className={classes.inner}>
+        <img src={Logo} alt="logo" width={100}></img>
+        <Group gap={30} visibleFrom="xs">
+          <CreateQuestionbutton />
+          <MatchButton />
+        </Group>
+        <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+      </Container>
     </header>
   );
 }

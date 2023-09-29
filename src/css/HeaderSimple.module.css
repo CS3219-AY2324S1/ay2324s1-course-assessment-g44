@@ -1,29 +1,29 @@
 .header {
-    height: rem(40px);
-    margin-bottom: rem(120px);
-    background-color: var(--mantine-color-body);
-    border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-  }
-  
-  .inner {
-    height: rem(56px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .link {
-    display: inline-block; /* Display as inline-block for button-like appearance */
-    line-height: 1;
-    padding: rem(8px) rem(16px); /* Increased padding for buttons */
-    border-radius: rem(30px); /* Rounded edges for buttons */
-    text-decoration: none;
-    background-color: var(--mantine-color-gray-7); /* Background color for buttons */
-    color: var(--mantine-color-dark-0); /* Text color for buttons */
-    font-size: var(--mantine-font-size-sm);
-    font-weight: 500;
-    cursor: pointer; /* Add cursor pointer for better UX */
+  height: rem(56px);
+  margin-bottom: rem(120px);
+  background-color: var(--mantine-color-body);
+  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+}
 
-  /* Hover styles for buttons */
-  transition: background-color 0.3s ease;
+.inner {
+  height: rem(56px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  display: block;
+  line-height: 1;
+  padding: rem(8px) rem(12px);
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500; 
+
+  [data-mantine-color-scheme] &[data-active] {
+    background-color: var(--mantine-color-blue-filled);
+    color: var(--mantine-color-white);
+  }
 }

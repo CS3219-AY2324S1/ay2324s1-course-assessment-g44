@@ -7,8 +7,8 @@ import classes from '../css/NavbarSimple.module.css';
 
 const data = [
   { link: '', label: 'Questions', icon: IconNotebook },
-  { link: '', label: 'Databases', icon: IconDatabaseImport },
-  { link: '', label: 'User Settings', icon: IconSettings },
+  { link: '', label: 'Account', icon: IconKey },
+  { link: '', label: 'Settings', icon: IconSettings },
 ];
 
 function Navbar() {

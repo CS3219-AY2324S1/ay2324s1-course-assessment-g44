@@ -22,11 +22,9 @@ function App() {
         <Routes>
           <Route path="/create" element={<Create/>} />
         </Routes>
-        <div style={{ marginTop: 20 }}>
           <Routes>
             <Route path="/settings" element={<Settings/>} />
           </Routes>
-        </div>
         <Routes>
           <Route path="/userprofile" element={<UserProfile/>} />
         </Routes>

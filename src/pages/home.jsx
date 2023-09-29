@@ -16,14 +16,14 @@ function Home() {
         padding="md"
         >
           <AppShell.Header>
-            <Header />
+            <Header/>
           </AppShell.Header>
     
           <AppShell.Navbar p="lg">
             <Navbar/>
           </AppShell.Navbar>
     
-          <AppShell.Main>main stuff here</AppShell.Main>
+          <AppShell.Main>main home stuff here</AppShell.Main>
         </AppShell>
       );
     }

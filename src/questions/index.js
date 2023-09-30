@@ -13,18 +13,9 @@ app.use(express.json());
 // Import your questionController and any other required dependencies here.
 const questionController = require('./controllers/question_controller');
 
-// Define your routes directly in the index.js file.
-// Post question
-app.post("/addQuestion", questionController.addQuestion);
-
-// Update question
-app.patch("/updateQuestion", questionController.updateQuestion);
-
-// Delete question
-app.delete("/deleteQuestion", questionController.deleteQuestion);
-
-// Get all questions
-app.get("/getQuestions", questionController.getQuestions);
+// Set route file requirement and set app to use /routes directory
+const questionRoutes = require('./routes/questionRoutes');
+app.use('/routes', questionRoutes);
 
 mongoose.connect(mongoString)
   .then(() => {

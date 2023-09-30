@@ -1,172 +1,182 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button } from "semantic-ui-react";
-import Create from "./create";
-import Update from "./update";
-import View from "./view";
-import values from "../data/data";
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Table, Button, Modal, Form } from 'semantic-ui-react';
 
-const basePath = "http://localhost:3000/questions";
 
-export default function Read() {
-  const [storageData, setStorageData] = useState(values);
-  const [createState, setCreateState] = useState(false);
-  const [updateState, setUpdateState] = useState(false);
-  const [detailsState, setDetailsState] = useState(false);
+const Read = () => {
   const [questions, setQuestions] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [updatedQuestion, setUpdatedQuestion] = useState({
+    questionId: '',
+    title: '',
+    description: '',
+    category: '',
+    difficulty: '',
+  });
 
   useEffect(() => {
-    axios.get(`${basePath}/getQuestions`)
-    .then((response) => setQuestions(response.data))
-    .catch((error) => console.log(error));
-  }, [])
+    // Define the API endpoint for fetching all questions from your backend
+    const apiUrl = 'http://localhost:3001/getQuestions'; // Adjust the URL as needed
 
-  const getAllData = async () => {
-    // const values = [];
+    // Make an HTTP GET request to the backend to fetch all questions
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        setQuestions(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching questions:', error);
+      });
+  }, []);
 
-    // var keys = Object.keys(localStorage);
+  // Function to delete a question by its ID
+  const deleteQuestion = (questionId) => {
+    // Define the API endpoint for deleting a question
+    const apiUrl = 'http://localhost:3001/deleteQuestion'; // Adjust the URL as needed
 
-    // for (let i = 0; i < keys.length; i++) {
-    //   values.push(localStorage.getItem(keys[i]));
-    // }
-    // return values;
-    const values = await axios.get(`${basePath}/getQuestions`).then((response) => {
-      console.log(response.data);
-    }).catch((error) => console.log(error)).data;
-    
-    return values;
+    // Make an HTTP DELETE request to delete the question
+    axios
+      .delete(apiUrl, { data: { questionId } })
+      .then(() => {
+        // Remove the deleted question from the state
+        setQuestions((prevQuestions) =>
+          prevQuestions.filter((question) => question.questionId !== questionId)
+        );
+      })
+      .catch((error) => {
+        console.error('Error deleting question:', error);
+      });
   };
 
-  // const setData = (data) => {
-  //   let { id, questionName, question, difficultyLevel, category } = data;
-  //   localStorage.setItem("ID", id);
-  //   localStorage.setItem("Question Name", questionName);
-  //   localStorage.setItem("Question", question);
-  //   localStorage.setItem("Difficulty Level", difficultyLevel);
-  //   localStorage.setItem("Category", category);
-  //   handleUpdate();
-  // };
-
-  const showDetails = (data) => {
-    let { id, questionName, question, difficultyLevel, category } = data;
-    localStorage.setItem("ID", id);
-    localStorage.setItem("Question Name", questionName);
-    localStorage.setItem("Question", question);
-    localStorage.setItem("Difficulty Level", difficultyLevel);
-    localStorage.setItem("Category", category);
-    setDetailsState(!detailsState);
+  const openUpdateModal = (question) => {
+    setUpdatedQuestion(question);
+    setOpen(true);
   };
 
-  const handleCreate = () => {
-    setCreateState(!createState);
-    setUpdateState(false);
+
+  const updateQuestion = () => {
+    // Define the API endpoint for updating a question
+    const apiUrl = 'http://localhost:3001/updateQuestion'; // Adjust the URL as needed
+    // Make an HTTP PATCH request to update the question
+    axios
+      .patch(apiUrl, updatedQuestion)
+      .then((response) => {
+        // Close the modal
+        setOpen(false);
+
+        // Update the question in the state
+        setQuestions((prevQuestions) =>
+          prevQuestions.map((question) =>
+            question.questionId === updatedQuestion.questionId ? response.data : question
+          )
+        );
+      })
+      .catch((error) => {
+        console.error('Error updating question:', error);
+      });
   };
-
-  const handleUpdate = () => {
-    setUpdateState(!updateState);
-    setCreateState(false);
-  };
-
-  const onDelete = (id) => {
-    const keyToRemove = id.toString();
-    localStorage.removeItem(keyToRemove);
-    setStorageData(getAllData());
-  };
-
-  // const onDelete = (id) => {
-  //   axios
-  //     .delete(`https://64fc0579605a026163ae2051.mockapi.io/fakeData/${id}`)
-  //     .then(() => {
-  //       getData();
-  //     });
-  // };
-
-  // const getData = () => {
-  //   axios
-  //     .get(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`)
-  //     .then((getData) => {
-  //       setAPIData(getData.data);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://64fc0579605a026163ae2051.mockapi.io/fakeData`)
-  //     .then((response) => {
-  //       setAPIData(response.data);
-  //     });
-  // }, []);
+  
   return (
-    <div id="main-page">
-      <div className="view-details">
-        {detailsState ? <View onUpdateQuestion={setDetailsState} /> : null}
-      </div>
+  <div className='container'>
+    <h1>All Questions</h1>
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Question ID</Table.HeaderCell>
+          <Table.HeaderCell>Title</Table.HeaderCell>
+          <Table.HeaderCell>Description</Table.HeaderCell>
+          <Table.HeaderCell>Category</Table.HeaderCell>
+          <Table.HeaderCell>Difficulty</Table.HeaderCell>
+          <Table.HeaderCell>Actions</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-      {!detailsState && !updateState && (
-        <Button className="new-question" onClick={handleCreate}>
-          {createState ? "Cancel" : "Add New Question"}
+      <Table.Body>
+        {questions.map((question) => (
+          <Table.Row key={question._id}>
+            <Table.Cell>{question.questionId}</Table.Cell>
+            <Table.Cell>{question.title}</Table.Cell>
+            <Table.Cell>{question.description}</Table.Cell>
+            <Table.Cell>{question.category}</Table.Cell>
+            <Table.Cell>{question.difficulty}</Table.Cell>
+            <Table.Cell>
+              <Button
+                className='delete-button'
+                onClick={() => deleteQuestion(question.questionId)}
+              >
+                Delete
+              </Button>
+              <Button
+                color="blue"
+                onClick={() => openUpdateModal(question)}
+              >
+                Update
+              </Button>
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+
+    {/* Create Button */}
+    <Button 
+      className='create-button'
+      onClick={() => {
+        // Implement logic to navigate to the create question page
+      }}
+    >
+      Create Question
+    </Button>
+
+    {/* Update Question Modal */}
+    <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+    >
+      <Modal.Header>Update Question</Modal.Header>
+      <Modal.Content>
+        <Form>
+          <Form.Field>
+            <label>Question ID</label>
+            <input
+              type="number"
+              name="questionId"
+              value={updatedQuestion.questionId}
+              onChange={(e) =>
+                setUpdatedQuestion({ ...updatedQuestion, questionId: e.target.value })
+              }
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Title</label>
+            <input
+              type="text"
+              name="title"
+              value={updatedQuestion.title}
+              onChange={(e) =>
+                setUpdatedQuestion({ ...updatedQuestion, title: e.target.value })
+              }
+            />
+          </Form.Field>
+          {/* Add similar Form.Field elements for other question fields */}
+        </Form>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button color="black" onClick={() => setOpen(false)}>
+          Cancel
         </Button>
-      )}
-
-      <div className="create-form-new">
-        {createState ? (
-          <Create
-            onUpdateStorage={setStorageData}
-            onCreateQuestion={setCreateState}
-          />
-        ) : null}
-      </div>
-      <div className="update-form-new">
-        {updateState ? (
-          <Update
-            onUpdateStorage={setStorageData}
-            onUpdateQuestion={setUpdateState}
-          />
-        ) : null}
-      </div>
-      {!detailsState && !createState && !updateState && (
-      <div className="question-table">
-        <div>
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Question Details</Table.HeaderCell>
-                <Table.HeaderCell>Question Name</Table.HeaderCell>
-                <Table.HeaderCell>
-                  Category
-                </Table.HeaderCell>
-                <Table.HeaderCell>Difficulty Level</Table.HeaderCell>
-                <Table.HeaderCell>Update</Table.HeaderCell>
-                <Table.HeaderCell>Delete</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-
-            <Table.Body>
-              {/* {APIData.map((data) => { */}
-              {/*storageData.map((data) => { */}
-              { questions.map((data) => {
-                return (
-                  <Table.Row>
-                    <Table.Cell>
-                      <Button onClick={() => showDetails(data)}>View</Button>
-                    </Table.Cell>
-                    <Table.Cell>{data.questionName}</Table.Cell>
-                    <Table.Cell>{data.category}</Table.Cell>
-                    <Table.Cell>{data.difficultyLevel}</Table.Cell>
-                    <Table.Cell>
-                      <Button onClick={() => setData(data)}>Update</Button>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button onClick={() => onDelete(data.id)}>Delete</Button>
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
-            </Table.Body>
-          </Table>
-          </div>
-      </div>
-     )}
-    </div>
-  );
+        <Button
+          positive
+          icon="checkmark"
+          labelPosition="right"
+          content="Update"
+          onClick={updateQuestion}
+        />
+      </Modal.Actions>
+    </Modal>
+  </div>
+);
 }
+
+export default Read;

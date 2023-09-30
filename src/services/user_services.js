@@ -14,7 +14,15 @@ export const createUserApi = async (req) => {
 export const loginUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/loginUser`, req);
-    console.log(res.status)
+    return res;
+  } catch (error) {
+    return "error";
+  }
+};
+
+export const getUserApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/getUser`, req);
     return res;
   } catch (error) {
     return "error";

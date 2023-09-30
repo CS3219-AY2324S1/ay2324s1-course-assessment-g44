@@ -24,8 +24,7 @@ export default function Signup() {
       if (res.status == 201){
         navigate("/read");
       } else if (res === "error"){
-        console.log("reached")
-        setErrorMessage("You have already registered this email!");
+        setErrorMessage("An account with this email exists! Please log in instead.");
       }
     }
   };

@@ -19,7 +19,7 @@ export default function Login() {
       const res = await loginUserApi(req);
       if (res.status == 201){
         setSessionData();
-        // navigate("/read");
+        navigate("/read");
       } else if (res === "error"){
         setErrorMessage("Incorrect email or password provided!");
       }
@@ -29,6 +29,10 @@ export default function Login() {
   const setSessionData = async () => {
     const req = {email: email}
     const res = await getUserApi(req);
+    const userInfo = res.data.message.rows
+    const username = userInfo[0].username
+    localStorage.setItem("email", email)
+    localStorage.setItem("username", username)
   }
 
   const signup = async () => {

@@ -34,7 +34,9 @@ exports.getUser = async (req, res) => {
     try {
         const {email} = req.body;
         const userInfo = await pool.query(`SELECT * FROM Users where email_address = '${email}'`);
-        return res.status(201).send();
+        return res.status(201).send({
+            message: userInfo
+        });
     } catch (err) {
         console.log(err.message)
     }

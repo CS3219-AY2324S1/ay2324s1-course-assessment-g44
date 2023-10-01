@@ -8,7 +8,7 @@ import ViewQuestions from "./pages/ViewQuestions";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
 import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import '@mantine/core/styles.css';

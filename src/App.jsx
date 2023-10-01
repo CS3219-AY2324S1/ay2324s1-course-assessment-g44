@@ -4,25 +4,29 @@ import Signup from "./components/signup";
 import Create from "./components/create";
 import Read from "./components/read";
 import Update from "./components/update";
+import ViewQuestions from "./pages/ViewQuestions";
+import Settings from "./pages/Settings";
+import UserProfile from "./pages/UserProfile";
+import Home from "./pages/Home";
+// import Login from "./pages/Login";
 import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
 
 function App() {
   return (
-    <div className="main">
+    <MantineProvider /*theme={theme} for colour scheme*/>
       <Router>
-        <h2 className="main-header">Peer Prep (Team 44)</h2>
         <Routes>
-          <Route path="/" element={<Signup />} />
+          <Route path="/" element={<Home />} />
         </Routes>
         <Routes>
           <Route path="/create" element={<Create />} />
         </Routes>
-        <div style={{ marginTop: 20 }}>
           <Routes>
             <Route path="/read" element={<Read />} />
           </Routes>
-        </div>
         <Routes>
           <Route path="/update" element={<Update />} />
         </Routes>
@@ -35,8 +39,14 @@ function App() {
         <Routes>
           <Route path="/profile" element={<Profile />} />
         </Routes>
+        <Routes>
+          <Route path='/viewQuestions' element={<ViewQuestions />} />
+        </Routes>
+        <Routes>
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
       </Router>
-    </div>
+    </MantineProvider>
   );
 }
 

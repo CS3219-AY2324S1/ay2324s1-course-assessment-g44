@@ -50,4 +50,6 @@ app.post("/api/createUser", userController.createUser);
 
 app.post("/api/loginUser", userController.loginUser);
 
+app.post("/api/getUser", userController.getUser)
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

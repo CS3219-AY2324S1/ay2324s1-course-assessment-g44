@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
-import { loginUserApi } from "../services/user_services";
+import { loginUserApi, getUserApi } from "../services/user_services";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -17,14 +17,23 @@ export default function Login() {
     } else {
       const req = {email: email, password: password}
       const res = await loginUserApi(req);
-      console.log(res.status)
       if (res.status == 201){
+        setSessionData();
         navigate("/read");
       } else if (res === "error"){
         setErrorMessage("Incorrect email or password provided!");
       }
     }
   };
+
+  const setSessionData = async () => {
+    const req = {email: email}
+    const res = await getUserApi(req);
+    const userInfo = res.data.message.rows
+    const username = userInfo[0].username
+    localStorage.setItem("email", email)
+    localStorage.setItem("username", username)
+  }
 
   const signup = async () => {
     navigate("/signup");

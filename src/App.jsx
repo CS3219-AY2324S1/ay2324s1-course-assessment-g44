@@ -4,6 +4,7 @@ import Signup from "./components/signup";
 import Create from "./components/create";
 import Read from "./components/read";
 import Update from "./components/update";
+import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -30,6 +31,9 @@ function App() {
         </Routes>
         <Routes>
           <Route path="/signup" element={<Signup />} />
+        </Routes>
+        <Routes>
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </div>

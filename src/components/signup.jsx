@@ -22,7 +22,7 @@ export default function Signup() {
       const res = await createUserApi(req);
       // console.log(res.status)
       if (res.status == 201){
-        navigate("/profile");
+        navigate("/login");
       } else if (res === "error"){
         setErrorMessage("An account with this email exists! Please log in instead.");
       }

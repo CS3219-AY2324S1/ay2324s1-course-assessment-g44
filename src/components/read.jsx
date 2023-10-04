@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Button, Modal, Form } from 'semantic-ui-react';
+import Create from './create';
 
 
-const Read = () => {
+const Read = (props) => {
   const [questions, setQuestions] = useState([]);
   const [open, setOpen] = useState(false);
   const [updatedQuestion, setUpdatedQuestion] = useState({
@@ -121,9 +122,7 @@ const Read = () => {
     {/* Create Button */}
     <Button 
       className='create-button'
-      onClick={() => {
-        // Implement logic to navigate to the create question page
-      }}
+      onClick={() => props.setCreateState()}
     >
       Create Question
     </Button>

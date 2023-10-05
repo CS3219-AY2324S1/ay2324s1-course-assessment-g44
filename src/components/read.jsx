@@ -1,5 +1,6 @@
-import { Accordion, Button, Group, Text, Title } from '@mantine/core';
+import { Accordion, Button, Group, Space, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
+import View from '../components/view';
 // import axios from 'axios';
 // import { Table, Button, Modal, Form } from 'semantic-ui-react';
 // import Create from './create';
@@ -211,6 +212,13 @@ const Read = (props) => {
     },
   ];
 
+  const [viewState, setViewState] = useState(false);
+  const [viewId, setViewId] = useState(0);
+
+  const setView = (questionId) => {
+    setViewState(true)
+    setViewId(prevState => questionId - 1)
+  }
 
   function AccordionLabel({ title, category }) {
     return (
@@ -225,6 +233,8 @@ const Read = (props) => {
     );
   }
 
+  
+
   const items = groceries.map((item) => (
     <Accordion.Item key={item.title} value={item.title}>
       <Accordion.Control>
@@ -234,12 +244,16 @@ const Read = (props) => {
       <Text size="sm" weight={400}>
         {item.description}
       </Text>
+      <Space h="md" />
+      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.questionId)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
   ));
 
 
+
   return (
+      viewState ? <View question={groceries[viewId]} /> :
     <>
       <Title order={2}>All Questions</Title>
       <Accordion variant="contained" defaultValue="Apples">

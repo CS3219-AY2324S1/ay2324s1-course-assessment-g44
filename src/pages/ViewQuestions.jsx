@@ -28,10 +28,7 @@ function ViewQuestions() {
           </AppShell.Navbar>
     
           <AppShell.Main>
-            { state === "READ" ? <Read setCreateState={() => setState("CREATE")}/> 
-            : state === "CREATE" ? <Create />
-            : <Login />
-            }
+            <Read />
           </AppShell.Main>
         </AppShell>
       );

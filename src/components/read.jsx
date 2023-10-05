@@ -1,4 +1,4 @@
-import { Accordion, Button, Group, Space, Text, Title } from '@mantine/core';
+import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import View from '../components/view';
 // import axios from 'axios';
@@ -221,11 +221,22 @@ const Read = (props) => {
     setViewId(prevState => questionId - 1)
   }
 
-  function AccordionLabel({ title, category }) {
+  const difficultyBadge = (questionDifficulty) => {
+    return (
+      questionDifficulty === "Easy" ? <Badge color="green" size="sm">Easy</Badge> :
+      questionDifficulty === "Medium" ? <Badge color="orange" size="sm">Medium</Badge> :
+      <Badge color="red" size="sm">Hard</Badge>
+    );
+  }
+
+  function AccordionLabel({ title, category, difficulty}) {
     return (
       <Group noWrap>
         <div>
-          <Text>{title}</Text>
+          <Group>
+            <Text>{title}</Text>
+            <>{difficultyBadge(difficulty)}</>
+          </Group>
           <Text size="sm" color="teal.4" weight={400}>
             {category}
           </Text>

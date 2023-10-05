@@ -214,6 +214,7 @@ const Read = (props) => {
 
   const [viewState, setViewState] = useState(false);
   const [viewId, setViewId] = useState(0);
+  const [createState, setCreateState] = useState(false);
 
   const setView = (questionId) => {
     setViewState(true)
@@ -254,11 +255,18 @@ const Read = (props) => {
 
   return (
       viewState ? <View question={groceries[viewId]} /> :
+      createState ? <Create /> :
     <>
       <Title order={2}>All Questions</Title>
+      <Space h="lg" />
       <Accordion variant="contained" defaultValue="Apples">
         {items}
       </Accordion>
+      <>
+      <Space h="lg"/>
+      <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)}>New Question</Button>
+      </>
+      
     </>
   );
 

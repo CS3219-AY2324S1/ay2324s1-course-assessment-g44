@@ -293,7 +293,7 @@ const Read = (props) => {
     <>
       <Title order={2}>All Questions</Title>
       <Space h="lg" />
-      <Accordion variant="contained" defaultValue="Apples">
+      <Accordion variant="contained">
         {items}
       </Accordion>
       <>

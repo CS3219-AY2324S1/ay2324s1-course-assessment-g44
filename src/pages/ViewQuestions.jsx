@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Header from '../components/header'
-import Navbar from '../components/navbar'
-import Read from '../components/read'
+import Header from '../components/header';
+import Navbar from '../components/navbar';
+import Read from '../components/read';
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger } from '@mantine/core';
 import Login from '../components/login';

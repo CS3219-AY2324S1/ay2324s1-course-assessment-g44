@@ -1,6 +1,7 @@
 import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import React, { useEffect, useState } from "react";
 import Read from "../components/read"
+import Update from '../components/update';
 // import { Table, Button, Modal, Form } from 'semantic-ui-react';
 // import axios from 'axios';
 
@@ -186,7 +187,9 @@ import Read from "../components/read"
 export default function View(props) {
 
   const [backState, setBackState] = useState(false);
+  const [updateState, setUpdateState] = useState(false);
   const [deleteState, setDeleteState] = useState(false);
+  
 
   const difficultyBadge = (difficulty) => {
     return (
@@ -205,6 +208,12 @@ export default function View(props) {
 
     return (
       <Read />
+    );
+  }
+
+  const handleUpdate = (questionToView) => {
+    return (
+      <Update question = {questionToView}/>
     );
   }
 
@@ -231,7 +240,7 @@ export default function View(props) {
         <Space h="md" />
         <Group>
           <Button variant="light" color="blue" radius="md" onClick={() => setBackState(true)}>Back</Button>
-          <Button variant="light" color="blue" radius="md">Update</Button>
+          <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>
           <Button variant="light" color="red" radius="md" onClick={() => setDeleteState(true)}>Delete</Button>
         </Group>
       </Card>
@@ -242,6 +251,7 @@ export default function View(props) {
   return (
     backState ? <Read />
     : deleteState ? <>{handleDelete(props.question)}</>
+    : updateState ? <>{handleUpdate(props.question)}</>
     : <>{viewScreen(props.question)}</> 
   );
 

@@ -8,17 +8,10 @@
       "id": 1
     },
     {
-      "title": "Valid Parenthesis",
-      "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
-      "difficulty": "easy",
-      "category": "Data Structures",
-      "id": 2
-    },
-    {
       "title": "Two Sum",
       "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-      "difficulty": "easy",
       "category": "Algorithms",
+      "difficulty": "easy",
       "id": 3
     },
     {
@@ -30,7 +23,7 @@
     },
     {
       "title": "Take me on a trip ",
-      "description": "This is the one",
+      "description": "UPdating",
       "category": "well who knows",
       "difficulty": "medium",
       "id": 8
@@ -41,6 +34,13 @@
       "category": "Sabrina Carpenter",
       "difficulty": "hard",
       "id": 9
+    },
+    {
+      "title": "suckadoo",
+      "description": "nono",
+      "category": "no",
+      "difficulty": "easy",
+      "id": 10
     }
   ]
 }

@@ -183,39 +183,56 @@ import Create from '../components/create';
 
 const Read = (props) => {
 
-  const groceries = [
-    {
-      questionId: 1,
-      emoji: '❓',
-      title: "Reverse a String", 
-      description:
-      "Write a function that reverses a string. The input string is given as an array of characters s.",
-      difficulty: "medium",
-      category: "Strings, Algorithms",
-    },
-    {
-      questionId: 2,
-      emoji: '❓',
-      title: "Valid Parenthesis",
-      description:
-      "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
-      difficulty: "easy",
-      category: "Data Structures",
-    },
-    {
-      questionId: 3,
-      emoji: '❓',
-      title: "Two Sum",
-      description:
-      "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-      difficulty: "easy",
-      category: "Algorithms",
-    },
-  ];
+  // const groceries = [
+  //   {
+  //     questionId: 1,
+  //     emoji: '❓',
+  //     title: "Reverse a String", 
+  //     description:
+  //     "Write a function that reverses a string. The input string is given as an array of characters s.",
+  //     difficulty: "medium",
+  //     category: "Strings, Algorithms",
+  //   },
+  //   {
+  //     questionId: 2,
+  //     emoji: '❓',
+  //     title: "Valid Parenthesis",
+  //     description:
+  //     "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
+  //     difficulty: "easy",
+  //     category: "Data Structures",
+  //   },
+  //   {
+  //     questionId: 3,
+  //     emoji: '❓',
+  //     title: "Two Sum",
+  //     description:
+  //     "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+  //     difficulty: "easy",
+  //     category: "Algorithms",
+  //   },
+  // ];
 
+  const [questions, setQuestions] = useState(null);
+  
   const [viewState, setViewState] = useState(false);
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
+
+
+  useEffect(() => {
+    fetch('http://localhost:8000/questions')
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      setQuestions(data);
+    });
+  }, [])
+
+
+
 
   const setView = (questionId) => {
     setViewState(true)
@@ -248,7 +265,8 @@ const Read = (props) => {
 
   
 
-  const items = groceries.map((item) => (
+  const items = (questions === null ? null :
+    questions.map((item) => (
     <Accordion.Item key={item.title} value={item.title}>
       <Accordion.Control>
         <AccordionLabel {...item} />
@@ -258,15 +276,15 @@ const Read = (props) => {
         {item.description}
       </Text>
       <Space h="md" />
-      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.questionId)}}>View</Button>
+      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
-  ));
-
+  ))
+  );
 
 
   return (
-      viewState ? <View question={groceries[viewId]} /> :
+      viewState ? <View question={questions[viewId]} /> :
       createState ? <Create /> :
     <>
       <Title order={2}>All Questions</Title>

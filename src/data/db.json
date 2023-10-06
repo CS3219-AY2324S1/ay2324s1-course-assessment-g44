@@ -1,0 +1,46 @@
+{
+  "questions": [
+    {
+      "title": "Reverse a String",
+      "description": "Write a function that reverses a string. The input string is given as an array of characters s.",
+      "difficulty": "medium",
+      "category": "Strings, Algorithms",
+      "id": 1
+    },
+    {
+      "title": "Valid Parenthesis",
+      "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
+      "difficulty": "easy",
+      "category": "Data Structures",
+      "id": 2
+    },
+    {
+      "title": "Two Sum",
+      "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+      "difficulty": "easy",
+      "category": "Algorithms",
+      "id": 3
+    },
+    {
+      "title": "ds",
+      "description": "sd",
+      "category": "sd",
+      "difficulty": "easy",
+      "id": 4
+    },
+    {
+      "title": "Helfm",
+      "description": "HEllo",
+      "category": "Hello",
+      "difficulty": "hard",
+      "id": 5
+    },
+    {
+      "title": "suck a fucking dick",
+      "description": "shut the fuck up",
+      "category": "fuck cs",
+      "difficulty": "hard",
+      "id": 6
+    }
+  ]
+}

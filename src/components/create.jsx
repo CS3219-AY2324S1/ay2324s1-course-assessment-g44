@@ -3,6 +3,7 @@ import { useForm } from '@mantine/form';
 import React, { useState } from 'react';
 import axios from 'axios';
 import Read from './read';
+import { FeedDate } from 'semantic-ui-react';
 
 
 // const Create = () => {
@@ -134,6 +135,13 @@ export default function Create() {
     newQuestion.category = values.category;
     newQuestion.difficulty = values.difficulty;
     console.log(newQuestion);
+
+    fetch('http://localhost:8000/questions', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newQuestion)
+    }).then(() => console.log("new success"));
+
     setSubmitted(true);
     
   }

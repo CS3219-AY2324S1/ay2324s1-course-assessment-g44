@@ -216,6 +216,7 @@ const Read = (props) => {
   const [questions, setQuestions] = useState(null);
   
   const [viewState, setViewState] = useState(false);
+  const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
 
@@ -235,8 +236,11 @@ const Read = (props) => {
 
 
   const setView = (questionId) => {
-    setViewState(true)
-    setViewId(prevState => questionId - 1)
+    setViewState(true);
+    const q = questions.filter((item) => {
+      return item.id === questionId;
+    })
+    setQuestionToView(q[0]);
   }
 
   const difficultyBadge = (questionDifficulty) => {
@@ -284,7 +288,7 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questions[viewId]} /> :
+      viewState ? <View question={questionToView} /> :
       createState ? <Create /> :
     <>
       <Title order={2}>All Questions</Title>

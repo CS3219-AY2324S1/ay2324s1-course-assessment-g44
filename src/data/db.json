@@ -22,25 +22,25 @@
       "id": 3
     },
     {
-      "title": "ds",
-      "description": "sd",
-      "category": "sd",
-      "difficulty": "easy",
-      "id": 4
-    },
-    {
-      "title": "Helfm",
-      "description": "HEllo",
-      "category": "Hello",
-      "difficulty": "hard",
-      "id": 5
-    },
-    {
       "title": "suck a fucking dick",
       "description": "shut the fuck up",
       "category": "fuck cs",
       "difficulty": "hard",
       "id": 6
+    },
+    {
+      "title": "Take me on a trip ",
+      "description": "This is the one",
+      "category": "well who knows",
+      "difficulty": "medium",
+      "id": 8
+    },
+    {
+      "title": "Taylor Allison Swift",
+      "description": "Olivia Rodrigo ",
+      "category": "Sabrina Carpenter",
+      "difficulty": "hard",
+      "id": 9
     }
   ]
 }

@@ -187,6 +187,14 @@ export default function View(props) {
 
   const [backState, setBackState] = useState(false)
 
+  const difficultyBadge = (difficulty) => {
+    return (
+      difficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge>
+      : difficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge>
+      : <Badge color="red" size="sm">Hard</Badge>
+    );
+  }
+
   function viewScreen(question) {
     return (
       <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -204,7 +212,7 @@ export default function View(props) {
         <Space h="sm" />
         <Group>
           <Text fw={500}>Difficulty:</Text>
-          <Badge color="green" size="sm">Easy</Badge>
+          <>{difficultyBadge(question.difficulty)}</>
         </Group>
 
         <Space h="md" />

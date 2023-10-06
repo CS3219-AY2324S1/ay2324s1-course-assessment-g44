@@ -1,6 +1,7 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import View from '../components/view';
+import Create from '../components/create';
 // import axios from 'axios';
 // import { Table, Button, Modal, Form } from 'semantic-ui-react';
 // import Create from './create';
@@ -189,7 +190,7 @@ const Read = (props) => {
       title: "Reverse a String", 
       description:
       "Write a function that reverses a string. The input string is given as an array of characters s.",
-      difficulty: "Medium",
+      difficulty: "medium",
       category: "Strings, Algorithms",
     },
     {
@@ -198,7 +199,7 @@ const Read = (props) => {
       title: "Valid Parenthesis",
       description:
       "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if input string is valid.",
-      difficulty: "Easy",
+      difficulty: "easy",
       category: "Data Structures",
     },
     {
@@ -207,7 +208,7 @@ const Read = (props) => {
       title: "Two Sum",
       description:
       "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-      difficulty: "Easy",
+      difficulty: "easy",
       category: "Algorithms",
     },
   ];
@@ -223,8 +224,8 @@ const Read = (props) => {
 
   const difficultyBadge = (questionDifficulty) => {
     return (
-      questionDifficulty === "Easy" ? <Badge color="green" size="sm">Easy</Badge> :
-      questionDifficulty === "Medium" ? <Badge color="orange" size="sm">Medium</Badge> :
+      questionDifficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge> :
+      questionDifficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge> :
       <Badge color="red" size="sm">Hard</Badge>
     );
   }

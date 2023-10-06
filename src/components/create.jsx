@@ -1,5 +1,9 @@
+import { Box, Checkbox, Card, Title, Text, Badge, Button, Group, Space, InputWrapper, TextInput, Textarea, SegmentedControl, CardSection } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import React, { useState } from 'react';
 import axios from 'axios';
+import Read from './read';
+
 
 // const Create = () => {
 //   const [formData, setFormData] = useState({
@@ -99,8 +103,99 @@ import axios from 'axios';
 //   );
 // };
 
-const Create = () => {
+export default function Create() {
+
+  const [submitted, setSubmitted] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
+
+  const newQuestion = {
+    title: "",
+    description: "",
+    category: "",
+    difficulty: ""
+  };
+
+  const form = useForm({
+    initialValues: {
+      title: '',
+      description: '',
+      category: '',
+      difficulty: 'easy'
+    },
+
+    // validate: {
+    //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    // },
+  });
+
+  const handleSubmit = (values) => {
+    newQuestion.title = values.title;
+    newQuestion.description = values.description;
+    newQuestion.category = values.category;
+    newQuestion.difficulty = values.difficulty;
+    console.log(newQuestion);
+    setSubmitted(true);
+    
+  }
+
+
+    return (
+      cancelled ? <Read /> :
+      submitted ? <Read /> :
+      <Card shadow="sm" padding="xl" radius="md" withBorder>
+        <Title order={2}>Create A New Question</Title>
+        <Space h="lg" />
+
+        <form onSubmit={form.onSubmit(handleSubmit)} onReset={form.onReset}>
+          <TextInput
+            required
+            withAsterisk
+            size='md'
+            label="Title"
+            placeholder="your question title here.."
+            {...form.getInputProps('title')}
+          />
+          <Space h="md" />
+
+          <Textarea
+            required
+            label="Description"
+            placeholder="what is the question about?"
+            size='md'
+            {...form.getInputProps('description')}
+          />      
+          <Space h="md" />
+
+          <TextInput
+            size='md'
+            label="Category"
+            placeholder="category here..."
+            {...form.getInputProps('category')}
+          />
+          <Space h="lg" />
+
+          <Group grow>
+          <SegmentedControl
+              required
+              fullwidth
+              size="sm"
+              data={[
+                { label: 'Easy', value: 'easy' },
+                { label: 'Medium', value: 'medium' },
+                { label: 'Hard', value: 'hard' },
+              ]}
+              {...form.getInputProps('difficulty')}
+            />
+            </Group>
+            <Space h="xl" />
   
+          <Group mt="md">
+            <Button variant="light" color="grape" type="submit" size="md">Submit</Button>
+            <Button variant="light" color="gray" type="reset" size="md">Reset</Button>
+            <Button variant="default" size="md" onClick={() => setCancelled(true)}>Cancel</Button>
+          </Group>
+        </form>
+      </Card>
+    );
 }
 
-export default Create;

@@ -1,7 +1,7 @@
 import { Box, Checkbox, Card, Title, Text, Badge, Button, Group, Space, Notification, TextInput, Textarea, SegmentedControl, CardSection } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import Read from './read';
 
 export default function Create() {

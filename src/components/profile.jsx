@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
-import { Table, Button } from "semantic-ui-react";
 import { selectUser } from "../backend/user_backend/features/auth";
+import {Button, Flex, ThemeIcon, Card, Badge, Group, Space, Text, Notification, TextInput, Textarea, SegmentedControl, CardSection, Stack } from '@mantine/core';
+import { IconHeart, IconUser } from '@tabler/icons-react';
 
 export default function Profile() {
   const user = useSelector(selectUser);
-  console.log("user: " + user);
+  // console.log("user: " + user);
   const email = user.email;
   const username = user.username;
   // const email = localStorage.getItem("email");
@@ -12,7 +13,7 @@ export default function Profile() {
 
   return (
     <div>
-      <h3>User Profile</h3>
+      {/* <h3>User Profile</h3>
       <Table>
         <Table.Header>
           <Table.Row>
@@ -27,7 +28,53 @@ export default function Profile() {
             <Table.Cell>{username}</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table> */}
+        <Space h="xl" />
+
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card.Section >
+
+      <Group justify="left" mt="md" mb="xs">
+      <Space v="xl" />
+      <Space v="xl" />
+      
+      <Flex
+      mih={50}
+      gap="md"
+      justify="center"
+      align="center"
+      direction="column"
+      wrap="wrap"
+    >
+      <ThemeIcon
+          variant="filled"
+          size="xl"
+          color="grey"
+        >
+        <IconUser/>
+      </ThemeIcon>
+      <Badge color="pink" variant="light">
+          Beginner
+        </Badge>
+        </Flex>
+
+      <Space v="xl" />
+      <Stack>
+        <Text ta="left" fw={500}>{username} </Text>
+        <Text ta="left" fw={400}>Email: {email} </Text>
+        </Stack>
+      </Group>
+      </Card.Section>
+
+      <Card.Section >
+      
+      <Space v="md" />
+
+
+
+
+      </Card.Section>
+      </Card>
     </div>
   );
 }

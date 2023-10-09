@@ -5,17 +5,15 @@ import {IconBellRinging,IconHome2,  IconKey, IconUser,  IconSettings,  IconNoteb
 import { MantineLogo } from '@mantine/ds';
 import classes from '../css/NavbarSimple.module.css';
 import { Link } from 'react-router-dom';
-
 const data = [
   { link: '/', label: 'Home', icon: IconHome2 },
   { link: '/viewQuestions', label: 'Questions', icon: IconNotebook },
   { link: '/profile', label: 'Profile', icon: IconUser },
-  { link: '/settings', label: 'Settings', icon: IconSettings },
+  { link: '/login', label: 'Logout', icon: IconLogout }
 ];
 
 function Navbar() {
   const [active, setActive] = useState('Billing');
-
   const links = data.map((item) => (
     <Link
       className={`${classes.link} ${location.pathname === item.link ? classes.activeLink : ''}`}
@@ -32,13 +30,6 @@ function Navbar() {
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         {links}
-      </div>
-
-      <div className={classes.footer} >
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
-        </a>
       </div>
     </nav>
   );

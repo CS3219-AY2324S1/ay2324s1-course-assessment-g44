@@ -1,7 +1,21 @@
 import React, { useState } from "react";
-import { Button, Form } from "semantic-ui-react";
 import { createUserApi } from "../services/user_services";
 import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  Button,
+  Group,
+  Space,
+  Text,
+  Notification,
+  TextInput,
+  Textarea,
+  SegmentedControl,
+  CardSection,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { login } from "../backend/user_backend/features/auth";
+import { useDispatch } from "react-redux";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -10,71 +24,124 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const postData = async () => {
-    if (email === "") {
-      setErrorMessage("Please enter a email!");
-    } else if (username === "") {
-      setErrorMessage("Please enter a username!");
-    } else if (password === "") {
-      setErrorMessage("Please enter a password!");
-    } else {
-      const req = {email: email,  username: username, password: password };
-      const res = await createUserApi(req);
-      // console.log(res.status)
-      if (res.status == 201){
-        navigate("/login");
-      } else if (res === "error"){
-        setErrorMessage("An account with this email exists! Please log in instead.");
-      }
+  const dispatch = useDispatch();
+
+  const newUser = {
+    email: "",
+    username: "",
+    password: "",
+  };
+
+  const form = useForm({
+    initialValues: {
+      email: "",
+      username: "",
+      password: "",
+    },
+  });
+
+  const postData = async (values) => {
+    newUser.email = values.email;
+    newUser.username = values.username;
+    newUser.password = values.password;
+    const res = await createUserApi(newUser);
+    if (res.status == 201) {
+      await setData(newUser);
+      navigate("/viewQuestions");
+    } else if (res === "error") {
+      setErrorMessage(
+        "An account with this email exists! Please log in instead."
+      );
     }
   };
 
-  const login = async () => {
+  const setData = async (newUser) => {
+    dispatch(
+      login({
+        email: newUser.email,
+        username: newUser.username,
+        password: newUser.password,
+        loggedIn: true,
+      })
+    );
+  };
+
+  const loginpage = () => {
     navigate("/login");
-  }
+  };
 
   return (
-    <div id="main-page">
-      <div className="error-message">
-        {errorMessage && <p className="error"> {errorMessage} </p>}
-      </div>
-      <Button
-          className="post-question-button"
-          onClick={login}
-        >
-          Log in
-        </Button>
+    <Group align="center" justify="center">
+      <Card shadow="sm" padding="xl" radius="md" withBorder>
+        <Text fw={700} ta="center" size="xl">
+          Peerprep
+        </Text>
 
-      <Form className="create-form">
-        <Form.Field className="question-name-field">
-          <label>Email</label>
-          <input
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+        <Space h="md" />
+
+        <form onSubmit={form.onSubmit(postData)}>
+          <TextInput
+            required
+            withAsterisk
+            size="md"
+            label="Email"
+            placeholder="email"
+            {...form.getInputProps("email")}
           />
-        </Form.Field>
-        <Form.Field className="question-name-field">
-          <label>Username</label>
-          <input
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
+          <Space h="md" />
+
+          <TextInput
+            required
+            withAsterisk
+            size="md"
+            label="Username"
+            placeholder="username"
+            {...form.getInputProps("username")}
           />
-        </Form.Field>
-        <Form.Field className="question-name-field">
-          <label>Password</label>
-          <input
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+          <Space h="md" />
+
+          <TextInput
+            required
+            label="Password"
+            placeholder="password"
+            size="md"
+            {...form.getInputProps("password")}
           />
-        </Form.Field>
-        <Button
-          className="post-question-button"
-          onClick={postData}
-          type="submit"
-        >
-          Sign up
-        </Button>
-      </Form>
-    </div>
+          <Space h="md" />
+
+          <Text size="md" c="red" fw={500}>
+            {errorMessage && <p className="error"> {errorMessage} </p>}
+          </Text>
+
+          <Space h="md" />
+
+          <Group mt="md">
+            <Button
+              fullWidth
+              variant="light"
+              color="blue"
+              type="submit"
+              size="md"
+            >
+              Sign up
+            </Button>
+          </Group>
+
+          <Space h="xl" />
+          <Group>
+            <Button
+            fullWidth
+              variant="transparent"
+              color="grape"
+              size="md"
+              onClick={loginpage}
+            >
+                <Text td="underline">Log in with an existing account</Text>
+
+            </Button>
+          </Group>
+        </form>
+      </Card>
+    </Group>
   );
 }

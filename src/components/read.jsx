@@ -103,14 +103,20 @@ const Read = (props) => {
       viewState ? <View question={questionToView} /> :
       createState ? <Create /> :
     <>
-      <Title order={2}>All Questions</Title>
+    <Space h="lg"/>
+    <Space h="lg" />
+      <div style={{ display: 'flex' }}>
+        <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
+        <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+          New Question
+        </Button>
+      </div>
       <Space h="lg" />
       <Accordion variant="contained">
         {items}
       </Accordion>
       <>
-      <Space h="lg"/>
-      <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)}>New Question</Button>
+      
       </>
       
     </>

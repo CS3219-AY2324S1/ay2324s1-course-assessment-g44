@@ -5,9 +5,7 @@ import Create from '../components/create';
 import axios from 'axios';
 
 const Read = (props) => {
-
   const [questions, setQuestions] = useState(null);
-  
   const [viewState, setViewState] = useState(false);
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
@@ -15,16 +13,16 @@ const Read = (props) => {
 
   
   //handle fetching of data from local json server
-  useEffect(() => {
-    fetch('http://localhost:8000/questions')
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      console.log(data);
-      setQuestions(data);
-    });
-  }, [])
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/questions')
+  //   .then(res => {
+  //     return res.json();
+  //   })
+  //   .then(data => {
+  //     console.log(data);
+  //     setQuestions(data);
+  //   });
+  // }, [])
 
 
   //attempts to connect to mongo db
@@ -40,11 +38,11 @@ const Read = (props) => {
   //   });
   // }, [])
 
-  // useEffect(() => {
-  //   axios.get("/getQuestions")
-  //   .then(response => setQuestions(response.data))
-  //   .catch(error => console.error(error));
-  // }, [])
+  useEffect(() => {
+    axios.get("http://localhost:3001/routes/getQuestions")
+    .then(response => setQuestions(response.data))
+    .catch(error => console.error(error));
+  }, [])
 
 
 

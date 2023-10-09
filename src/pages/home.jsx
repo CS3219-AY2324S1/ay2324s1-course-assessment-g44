@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/header'
 import Navbar from '../components/navbar'
-import HomepageGrid from '../components/page_contents/homePageGrid'
+import HomepageGrid from '../components/page_elements/homePageGrid'
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger } from '@mantine/core';
 
@@ -11,15 +11,15 @@ function Home() {
 
 
     return (
-        <AppShell
-        header={{ height: 60 }}
-        navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-        padding="md"
-        >
-          <AppShell.Header>
-            <Header/>
-          </AppShell.Header>
-    
+      <AppShell
+      header={{ height: 100 }}
+      navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      padding="md"
+      >
+        <AppShell.Header>
+          <Header />
+        </AppShell.Header>
+        
           <AppShell.Navbar p="lg">
             <Navbar/>
           </AppShell.Navbar>

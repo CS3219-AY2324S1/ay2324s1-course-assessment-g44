@@ -4,16 +4,18 @@ import {IconBellRinging,IconFingerprint,  IconKey, IconUser,  IconSettings,  Ico
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
 import classes from '../css/NavbarSimple.module.css';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const data = [
-  { link: '', label: 'Questions', icon: IconNotebook },
-  { link: '', label: 'Profile', icon: IconUser },
+  { link: '/viewQuestions', label: 'Questions', icon: IconNotebook },
+  { link: '/profile', label: 'Profile', icon: IconUser },
   { link: '', label: 'Settings', icon: IconSettings },
+  { link: '/login', label: 'Logout', icon: IconLogout }
 ];
 
 function Navbar() {
   const [active, setActive] = useState('Billing');
-
+  const navigate = useNavigate();
   const links = data.map((item) => (
     <a
       className={classes.link}
@@ -23,6 +25,7 @@ function Navbar() {
       onClick={(event) => {
         event.preventDefault();
         setActive(item.label);
+        navigate(item.link)
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
@@ -34,13 +37,6 @@ function Navbar() {
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         {links}
-      </div>
-
-      <div className={classes.footer} >
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
-        </a>
       </div>
     </nav>
   );

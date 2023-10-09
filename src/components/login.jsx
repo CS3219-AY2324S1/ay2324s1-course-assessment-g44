@@ -1,96 +1,140 @@
 import React, { useState } from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import { loginUserApi, getUserApi } from "../services/user_services";
 import { useNavigate } from "react-router-dom";
 import { login } from "../backend/user_backend/features/auth";
 import { useDispatch } from "react-redux";
+import {
+  Card,
+  Button,
+  Group,
+  Space,
+  Text,
+  Notification,
+  TextInput,
+  Textarea,
+  SegmentedControl,
+  CardSection,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  const handleSubmit = async () => {
-    if (email === "") {
-      setErrorMessage("Please enter a email!");
-    } else if (password === "") {
-      setErrorMessage("Please enter a password!");
-    } else {
-      const req = { email: email, password: password };
-      const res = await loginUserApi(req);
-      if (res.status == 201) {
-        await setData();
-        navigate("/read");
-      } else if (res === "error") {
-        setErrorMessage("Incorrect email or password provided!");
-      }
+  const newUser = {
+    email: "",
+    password: "",
+  };
+
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleSubmit = async (values) => {
+    newUser.email = values.email;
+    newUser.password = values.password;
+    const res = await loginUserApi(newUser);
+
+    if (res.status == 201) {
+      await setData(newUser);
+      navigate("/viewQuestions");
+    } else if (res === "error") {
+      setErrorMessage("Incorrect email or password provided!");
     }
   };
 
-  const setData = async () => {
-    const req = { email: email };
+  const setData = async (newUser) => {
+    const req = { email: newUser.email };
     const res = await getUserApi(req);
     const userInfo = res.data.message.rows;
     const username = userInfo[0].username;
     dispatch(
       login({
         username: username,
-        email: email,
-        password: password,
+        email: newUser.email,
+        password: newUser.password,
         loggedIn: true,
       })
     );
   };
 
-  // const setSessionData = async () => {
-  //   const req = { email: email };
-  //   const res = await getUserApi(req);
-  //   const userInfo = res.data.message.rows;
-  //   console.log(userInfo);
-  //   const username = userInfo[0].username;
-  //   localStorage.setItem("email", email);
-  //   localStorage.setItem("username", username);
-  // };
-
-  const signup = async () => {
+  const signup = () => {
     navigate("/signup");
   };
 
   return (
-    <div id="main-page">
-      <div className="error-message">
-        {errorMessage && <p className="error"> {errorMessage} </p>}
-      </div>
-      <Button className="post-question-button" onClick={signup}>
-        Sign up
-      </Button>
+    <Group align="center" justify="center">
+      <Card shadow="sm" padding="xl" radius="md" withBorder>
+        <Text fw={700} ta="center" size="xl">
+          Peerprep
+        </Text>
 
-      <Form className="create-form">
-        <Form.Field className="question-name-field">
-          <label>Email</label>
-          <input
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+        <Space h="md" />
+
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput
+            required
+            withAsterisk
+            size="md"
+            label="Email"
+            placeholder="email"
+            {...form.getInputProps("email")}
           />
-        </Form.Field>
-        <Form.Field className="question-name-field">
-          <label>Password</label>
-          <input
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+          <Space h="md" />
+
+          <TextInput
+            required
+            label="Password"
+            placeholder="password"
+            size="md"
+            width="lg"
+            {...form.getInputProps("password")}
           />
-        </Form.Field>
-        <Button
-          className="post-question-button"
-          onClick={handleSubmit}
-          type="submit"
-        >
-          Login
-        </Button>
-      </Form>
-    </div>
+          <Space h="md" />
+
+          <Text size="md" c="red" fw={500}>
+            {errorMessage && <p className="error"> {errorMessage} </p>}
+          </Text>
+
+          <Space h="md" />
+
+          <Group mt="md">
+            <Button
+              fullWidth
+              variant="light"
+              color="grape"
+              type="submit"
+              size="md"
+            >
+              Login
+            </Button>
+          </Group>
+
+          <Space h="xl" />
+
+          <Group>
+            <Button 
+            fullWidth
+              variant="transparent"
+              color="blue"
+              type="reset"
+              size="md"
+              justify="right"
+              onClick={signup}
+            >
+              <Text td="underline" ta="center">
+                Sign up as a new user
+              </Text>
+            </Button>
+          </Group>
+        </form>
+      </Card>
+    </Group>
   );
 }

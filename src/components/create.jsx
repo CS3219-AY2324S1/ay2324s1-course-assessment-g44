@@ -3,11 +3,13 @@ import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from 'react';
 //import axios from 'axios';
 import Read from './read';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Create() {
 
   const [submitted, setSubmitted] = useState(false);
   const [cancelled, setCancelled] = useState(false);
+  const navigate = useNavigate();
 
   const newQuestion = {
     title: "",
@@ -44,7 +46,13 @@ export default function Create() {
     }).then(() => console.log("new success"));
 
     setSubmitted(true);
+    navigate("/viewQuestions");
     
+  }
+
+  const handleCancel = () => {
+    setCancelled(true);
+    navigate("/viewQuestions");
   }
 
 
@@ -121,7 +129,7 @@ export default function Create() {
           <Group mt="md">
             <Button variant="light" color="grape" type="submit" size="md">Submit</Button>
             <Button variant="light" color="gray" type="reset" size="md">Reset</Button>
-            <Button variant="default" size="md" onClick={() => setCancelled(true)}>Cancel</Button>
+            <Button variant="default" size="md" onClick={() => handleCancel()}>Cancel</Button>
           </Group>
         </form>
       </Card>

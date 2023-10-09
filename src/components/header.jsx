@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Container, Group, Burger, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import Logo from '../../images/logo2.png';
+import Logo from '../../images/logo.png';
 import classes from '../css/HeaderSimple.module.css';
 import CreateQuestionbutton from './buttons/createQuestionbutton';
 import MatchButton from './buttons/matchButton'

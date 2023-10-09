@@ -1,8 +1,6 @@
 import "./App.css";
-import Login from "./components/login"
-import Signup from "./components/signup";
-import Read from "./components/read";
-import Update from "./components/update";
+import Login from "./pages/Login"
+import Signup from "./pages/Signup";
 import ViewQuestions from "./pages/ViewQuestions";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
@@ -19,7 +17,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/update" element={<Update />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />

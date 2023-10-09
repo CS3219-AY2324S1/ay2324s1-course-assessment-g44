@@ -1,6 +1,6 @@
 import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import React, { useEffect, useState } from "react";
-import Read from "../components/read"
+import Read from "./read"
 import Update from './update';
 
 

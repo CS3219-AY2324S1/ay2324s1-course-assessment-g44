@@ -1,6 +1,6 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import View from '../components/view';
+import View from './view';
 import Create from '../components/create';
 import axios from 'axios';
 

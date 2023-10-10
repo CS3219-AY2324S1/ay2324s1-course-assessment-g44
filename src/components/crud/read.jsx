@@ -1,13 +1,11 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import View from '../components/view';
-import Create from '../components/create';
+import View from './view';
+import Create from './create';
 import axios from 'axios';
 
 const Read = (props) => {
-
   const [questions, setQuestions] = useState(null);
-  
   const [viewState, setViewState] = useState(false);
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
@@ -15,16 +13,16 @@ const Read = (props) => {
 
   
   //handle fetching of data from local json server
-  useEffect(() => {
-    fetch('http://localhost:8000/questions')
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      console.log(data);
-      setQuestions(data);
-    });
-  }, [])
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/questions')
+  //   .then(res => {
+  //     return res.json();
+  //   })
+  //   .then(data => {
+  //     console.log(data);
+  //     setQuestions(data);
+  //   });
+  // }, [])
 
 
   //attempts to connect to mongo db
@@ -40,11 +38,11 @@ const Read = (props) => {
   //   });
   // }, [])
 
-  // useEffect(() => {
-  //   axios.get("/getQuestions")
-  //   .then(response => setQuestions(response.data))
-  //   .catch(error => console.error(error));
-  // }, [])
+  useEffect(() => {
+    axios.get("http://localhost:3001/routes/getQuestions")
+    .then(response => setQuestions(response.data))
+    .catch(error => console.error(error));
+  }, [])
 
 
 
@@ -105,14 +103,20 @@ const Read = (props) => {
       viewState ? <View question={questionToView} /> :
       createState ? <Create /> :
     <>
-      <Title order={2}>All Questions</Title>
+    <Space h="lg"/>
+    <Space h="lg" />
+      <div style={{ display: 'flex' }}>
+        <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
+        <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+          New Question
+        </Button>
+      </div>
       <Space h="lg" />
       <Accordion variant="contained">
         {items}
       </Accordion>
       <>
-      <Space h="lg"/>
-      <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)}>New Question</Button>
+      
       </>
       
     </>

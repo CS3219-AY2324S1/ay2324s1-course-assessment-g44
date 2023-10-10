@@ -10,8 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Import your questionController and any other required dependencies here.
-const questionController = require('./controllers/question_controller');
 
 // Set route file requirement and set app to use /routes directory
 const questionRoutes = require('./routes/questionRoutes');

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import Header from '../components/header';
 import Navbar from '../components/navbar';
-import Read from '../components/read';
+import Read from '../components/crud/read';
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger } from '@mantine/core';
-import Login from '../components/login';
-import { Button } from 'semantic-ui-react';
-import Create from '../components/create';
 
 
 function ViewQuestions() {

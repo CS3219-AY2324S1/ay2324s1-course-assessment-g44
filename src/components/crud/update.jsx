@@ -1,8 +1,8 @@
 import { Badge, Button, Card, Group, Space, SegmentedControl, Text, Textarea, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from "react";
-import View from '../components/view';
-import Read from '../components/read';
+import View from './view';
+import Read from './read';
 
 
 export default function Update(props) {

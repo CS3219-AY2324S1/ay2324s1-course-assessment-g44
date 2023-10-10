@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Container, Group, Burger, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/logo2.png';
 import classes from '../css/HeaderSimple.module.css';
 import CreateQuestionbutton from './buttons/createQuestionbutton';
 import MatchButton from './buttons/matchButton'
@@ -16,9 +16,8 @@ function Header() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        <img src={Logo} alt="logo" width={100}></img>
+        <img src={Logo} alt="logo" width={350} ></img>
         <Group gap={30} visibleFrom="xs">
-          <CreateQuestionbutton />
           <MatchButton />
         </Group>
         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />

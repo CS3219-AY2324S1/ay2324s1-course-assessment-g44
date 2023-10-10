@@ -12,7 +12,7 @@ function UserProfile() {
 
     return (
         <AppShell
-        header={{ height: 60 }}
+        header={{ height: 100 }}
         navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         padding="md"
         >

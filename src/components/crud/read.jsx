@@ -47,13 +47,14 @@ const Read = (props) => {
 
 
   //to identify which question is the one being viewed
-  const setView = (questionId) => {
-    setViewState(true);
-    const q = questions.filter((item) => {
-      return item.id === questionId;
-    })
-    setQuestionToView(q[0]);
+  const setView = (selectedTitle) => {
+    const selectedQuestion = questions.find((item) => item.title === selectedTitle);
+    if (selectedQuestion) {
+      // If a question with the selected title is found, update the state
+      setViewState(true);
+      setQuestionToView(selectedQuestion);
   }
+}
 
   const difficultyBadge = (questionDifficulty) => {
     return (
@@ -79,8 +80,6 @@ const Read = (props) => {
     );
   }
 
-  
-
   const items = (questions === null ? null :
     questions.map((item) => (
     <Accordion.Item key={item.title} value={item.title}>
@@ -92,7 +91,7 @@ const Read = (props) => {
         {item.description}
       </Text>
       <Space h="md" />
-      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id)}}>View</Button>
+      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.title)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
   ))

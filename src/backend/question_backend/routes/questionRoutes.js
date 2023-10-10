@@ -26,6 +26,9 @@ const questionController = require('../controllers/question_controller');
 // Post question
 router.post("/addQuestion", questionController.addQuestion);
 
+// Check if question exist
+router.post("/checkQuestionExistence", questionController.checkQuestionExistence);
+
 // Update question
 router.patch("/updateQuestion", questionController.updateQuestion);
 

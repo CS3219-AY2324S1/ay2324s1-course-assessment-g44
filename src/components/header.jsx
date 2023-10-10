@@ -11,7 +11,7 @@ import Match from './buttons/matchButton';
 
 function Header() {
   const [opened, { toggle }] = useDisclosure(false);
-
+  
 
   return (
     <header className={classes.header}>

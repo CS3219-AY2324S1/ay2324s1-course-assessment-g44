@@ -60,6 +60,10 @@ io.on("connection", socket => {
             // Case 2: User already in queue
             const otherUser = JSON.parse(dequeueMsg.content.toString());
             console.log(otherUser);
+            // This case handles after matching, what to do
+            io.to(socket.id).emit("match-success");
+            io.to(otherUser.socketId).emit("match-success");
+
         }
     })
 })

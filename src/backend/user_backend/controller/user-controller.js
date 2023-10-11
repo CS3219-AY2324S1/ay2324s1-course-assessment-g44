@@ -5,9 +5,9 @@ const {
   isCorrectPassword,
 } = require("../validation");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: __dirname + "/../../../../.env" });
 
 const EXPIRATION_TIME = 15*60; // 15 min
+const JWT_SECRET_KEY = "iloveJWT";
 
 exports.createUser = async (req, res) => {
   try {
@@ -39,7 +39,7 @@ exports.loginUser = async (req, res) => {
       const username = userInfo.rows[0].username;
       const token = jwt.sign(
         { username: username, email: email },
-        process.env.JWT_SECRET,
+        JWT_SECRET_KEY,
         { expiresIn: EXPIRATION_TIME }
       ); 
       // res.cookie("token", token, { httpOnly: true }); // this is cookie implementation, but what I eventually chose is to pass by headers
@@ -61,7 +61,7 @@ exports.getUser = async (req, res) => {
     console.log(authToken);
     const user = jwt.verify(
       authToken,
-      process.env.JWT_SECRET,
+      JWT_SECRET_KEY,
       (err, decoded) => {
         if (err) {
           return res.status(403).send("Token expired!");

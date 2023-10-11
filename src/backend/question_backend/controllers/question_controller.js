@@ -107,21 +107,21 @@ const questionController = {
   // Update a question
   updateQuestion: async (req, res) => {
     try {
-      const { questionId } = req.body; // Extract the questionId from req.body
-      const updates = req.body; // Use the entire req.body as updates
+      const { _id } = req.body; // Extract the questionId from req.body
+      const { title, description, category, difficulty} = req.body; // Use the entire req.body as updates
       const updatedQuestion = await Question.findOneAndUpdate(
-        { questionId }, // Use questionId as the criteria
-        updates,
-        { new: true }
+        { _id }, // Use questionId as the criteria
+        {title, description, category, difficulty},
+        {new: true},
       );
-      if (!updatedQuestion) {
-        return res.status(404).json({ error: 'Question not found' });
-      }
       res.json(updatedQuestion);
-    } catch (error) {
+    }
+    catch (error) {
       res.status(500).json({ error: 'Failed to update question' });
     }
   },
+  
+
 
   // Delete a question
   deleteQuestion: async (req, res) => {

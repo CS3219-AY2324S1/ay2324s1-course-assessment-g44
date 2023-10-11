@@ -52,7 +52,7 @@ export default function Update(props) {
           description: values.description,
           category: values.category,
           difficulty: values.difficulty,
-          questionId: oldQuestion.id, // Include the questionId here
+          _id: oldQuestion._id, // Use MongoDB _id here
         };
         axios.patch('http://localhost:3001/routes/updateQuestion', updatedQuestion)
             .then(() => {
@@ -60,9 +60,6 @@ export default function Update(props) {
               setUpdatedQuestion(updatedQuestion); // Update the local state with the updated question
               setUpdated(true);
             })
-            .catch((error) => {
-              console.error("Error updating question:", error);
-            });
         }
     
       // .catch((error) => {

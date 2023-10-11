@@ -47,8 +47,8 @@ const Read = (props) => {
 
 
   //to identify which question is the one being viewed
-  const setView = (selectedTitle) => {
-    const selectedQuestion = questions.find((item) => item.title === selectedTitle);
+  const setView = (selectedId, selectedTitle) => {
+    const selectedQuestion = questions.find((item) => item.id === selectedId && item.title === selectedTitle);
     if (selectedQuestion) {
       // If a question with the selected title is found, update the state
       setViewState(true);
@@ -82,7 +82,7 @@ const Read = (props) => {
 
   const items = (questions === null ? null :
     questions.map((item) => (
-    <Accordion.Item key={item.title} value={item.title}>
+    <Accordion.Item key={item.id} value={item.title}>
       <Accordion.Control>
         <AccordionLabel {...item} />
       </Accordion.Control>
@@ -91,7 +91,7 @@ const Read = (props) => {
         {item.description}
       </Text>
       <Space h="md" />
-      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.title)}}>View</Button>
+      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
   ))

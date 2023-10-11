@@ -41,7 +41,7 @@ exports.loginUser = async (req, res) => {
         { username: username, email: email },
         process.env.JWT_SECRET,
         { expiresIn: EXPIRATION_TIME }
-      ); // expires in 10 seconds
+      ); 
       // res.cookie("token", token, { httpOnly: true }); // this is cookie implementation, but what I eventually chose is to pass by headers
       return res.status(201).json({
         username: username,

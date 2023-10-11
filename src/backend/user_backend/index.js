@@ -1,11 +1,13 @@
 const express = require("express");
 const expressJSDocSwagger = require("express-jsdoc-swagger");
-const userController = require("./controller/user-controller");
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 4200;
 const cors = require("cors");
 const userRouter = express.Router();
+
+const users = require('./routes/users');
 
 const options = {
   info: {
@@ -46,10 +48,8 @@ app.get("/api/hello", (req, res) => {
   res.send("Hello world");
 });
 
-app.post("/api/createUser", userController.createUser);
+app.use(cookieParser());
 
-app.post("/api/loginUser", userController.loginUser);
-
-app.post("/api/getUser", userController.getUser)
+app.use('/api/users', users);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

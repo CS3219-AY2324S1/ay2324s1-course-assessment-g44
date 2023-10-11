@@ -4,11 +4,32 @@ import Navbar from '../components/navbar';
 import Read from '../components/crud/read';
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger } from '@mantine/core';
+import { selectUser } from '../backend/user_backend/features/auth';
+import { useSelector } from 'react-redux';
+import verifyAccessToken from '../backend/user_backend/utils/Utils';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function ViewQuestions() {
+  const navigate = useNavigate();
   const [opened, { toggle }] = useDisclosure();
-  const [state, setState] = useState(() => "READ")
+  const [state, setState] = useState(() => "READ");
+  const user = useSelector(selectUser);
+  const email = user.email;
+  const username = user.username;
+  const accessToken = user.accessToken;
+  const password = user.password;
+
+  useEffect(() => {
+    verifyAccessToken(email, password, accessToken).then(isVerified => {
+      if (!isVerified && accessToken) {
+        navigate("/login", { state: {isTimeOut: true} });
+      } else if (!isVerified && !accessToken) {
+        navigate("/login");
+      }
+    })
+  });
 
     return (
         <AppShell

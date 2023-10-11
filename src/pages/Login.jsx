@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "semantic-ui-react";
 import { loginUserApi, getUserApi } from "../services/user_services";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { login } from "../backend/user_backend/features/auth";
 import { useDispatch } from "react-redux";
 import {
@@ -21,7 +21,7 @@ import { useForm } from "@mantine/form";
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const newUser = {
@@ -39,34 +39,65 @@ export default function Login() {
   const handleSubmit = async (values) => {
     newUser.email = values.email;
     newUser.password = values.password;
+    // for testing purposes, to be removed!
+    if (newUser.email === "TEST" && newUser.password === "TEST123") {
+      dispatch(
+        login({
+          email: newUser.email,
+          password: newUser.password,
+        })
+      );
+      navigate("/viewQuestions");
+      return;
+    }
     const res = await loginUserApi(newUser);
 
     if (res.status == 201) {
-      await setData(newUser);
+      const userInfo = res.data;
+      dispatch(
+        login({
+          username: userInfo.username,
+          email: userInfo.email,
+          accessToken: userInfo.accessToken,
+          loggedIn: true,
+        })
+      )
+      // await setData(newUser);
       navigate("/viewQuestions");
     } else if (res === "error") {
       setErrorMessage("Incorrect email or password provided!");
     }
   };
 
-  const setData = async (newUser) => {
-    const req = { email: newUser.email };
-    const res = await getUserApi(req);
-    const userInfo = res.data.message.rows;
-    const username = userInfo[0].username;
-    dispatch(
-      login({
-        username: username,
-        email: newUser.email,
-        password: newUser.password,
-        loggedIn: true,
-      })
-    );
-  };
+  // const setData = async (newUser) => {
+  //   const req = { email: newUser.email };
+  //   const res = await getUserApi(req);
+  //   const userInfo = res.data.message.rows;
+  //   const username = userInfo[0].username;
+  //   dispatch(
+  //     login({
+  //       username: username,
+  //       email: newUser.email,
+  //       password: newUser.password,
+  //       loggedIn: true,
+  //     })
+  //   );
+  // };
 
   const signup = () => {
     navigate("/signup");
   };
+
+  const isTimeOut = () => {
+    const isTimeOut = location.state.isTimeOut;
+    console.log('isTimeOut:', isTimeOut);
+    if (isTimeOut) {
+      window.history.replaceState({});
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (
     <Group align="center" justify="center">

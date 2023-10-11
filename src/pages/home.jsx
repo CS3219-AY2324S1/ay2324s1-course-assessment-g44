@@ -14,16 +14,12 @@ function Home() {
   const [opened, { toggle }] = useDisclosure();
   const navigate = useNavigate();
   const user = useSelector(selectUser);
-  const email = user.email;
-  const username = user.username;
-  const accessToken = user.accessToken;
-  const password = user.password;
 
   useEffect(() => {
-    verifyAccessToken(email, password, accessToken).then(isVerified => {
-      if (!isVerified && accessToken) {
+    verifyAccessToken(user).then(isVerified => {
+      if (!isVerified && user) {
         navigate("/login", { state: {isTimeOut: true} });
-      } else if (!isVerified && !accessToken) {
+      } else if (!isVerified && !user) {
         navigate("/login");
       }
     });

@@ -25,17 +25,12 @@ import verifyAccessToken from "../backend/user_backend/utils/Utils";
 export default function Profile() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
-  // console.log("user: " + user);
-  const email = user.email;
-  const username = user.username;
-  const accessToken = user.accessToken;
-  const password = user.password;
 
   useEffect(() => {
-    verifyAccessToken(email, password, accessToken).then(isVerified => {
-      if (!isVerified && accessToken) {
+    verifyAccessToken(user).then(isVerified => {
+      if (!isVerified && user) {
         navigate("/login", { state: {isTimeOut: true} });
-      } else if (!isVerified && !accessToken) {
+      } else if (!isVerified && !user) {
         navigate("/login");
       }
     })
@@ -86,10 +81,10 @@ export default function Profile() {
             <Space v="xl" />
             <Stack>
               <Text ta="left" fw={500}>
-                {username}{" "}
+                {user.username}{" "}
               </Text>
               <Text ta="left" fw={400}>
-                Email: {email}{" "}
+                Email: {user.email}{" "}
               </Text>
             </Stack>
           </Group>

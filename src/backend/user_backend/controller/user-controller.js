@@ -6,7 +6,7 @@ const {
 } = require("../validation");
 const jwt = require("jsonwebtoken");
 
-const EXPIRATION_TIME = 15*60; // 15 min
+const EXPIRATION_TIME = 15; // 15 min
 const JWT_SECRET_KEY = "iloveJWT";
 
 exports.createUser = async (req, res) => {

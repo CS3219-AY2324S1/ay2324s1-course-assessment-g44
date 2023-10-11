@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Modal, Text, Group, Input, Paper, Select  } from '@mantine/core';
+import setupSocket from '../../services/matching_services';
+import { useSelector } from "react-redux";
+import { selectUser } from "../../backend/user_backend/features/auth";
 
 function Match() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -7,7 +10,8 @@ function Match() {
     difficulty: '', // Add more criteria as needed
     category: '',
   });
-  const [showAlert, setShowAlert] = useState(false); 
+  const [showAlert, setShowAlert] = useState(false);
+  const user = useSelector(selectUser);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -24,6 +28,13 @@ function Match() {
       // Update matchStatus and matchedUser based on the response from the server
       // Handle error scenarios as well
       setShowAlert(false);
+      const socket = setupSocket();
+      const msgToEmit = JSON.stringify({
+        user: user.username,
+        complexity: matchingCriteria.difficulty,
+        category: matchingCriteria.category
+      });
+      socket.emit('find-match', msgToEmit);
       closeModal();
     } else {
       setShowAlert(true);

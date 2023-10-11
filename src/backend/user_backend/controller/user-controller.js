@@ -7,7 +7,7 @@ const {
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: __dirname + "/../../../../.env" });
 
-const EXPIRATION_TIME = 15;
+const EXPIRATION_TIME = 15*60; // 15 min
 
 exports.createUser = async (req, res) => {
   try {

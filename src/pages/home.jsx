@@ -9,7 +9,6 @@ import { selectUser } from '../backend/user_backend/features/auth';
 import { useNavigate } from 'react-router-dom';
 import verifyAccessToken from '../backend/user_backend/utils/Utils';
 import { useEffect } from 'react';
-import { notifications } from ''
 
 function Home() {
   const [opened, { toggle }] = useDisclosure();

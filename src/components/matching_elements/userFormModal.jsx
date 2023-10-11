@@ -1,5 +1,5 @@
 import React from 'react';
-import UserForm from './UserForm';
+import UserForm from './userForm';
 import Modal from 'react-modal';
 
 // Modal.setAppElement('#root'); // Set the root element for accessibility

@@ -2,7 +2,7 @@ import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import React, { useEffect, useState } from "react";
 import Read from "./read"
 import Update from './update';
-
+import axios from 'axios';
 
 export default function View(props) {
 
@@ -19,23 +19,46 @@ export default function View(props) {
     );
   }
 
-  const handleDelete = (question) => {
-    const toDeleteId = question.id;
+  // const handleDelete = (question) => {
+  //   const toDeleteId = question.id;
     
-    fetch('http://localhost:8000/questions/' + toDeleteId, {
-      method: 'DELETE'
-    });
+  //   fetch('http://localhost:8000/questions/' + toDeleteId, {
+  //     method: 'DELETE'
+  //   });
 
-    return (
+  //   return (
+  //     <Read />
+  //   );
+  // }
+
+  const handleDelete = (question) => {
+    const { title, description, category, difficulty } = question;
+  
+    // Create an object containing the criteria to identify the question to delete
+    const criteria = { title, description, category, difficulty };
+    axios.delete('http://localhost:3001/routes/deleteQuestion', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: criteria, // Send the criteria in the request body using the 'data' option
+    })
+      .then(() => console.log('Question successfully deleted.'))
+      .catch((error) => {
+        console.error('Error deleting question:', error);
+      });
+
+      return (
       <Read />
-    );
-  }
+      );
+  };
+  
 
   const handleUpdate = (questionToView) => {
     return (
       <Update question = {questionToView}/>
     );
   }
+  
 
   function viewScreen(question) {
     return (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, Text, Group, Input, Paper, Select  } from '@mantine/core';
+import setupSocket from '../../services/matching_services';
 
 function Match() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +25,7 @@ function Match() {
       // Update matchStatus and matchedUser based on the response from the server
       // Handle error scenarios as well
       setShowAlert(false);
+      setupSocket();
       closeModal();
     } else {
       setShowAlert(true);

@@ -1,14 +1,14 @@
 import { getUserApi } from "../../../services/user_services";
 
-const verifyAccessToken = async (email, password, accessToken) => {
-  if (email === "TEST" && password === "TEST123") {
-    return true;
-  }
-  if (accessToken === undefined) {
+const verifyAccessToken = async (user) => {
+  if (user === null) {
     return false;
   }
+  if (user.email === "TEST" && user.password === "TEST123") {
+    return true;
+  }
   const req = {
-    headers: { authorization: "Bearer " + accessToken },
+    headers: { authorization: "Bearer " + user.accessToken },
   };
   const res = await getUserApi(req);
   console.log(res);

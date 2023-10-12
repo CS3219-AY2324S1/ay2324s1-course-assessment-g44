@@ -4,6 +4,7 @@ const { isDuplicateEmail, isExistingUser, isCorrectPassword } = require("../vali
 exports.createUser = async (req, res) => {
     try {
         const {username, email, password} = req.body;
+        console.log(password)
         const isDuplicate = await isDuplicateEmail(email);
         if (isDuplicate) {
             console.log('duplicate email');

@@ -23,7 +23,11 @@ function Match() {
   };
 
   const navigate = useNavigate();
-  const directToRoom = () => navigate(`/matchFound`);
+  const directToRoom = (username) => navigate(`/matchFound`, {
+    state: {
+      username: username
+    }
+  });
 
   const handleMatch = () => {
     // Check if difficulty is selected

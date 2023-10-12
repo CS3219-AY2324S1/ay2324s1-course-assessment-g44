@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/header'
 import Navbar from '../components/navbar'
-import Profile from '../components/profile';
+import Profile from '../components/user_crud/profile';
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger } from '@mantine/core';
 

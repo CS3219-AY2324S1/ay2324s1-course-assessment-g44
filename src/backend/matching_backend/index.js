@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 const connection = await connect(ampqURL);
 const channel = await connection.createChannel();
 const queues = ['Easy', 'Medium', 'Hard'];
+
 queues.forEach((queueName) => {
     channel.assertQueue(queueName, { durable: false, messageTtl: 30000 });
 });
@@ -35,7 +36,7 @@ io.on("connection", socket => {
     // Create event listeners here after connection
     socket.on('disconnect', () => {
         console.log(`The user disconnected on ${socket.id}`)
-    })
+    });
 
     socket.on('find-match', async (msg) => {
         const parsedMsg = JSON.parse(msg);
@@ -61,26 +62,18 @@ io.on("connection", socket => {
             const otherUser = JSON.parse(dequeueMsg.content.toString());
             console.log(otherUser);
             // This case handles after matching, what to do
-            io.to(socket.id).emit("match-success");
-            io.to(otherUser.socketId).emit("match-success");
             const roomID = generateRoomID();
-            socket.join(roomID)
-            io.sockets.in(roomID).emit("match-success");
-            matchedUsers[socket.id] = roomID;
-            socket.to(otherUser.socketId).join(roomID);
-            matchedUsers[otherUser.socketId] = roomID;
-
-            // Redirect users to the /room-<roomid> URL
-            io.to(roomID).emit('navigate-to-room', roomID);
+            io.to(socket.id).emit("navigate-to-room", otherUser.user);
+            io.to(otherUser.socketId).emit("navigate-to-room", user.user);
 
         }
-    })
+    });
     function generateRoomID() {
         // Generate a unique room ID here, e.g., using a random string or an incrementing counter
         // Return the generated room ID
         const roomID = Math.random().toString(36).substring(2, 13);
         return roomID;
-    }
+    };
 });
 
 

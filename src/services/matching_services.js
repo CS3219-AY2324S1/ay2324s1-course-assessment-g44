@@ -13,9 +13,9 @@ const setupSocket = (directToRoom) => {
         console.log(`Matching successful!`);
     } );
 
-    socket.on('navigate-to-room', (roomID) => {
+    socket.on('navigate-to-room', (username) => {
         if (directToRoom) {
-            directToRoom(roomID);
+            directToRoom(username);
         }
     });
     return socket;

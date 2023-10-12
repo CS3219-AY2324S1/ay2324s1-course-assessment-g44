@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Form } from "semantic-ui-react";
 import { loginUserApi, getUserApi } from "../services/user_services";
 import { useLocation, useNavigate } from "react-router-dom";
 import { login } from "../backend/user_backend/features/auth";
@@ -10,11 +9,7 @@ import {
   Group,
   Space,
   Text,
-  Notification,
   TextInput,
-  Textarea,
-  SegmentedControl,
-  CardSection,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
@@ -57,7 +52,8 @@ export default function Login() {
       dispatch(
         login({
           username: userInfo.username,
-          email: userInfo.email,
+          email: newUser.email,
+          password: newUser.password,
           accessToken: userInfo.accessToken,
           loggedIn: true,
         })
@@ -68,21 +64,6 @@ export default function Login() {
       setErrorMessage("Incorrect email or password provided!");
     }
   };
-
-  // const setData = async (newUser) => {
-  //   const req = { email: newUser.email };
-  //   const res = await getUserApi(req);
-  //   const userInfo = res.data.message.rows;
-  //   const username = userInfo[0].username;
-  //   dispatch(
-  //     login({
-  //       username: username,
-  //       email: newUser.email,
-  //       password: newUser.password,
-  //       loggedIn: true,
-  //     })
-  //   );
-  // };
 
   const signup = () => {
     navigate("/signup");

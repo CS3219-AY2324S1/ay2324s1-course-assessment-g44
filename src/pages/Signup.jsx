@@ -7,20 +7,13 @@ import {
   Group,
   Space,
   Text,
-  Notification,
   TextInput,
-  Textarea,
-  SegmentedControl,
-  CardSection,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { login } from "../backend/user_backend/features/auth";
 import { useDispatch } from "react-redux";
 
 export default function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 

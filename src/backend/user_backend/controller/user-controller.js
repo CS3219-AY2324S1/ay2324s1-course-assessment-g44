@@ -1,3 +1,4 @@
+const { useRandomClassName } = require("@mantine/core");
 const pool = require("../server");
 const {
   isDuplicateEmail,
@@ -26,6 +27,18 @@ exports.createUser = async (req, res) => {
   }
 };
 
+exports.updateUser = async (req, res) => {
+  try {
+    const { email, username, password } = req.body;
+    await pool.query(
+      `UPDATE Users SET username = '${username}', password = '${password}' WHERE email_address = '${email}'`
+    )
+    return res.status(201).send();
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -37,14 +50,15 @@ exports.loginUser = async (req, res) => {
         `SELECT username FROM Users where email_address = '${email}'`
       );
       const username = userInfo.rows[0].username;
+      const password = userInfo.rows[0].password;
       const token = jwt.sign(
         { username: username, email: email },
         JWT_SECRET_KEY,
         { expiresIn: EXPIRATION_TIME }
       ); 
-      // res.cookie("token", token, { httpOnly: true }); // this is cookie implementation, but what I eventually chose is to pass by headers
       return res.status(201).json({
         username: username,
+        password: password,
         email: email,
         accessToken: token,
       });
@@ -56,9 +70,7 @@ exports.loginUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    console.log(req);
     const authToken = req.headers.authorization.split(" ")[1];
-    console.log(authToken);
     const user = jwt.verify(
       authToken,
       JWT_SECRET_KEY,
@@ -69,7 +81,6 @@ exports.getUser = async (req, res) => {
         return decoded;
       }
     );
-    console.log("user:", user);
     const email = user.email;
     const userInfo = await pool.query(
       `SELECT * FROM Users where email_address = '${email}'`

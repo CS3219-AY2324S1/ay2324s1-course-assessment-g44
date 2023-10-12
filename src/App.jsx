@@ -12,6 +12,7 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 
 function App() {
+  
   return (
     <MantineProvider /*theme={theme} for colour scheme*/>
       <Router>

@@ -1,14 +1,15 @@
 import { Box, Checkbox, Card, Title, Text, Badge, Button, Group, Space, Notification, TextInput, Textarea, SegmentedControl, CardSection } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import Read from './read';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Create() {
-
   const [submitted, setSubmitted] = useState(false);
   const [cancelled, setCancelled] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
+
   const navigate = useNavigate();
 
   const newQuestion = {
@@ -32,23 +33,22 @@ export default function Create() {
   });
 
   //handle submission to local json server
-  const handleSubmit = (values) => {
-    newQuestion.title = values.title;
-    newQuestion.description = values.description;
-    newQuestion.category = values.category;
-    newQuestion.difficulty = values.difficulty;
-    console.log(newQuestion);
+  // const handleSubmit = (values) => {
+  //   newQuestion.title = values.title;
+  //   newQuestion.description = values.description;
+  //   newQuestion.category = values.category;
+  //   newQuestion.difficulty = values.difficulty;
+  //   console.log(newQuestion);
 
-    fetch('http://localhost:8000/questions', {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newQuestion)
-    }).then(() => console.log("new success"));
+  //   fetch('http://localhost:8000/questions', {
+  //     method: 'POST',
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(newQuestion)
+  //   }).then(() => console.log("new success"));
 
-    setSubmitted(true);
-    navigate("/viewQuestions");
-    
-  }
+  //   setSubmitted(true);
+  //   navigate("/viewQuestions");
+  // }
 
   const handleCancel = () => {
     setCancelled(true);
@@ -57,23 +57,28 @@ export default function Create() {
 
 
   //handle submission to the mongo db
-  /*
   const handleSubmit = (values) => {
+    // axios.post('http://localhost:3001/routes/checkQuestionExistence', {
+    //   title: values.title,
+    // })
+    // .then((response) => {
+    //   if (response.data && response.data.exists) {
+    //     // Show a warning message if the question exists
+    //     setWarningMessage('Question with the same title already exists.');
+    //     } else {
+          // setWarningMessage('');
     newQuestion.title = values.title;
     newQuestion.description = values.description;
     newQuestion.category = values.category;
     newQuestion.difficulty = values.difficulty;
-    console.log(newQuestion);
-
-    axios.post("/addQuestion", {
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newQuestion)})
-    .then(() => console.log("success"));
-
-    setSubmitted(true);
-    
+    // console.log(newQuestion);
+    axios.post("http://localhost:3001/routes/addQuestion", JSON.stringify(newQuestion), {
+           headers: { "Content-Type": "application/json" }})
+      .then(() => console.log("success"));
+      setSubmitted(true);
   }
-  */
+
+  
 
 
     return (
@@ -82,7 +87,7 @@ export default function Create() {
       <Card shadow="sm" padding="xl" radius="md" withBorder>
         <Title order={2}>Create A New Question</Title>
         <Space h="lg" />
-
+        {warningMessage && (<div style={{ color: 'red' }}>{warningMessage}</div>)}
         <form onSubmit={form.onSubmit(handleSubmit)} onReset={form.onReset}>
           <TextInput
             required

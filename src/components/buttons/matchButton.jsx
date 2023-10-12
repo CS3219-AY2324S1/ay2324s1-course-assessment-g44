@@ -3,6 +3,7 @@ import { Button, Modal, Text, Group, Input, Paper, Select  } from '@mantine/core
 import setupSocket from '../../services/matching_services';
 import { useSelector } from "react-redux";
 import { selectUser } from "../../backend/user_backend/features/auth";
+import { useNavigate } from 'react-router-dom';
 
 function Match() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +22,9 @@ function Match() {
     setIsModalOpen(false);
   };
 
+  const navigate = useNavigate();
+  const directToRoom = () => navigate(`/matchFound`);
+
   const handleMatch = () => {
     // Check if difficulty is selected
     if (matchingCriteria.difficulty) {
@@ -28,7 +32,7 @@ function Match() {
       // Update matchStatus and matchedUser based on the response from the server
       // Handle error scenarios as well
       setShowAlert(false);
-      const socket = setupSocket();
+      const socket = setupSocket(directToRoom);
       const msgToEmit = JSON.stringify({
         user: user.username,
         complexity: matchingCriteria.difficulty,

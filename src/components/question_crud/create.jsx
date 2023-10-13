@@ -4,13 +4,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Read from './read';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { current } from '@reduxjs/toolkit';
 
 export default function Create() {
   const [submitted, setSubmitted] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
+  const [existingQuestions, setExistingQuestions] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/routes/getQuestions")
+    .then(response => setExistingQuestions(response.data))
+    .catch(error => console.error(error));
+  }, [])
 
   const newQuestion = {
     title: "",
@@ -27,10 +35,12 @@ export default function Create() {
       difficulty: 'easy'
     },
 
-    // validate: {
-    //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    // },
+    validate: {
+      title: (value) => (existingQuestions.some(checkDuplicateTitle) ? null : "A question with this title already exists!"),
+    },
   });
+
+  const checkDuplicateTitle = (existingQuestion, title) => String(existingQuestion.title).toLowerCase() == String(title).toLowerCase();
 
   //handle submission to local json server
   // const handleSubmit = (values) => {
@@ -109,6 +119,7 @@ export default function Create() {
           <Space h="md" />
 
           <TextInput
+            required
             size='md'
             label="Category"
             placeholder="category here..."

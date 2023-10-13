@@ -11,6 +11,7 @@ import MatchFound from "./components/matching_elements/matchFound"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
+import Logout from "./pages/Logout";
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
           <Route path="/viewQuestions" element={<ViewQuestions />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/matchFound" element={<MatchFound/>}/>
+          <Route path="/logout" element={<Logout/>} />
         </Routes>
       </Router>
     </MantineProvider>

@@ -1,4 +1,5 @@
 import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
+//import { modals } from '@mantine/modals';
 import React, { useEffect, useState } from "react";
 import Read from "./read"
 import Update from './update';
@@ -51,6 +52,21 @@ export default function View(props) {
       <Read />
       );
   };
+
+//   const openDeleteModal = (question) => { modals.openConfirmModal({
+//     title: 'Please confirm your action',
+//     children: (
+//       <Text size="sm">
+//         Are you sure you want to delete the following question?
+//       </Text>
+//     ),
+//     labels: { confirm: 'Confirm', cancel: 'Cancel' },
+//     onCancel: () => setDeleteState(false),
+//     onConfirm: () => handleDelete(question),
+//   });
+// }
+//
+  
   
 
   const handleUpdate = (questionToView) => {
@@ -58,6 +74,8 @@ export default function View(props) {
       <Update question = {questionToView}/>
     );
   }
+
+
   
 
   function viewScreen(question) {

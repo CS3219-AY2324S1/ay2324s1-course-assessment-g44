@@ -32,10 +32,15 @@ export default function Signup() {
       email: "",
       username: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const postData = async (values) => {
+    if (values.password !== values.confirmPassword) {
+      setErrorMessage("Password and confirm password should not be the same!");
+      return;
+    }
     newUser.email = values.email;
     newUser.username = values.username;
     newUser.password = values.password;
@@ -103,6 +108,17 @@ export default function Signup() {
             visible={visible}
             onVisibilityChange={toggle}
             {...form.getInputProps("password")}
+          />
+          <Space h="md" />
+
+          <PasswordInput
+            required
+            label="Confirm password"
+            placeholder="Confirm password"
+            size="md"
+            visible={visible}
+            onVisibilityChange={toggle}
+            {...form.getInputProps("confirmPassword")}
           />
           <Space h="md" />
 

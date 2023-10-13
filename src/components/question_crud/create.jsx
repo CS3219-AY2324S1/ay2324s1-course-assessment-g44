@@ -36,11 +36,10 @@ export default function Create() {
     },
 
     validate: {
-      title: (value) => (existingQuestions.some(checkDuplicateTitle) ? null : "A question with this title already exists!"),
+      title: (value) => (existingQuestions.some((existingQuestion) => String(existingQuestion.title).toLowerCase() == String(value).toLowerCase()) ? "A question with this title already exists!" : null),
     },
   });
 
-  const checkDuplicateTitle = (existingQuestion, title) => String(existingQuestion.title).toLowerCase() == String(title).toLowerCase();
 
   //handle submission to local json server
   // const handleSubmit = (values) => {

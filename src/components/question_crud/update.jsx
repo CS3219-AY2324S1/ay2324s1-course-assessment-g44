@@ -18,14 +18,15 @@ export default function Update(props) {
     difficulty: oldQuestion.difficulty,
     id: oldQuestion.id
   });
+  const [existingQuestions, setExistingQuestions] = useState(null);
 
-  // const updatedQuestion = {
-  //   title: "",
-  //   description: "",
-  //   category: "",
-  //   difficulty: "",
-  //   id: 0
-  // }
+  useEffect(() => {
+    axios.get("http://localhost:3001/routes/getQuestions")
+    .then(response => setExistingQuestions(response.data))
+    .catch(error => console.error(error));
+  }, [])
+
+
   const form = useForm({
     initialValues: {
       title: oldQuestion.title,
@@ -33,7 +34,13 @@ export default function Update(props) {
       category: oldQuestion.category,
       difficulty: oldQuestion.difficulty,
     },
+
+    // validate: {
+    //   title: (value) => (existingQuestions.some(checkDuplicateTitle) ? "A question with this title already exists!" : null),
+    // },
   });
+
+  //const checkDuplicateTitle = (existingQuestion, title) => String(existingQuestion.title).toLowerCase() == String(title).toLowerCase();
 
   const handleSubmit = (values) => {
     // Check if the title and description already exist in the database

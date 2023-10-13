@@ -35,12 +35,10 @@ export default function Update(props) {
       difficulty: oldQuestion.difficulty,
     },
 
-    // validate: {
-    //   title: (value) => (existingQuestions.some(checkDuplicateTitle) ? "A question with this title already exists!" : null),
-    // },
+    validate: {
+      title: (value) => (existingQuestions.some((existingQuestion) => String(existingQuestion.title).toLowerCase() == String(value).toLowerCase()) ? "A question with this title already exists!" : null),
+    },
   });
-
-  //const checkDuplicateTitle = (existingQuestion, title) => String(existingQuestion.title).toLowerCase() == String(title).toLowerCase();
 
   const handleSubmit = (values) => {
     // Check if the title and description already exist in the database

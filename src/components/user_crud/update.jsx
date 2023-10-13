@@ -1,4 +1,4 @@
-import { Button, Card, Group, Space, TextInput, Title, Text, Dialog } from "@mantine/core";
+import { Button, Card, Group, Space, TextInput, Title, Text, Dialog, PasswordInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { deleteUserApi, updateUserApi } from "../../services/user_services";
@@ -14,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 export default function Update() {
   const navigate = useNavigate();
   const [opened, { toggle, close }] = useDisclosure();
+  const [visible, handlers] = useDisclosure(false);
   //const oldUser = props.user;
   const oldUser = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -116,11 +117,13 @@ export default function Update() {
         />
         <Space h="md" />
 
-        <TextInput
+        <PasswordInput
           required
           label="Password"
           placeholder="password"
           size="md"
+          visible={visible}
+          onVisibilityChange={handlers.toggle}
           {...form.getInputProps("password")}
         />
         <Space h="xl" />
@@ -149,12 +152,12 @@ export default function Update() {
             size="lg"
             radius="md"
           >
-            <Text size="sm" mb="xs" fw={500}>
+            <Text size="sm" mb="xs" fw={600}>
               Are you sure you want to delete your account?
             </Text>
 
             <Group align="flex-end">
-            <Text size="sm" mb="small" fw={500}>
+            <Text size="sm" mb="small" fw={400}>
               Warning: deleting your account is permanent
             </Text>
               <Button onClick={handleDelete} color="red">Delete</Button>

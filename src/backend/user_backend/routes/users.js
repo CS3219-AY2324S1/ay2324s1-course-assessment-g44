@@ -10,6 +10,8 @@ router.post(`/getUser`, userController.getUser);
 
 router.post(`/updateUser`, userController.updateUser);
 
+router.post(`/deleteUser`, userController.deleteUser);
+
 module.exports = router;
 
 

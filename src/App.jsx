@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
+import Logout from "./pages/Logout";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/viewQuestions" element={<ViewQuestions />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/logout" element={<Logout/>} />
         </Routes>
       </Router>
     </MantineProvider>

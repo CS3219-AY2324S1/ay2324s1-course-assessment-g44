@@ -1,4 +1,4 @@
-const pool = require('./server')
+const pool = require('../server')
 
 exports.isDuplicateEmail = async (email) => {
     const duplicates = await pool.query(`SELECT * FROM Users where email_address = '${email}'`);

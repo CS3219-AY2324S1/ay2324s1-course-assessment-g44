@@ -7,10 +7,11 @@ import UserProfile from "./pages/UserProfile";
 import Home from "./pages/Home";
 import MatchFound from "./components/matching_elements/matchFound"
 // import Login from "./pages/Login";
-import Profile from "./components/profile";
+// import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
+import Logout from "./pages/Logout";
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
           <Route path="/viewQuestions" element={<ViewQuestions />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/matchFound" element={<MatchFound/>}/>
+          <Route path="/logout" element={<Logout/>} />
         </Routes>
       </Router>
     </MantineProvider>

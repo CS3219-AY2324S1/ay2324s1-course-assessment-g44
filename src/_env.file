@@ -1,2 +1,0 @@
-DATABASE_URL = "mongodb+srv://derrickkhoo2000:123465@questions.o1ost6e.mongodb.net/"
-PORT = 5217

@@ -64,11 +64,13 @@ export default function View(props) {
     return (
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Text fw={500} size="lg">{question.title}</Text>
+        <Space h="sm" />
         <Text size="md" c="dimmed">
           {question.description}
         </Text>
   
-        <Space h="sm" />
+        <Space h="lg" />
+        <Space h="lg" />
         <Text fw={500}>Category: </Text>
         <Text size="sm" c="dimmed">
           {question.category}

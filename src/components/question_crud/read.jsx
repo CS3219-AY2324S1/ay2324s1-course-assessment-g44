@@ -87,7 +87,7 @@ const Read = (props) => {
         <AccordionLabel {...item} />
       </Accordion.Control>
       <Accordion.Panel>
-      <Text size="sm" weight={400}>
+      <Text size="sm" weight={400} lineClamp={3}>
         {item.description}
       </Text>
       <Space h="md" />

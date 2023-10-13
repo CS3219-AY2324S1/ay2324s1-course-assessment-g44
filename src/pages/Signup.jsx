@@ -7,23 +7,18 @@ import {
   Group,
   Space,
   Text,
-  Notification,
   TextInput,
-  Textarea,
-  SegmentedControl,
-  CardSection,
+  PasswordInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { login } from "../backend/user_backend/features/auth";
 import { useDispatch } from "react-redux";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
+  const [visible, { toggle }] = useDisclosure(false);
   const dispatch = useDispatch();
 
   const newUser = {
@@ -100,11 +95,13 @@ export default function Signup() {
           />
           <Space h="md" />
 
-          <TextInput
+          <PasswordInput
             required
             label="Password"
             placeholder="password"
             size="md"
+            visible={visible}
+            onVisibilityChange={toggle}
             {...form.getInputProps("password")}
           />
           <Space h="md" />

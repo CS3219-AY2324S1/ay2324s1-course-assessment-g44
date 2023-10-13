@@ -11,7 +11,6 @@ const verifyAccessToken = async (user) => {
     headers: { authorization: "Bearer " + user.accessToken },
   };
   const res = await getUserApi(req);
-  console.log(res);
   if (res === "error") {
     return false;
   } else {

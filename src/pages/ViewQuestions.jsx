@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/header';
 import Navbar from '../components/navbar';
-import Read from '../components/crud/read';
+import Read from '../components/question_crud/read';
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger } from '@mantine/core';
 import { selectUser } from '../backend/user_backend/features/auth';

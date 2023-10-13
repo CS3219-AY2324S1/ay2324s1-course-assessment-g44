@@ -11,6 +11,15 @@ export const createUserApi = async (req) => {
   }
 };
 
+export const updateUserApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/updateUser`, req);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+};
+
 export const loginUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/loginUser`, req);
@@ -28,5 +37,14 @@ export const getUserApi = async (req) => {
     return "error";
   }
 };
+
+export const deleteUserApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/deleteUser`, req);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+}
   
   

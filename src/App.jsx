@@ -5,6 +5,7 @@ import ViewQuestions from "./pages/ViewQuestions";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
 import Home from "./pages/Home";
+import MatchFound from "./components/matching_elements/matchFound"
 // import Login from "./pages/Login";
 // import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -13,6 +14,7 @@ import { MantineProvider } from '@mantine/core';
 import Logout from "./pages/Logout";
 
 function App() {
+  
   return (
     <MantineProvider /*theme={theme} for colour scheme*/>
       <Router>
@@ -23,6 +25,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/viewQuestions" element={<ViewQuestions />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/matchFound" element={<MatchFound/>}/>
           <Route path="/logout" element={<Logout/>} />
         </Routes>
       </Router>

@@ -41,11 +41,11 @@ function Match() {
   };
 
   const navigate = useNavigate();
-  const directToRoom = () => {
+  const directToRoom = (username) => {
     setMatchFound(true);
-    setIsLoading(false); // Hide loading modal when match is found
+    setIsLoading(false);
     clearTimer();
-    navigate(`/matchFound`);
+    navigate(`/matchFound`, {state: {username: username} });
   };
 
   const handleMatch = () => {

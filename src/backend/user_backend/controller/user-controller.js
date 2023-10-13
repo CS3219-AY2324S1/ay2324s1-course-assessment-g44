@@ -4,7 +4,7 @@ const {
   isDuplicateEmail,
   isExistingUser,
   isCorrectPassword,
-} = require("../validation");
+} = require("../utils/validation");
 const jwt = require("jsonwebtoken");
 
 const EXPIRATION_TIME = 15 * 60; // 15 min
@@ -92,3 +92,13 @@ exports.getUser = async (req, res) => {
     console.log(err.message);
   }
 };
+
+exports.deleteUser = async(req, res) => {
+    try {
+        const { email, username, password } = req.body;
+        await pool.query(`DELETE FROM Users WHERE username = '${username}' AND password = '${password}' AND email_address = '${email}'`);
+        return res.status(200).send('User is successfully deleted!');
+    } catch (err) {
+        console.log(err.message);
+    }
+}

@@ -37,5 +37,14 @@ export const getUserApi = async (req) => {
     return "error";
   }
 };
+
+export const deleteUserApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/deleteUser`, req);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+}
   
   

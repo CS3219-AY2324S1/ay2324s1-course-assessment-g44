@@ -10,14 +10,17 @@ import {
   Space,
   Text,
   TextInput,
+  PasswordInput
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const [visible, {toggle}] = useDisclosure(false);
 
   const newUser = {
     email: "",
@@ -100,12 +103,14 @@ export default function Login() {
           />
           <Space h="md" />
 
-          <TextInput
+          <PasswordInput
             required
             label="Password"
             placeholder="password"
             size="md"
             width="lg"
+            visible={visible}
+            onVisibilityChange={toggle}
             {...form.getInputProps("password")}
           />
           <Space h="md" />

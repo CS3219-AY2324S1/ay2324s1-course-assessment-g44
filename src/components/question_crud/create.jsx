@@ -92,7 +92,7 @@ export default function Create() {
 
     return (
       cancelled ? <Read /> :
-      submitted ? <Read /> :
+      submitted ? <Read state={"created"}/> :
       <Card shadow="sm" padding="xl" radius="md" withBorder>
         <Title order={2}>Create A New Question</Title>
         <Space h="lg" />

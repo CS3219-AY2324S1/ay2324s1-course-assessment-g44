@@ -46,17 +46,22 @@ const Read = (props) => {
   }, [])
 
 
-  //toggle a delete notification if question was just deleted
+  //toggle a notification if question was just deleted or created
   useEffect(() => {
-    const deletedQuestion = props.question
     if (props.state === "deleted") {
       notifications.show({
         title: 'Question deleted!',
         autoClose: 1340,
+        color: "orange",
+      });
+    } else if (props.state === "created") {
+      notifications.show({
+        title: 'New question added!',
+        autoClose: 1340,
+        color: "green",
       });
     }
   }, [])
-
 
 
   //to identify which question is the one being viewed

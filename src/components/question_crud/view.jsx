@@ -1,5 +1,6 @@
 import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import {modals} from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
 import Read from "./read"
 import Update from './update';
@@ -12,6 +13,19 @@ export default function View(props) {
   const [deleteState, setDeleteState] = useState(false);
   
 
+
+  useEffect(() => {
+    if (props.updated){
+      notifications.show({
+        title: 'Question updated!',
+        autoClose: 1340,
+        color: "blue",
+      });
+    }
+  }, [])
+
+
+
   const difficultyBadge = (difficulty) => {
     return (
       difficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge>
@@ -19,18 +33,6 @@ export default function View(props) {
       : <Badge color="red" size="sm">Hard</Badge>
     );
   }
-
-  // const handleDelete = (question) => {
-  //   const toDeleteId = question.id;
-    
-  //   fetch('http://localhost:8000/questions/' + toDeleteId, {
-  //     method: 'DELETE'
-  //   });
-
-  //   return (
-  //     <Read />
-  //   );
-  // }
 
 
   const openDeleteModal = (question) => modals.openConfirmModal({

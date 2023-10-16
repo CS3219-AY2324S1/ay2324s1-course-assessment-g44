@@ -111,7 +111,7 @@ export default function Update(props) {
 
 
   return (
-    updated ? <View question={updatedQuestion} /> :
+    updated ? <View question={updatedQuestion} updated={true}/> :
     cancelled ? <View question={oldQuestion} /> :
     <Card shadow="sm" padding="xl" radius="md" withBorder>
         <Title order={2}>Update Question</Title>

@@ -1,5 +1,5 @@
 import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
-//import { modals } from '@mantine/modals';
+import {modals} from '@mantine/modals';
 import React, { useEffect, useState } from "react";
 import Read from "./read"
 import Update from './update';
@@ -32,7 +32,25 @@ export default function View(props) {
   //   );
   // }
 
+
+  const openDeleteModal = (question) => modals.openConfirmModal({
+    title: 'Are you sure you want to delete this question?',
+    children: (
+      <Text size="sm">
+        This action is irreversible.
+      </Text>
+    ),
+    labels: { confirm: 'Confirm', cancel: 'Cancel' },
+    onCancel: () => console.log('Cancel Delete'),
+    onConfirm: () => {
+      console.log('Confirmed Delete');
+      setDeleteState(true);
+    },
+  });
+
+
   const handleDelete = (question) => {
+    
     const { title, description, category, difficulty } = question;
   
     // Create an object containing the criteria to identify the question to delete
@@ -52,20 +70,6 @@ export default function View(props) {
       <Read />
       );
   };
-
-//   const openDeleteModal = (question) => { modals.openConfirmModal({
-//     title: 'Please confirm your action',
-//     children: (
-//       <Text size="sm">
-//         Are you sure you want to delete the following question?
-//       </Text>
-//     ),
-//     labels: { confirm: 'Confirm', cancel: 'Cancel' },
-//     onCancel: () => setDeleteState(false),
-//     onConfirm: () => handleDelete(question),
-//   });
-// }
-//
   
   
 
@@ -104,7 +108,7 @@ export default function View(props) {
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
           <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>
-          <Button variant="light" color="red" radius="md" onClick={() => setDeleteState(true)}>Delete</Button>
+          <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>
         </Group>
       </Card>
     );

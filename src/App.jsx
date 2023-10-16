@@ -12,23 +12,26 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import Logout from "./pages/Logout";
+import { ModalsProvider } from "@mantine/modals";
 
 function App() {
   
   return (
     <MantineProvider /*theme={theme} for colour scheme*/>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/viewQuestions" element={<ViewQuestions />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/matchFound" element={<MatchFound/>}/>
-          <Route path="/logout" element={<Logout/>} />
-        </Routes>
-      </Router>
+      <ModalsProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/viewQuestions" element={<ViewQuestions />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/matchFound" element={<MatchFound/>}/>
+            <Route path="/logout" element={<Logout/>} />
+          </Routes>
+        </Router>
+      </ModalsProvider>
     </MantineProvider>
   );
 }

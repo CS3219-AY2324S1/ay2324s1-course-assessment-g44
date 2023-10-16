@@ -36,7 +36,8 @@ export default function Update(props) {
     },
 
     validate: {
-      title: (value) => (existingQuestions.some((existingQuestion) => String(existingQuestion.title).toLowerCase() == String(value).toLowerCase()) ? "A question with this title already exists!" : null),
+      title: (value) => (existingQuestions.some((existingQuestion) => String(existingQuestion.title).toLowerCase() == String(value).toLowerCase())
+                        && (oldQuestion.title != value)  ? "A question with this title already exists!" : null),
     },
   });
 

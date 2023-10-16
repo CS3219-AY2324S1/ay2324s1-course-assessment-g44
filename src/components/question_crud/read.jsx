@@ -1,4 +1,5 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from 'react';
 import View from './view';
 import Create from './create';
@@ -42,6 +43,18 @@ const Read = (props) => {
     axios.get("http://localhost:3001/routes/getQuestions")
     .then(response => setQuestions(response.data))
     .catch(error => console.error(error));
+  }, [])
+
+
+  //toggle a delete notification if question was just deleted
+  useEffect(() => {
+    const deletedQuestion = props.question
+    if (props.state === "deleted") {
+      notifications.show({
+        title: 'Question deleted!',
+        autoClose: 1340,
+      });
+    }
   }, [])
 
 
@@ -97,28 +110,36 @@ const Read = (props) => {
   ))
   );
 
+  function showAccordian() {
+    return (
+      <>
+      <Space h="lg"/>
+      <Space h="lg" />
+        <div style={{ display: 'flex' }}>
+          <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
+          <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+            New Question
+          </Button>
+        </div>
+        <Space h="lg" />
+        <Accordion variant="contained">
+          {items}
+        </Accordion>
+        <>
+        
+        </>
+        
+      </>
+    );
+  }
+
 
   return (
       viewState ? <View question={questionToView} /> :
       createState ? <Create /> :
-    <>
-    <Space h="lg"/>
-    <Space h="lg" />
-      <div style={{ display: 'flex' }}>
-        <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-        <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
-          New Question
-        </Button>
-      </div>
-      <Space h="lg" />
-      <Accordion variant="contained">
-        {items}
-      </Accordion>
-      <>
+      <>{showAccordian()}</>
       
-      </>
-      
-    </>
+   
   );
 
 

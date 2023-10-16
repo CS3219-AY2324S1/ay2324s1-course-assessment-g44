@@ -13,6 +13,8 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import Logout from "./pages/Logout";
 import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 
 function App() {
   
@@ -31,6 +33,7 @@ function App() {
             <Route path="/logout" element={<Logout/>} />
           </Routes>
         </Router>
+        <Notifications />
       </ModalsProvider>
     </MantineProvider>
   );

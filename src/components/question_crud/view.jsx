@@ -67,7 +67,7 @@ export default function View(props) {
       });
 
       return (
-      <Read />
+      <Read state={"deleted"} />
       );
   };
   

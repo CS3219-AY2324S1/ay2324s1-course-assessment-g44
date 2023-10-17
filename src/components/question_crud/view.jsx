@@ -111,9 +111,9 @@ const user = useSelector(selectUser);
 
         <Space h="md" />
         <Group>
-          {isAdmin && <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>}
+          <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
           {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
-          <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>
+          {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
       </Card>
     );

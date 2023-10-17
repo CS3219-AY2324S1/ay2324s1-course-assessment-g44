@@ -13,8 +13,9 @@ export default function View(props) {
   const [backState, setBackState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [deleteState, setDeleteState] = useState(false);
+  const user = useSelector(selectUser);
+  const isAdmin = user.role === "admin";
   
-
 
   useEffect(() => {
     if (props.updated){
@@ -24,10 +25,7 @@ export default function View(props) {
         color: "blue",
       });
     }
-  }, [])
-
-const user = useSelector(selectUser);
-  const isAdmin = user.role === "admin";
+  }, []);
 
   const difficultyBadge = (difficulty) => {
     return (

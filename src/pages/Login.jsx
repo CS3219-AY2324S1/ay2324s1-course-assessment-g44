@@ -43,6 +43,7 @@ export default function Login() {
         login({
           email: newUser.email,
           password: newUser.password,
+          role: "admin",
         })
       );
       navigate("/viewQuestions");
@@ -58,6 +59,7 @@ export default function Login() {
           email: newUser.email,
           password: newUser.password,
           accessToken: userInfo.accessToken,
+          role: userInfo.role,
           loggedIn: true,
         })
       )
@@ -71,17 +73,6 @@ export default function Login() {
   const signup = () => {
     navigate("/signup");
   };
-
-  const isTimeOut = () => {
-    const isTimeOut = location.state.isTimeOut;
-    console.log('isTimeOut:', isTimeOut);
-    if (isTimeOut) {
-      window.history.replaceState({});
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   return (
     <Group align="center" justify="center">

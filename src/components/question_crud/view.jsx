@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import Read from "./read"
 import Update from './update';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../backend/user_backend/features/auth';
 
 export default function View(props) {
 
@@ -24,7 +26,8 @@ export default function View(props) {
     }
   }, [])
 
-
+const user = useSelector(selectUser);
+  const isAdmin = user.role === "admin";
 
   const difficultyBadge = (difficulty) => {
     return (
@@ -109,8 +112,8 @@ export default function View(props) {
         <Space h="md" />
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
-          <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>
-          <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>
+          {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
+          {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
       </Card>
     );

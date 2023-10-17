@@ -18,20 +18,26 @@ export default function Update(props) {
     difficulty: oldQuestion.difficulty,
     id: oldQuestion.id
   });
+  const [existingQuestions, setExistingQuestions] = useState(null);
 
-  // const updatedQuestion = {
-  //   title: "",
-  //   description: "",
-  //   category: "",
-  //   difficulty: "",
-  //   id: 0
-  // }
+  useEffect(() => {
+    axios.get("http://localhost:3001/routes/getQuestions")
+    .then(response => setExistingQuestions(response.data))
+    .catch(error => console.error(error));
+  }, [])
+
+
   const form = useForm({
     initialValues: {
       title: oldQuestion.title,
       description: oldQuestion.description,
       category: oldQuestion.category,
       difficulty: oldQuestion.difficulty,
+    },
+
+    validate: {
+      title: (value) => (existingQuestions.some((existingQuestion) => String(existingQuestion.title).toLowerCase() == String(value).toLowerCase())
+                        && (oldQuestion.title != value)  ? "A question with this title already exists!" : null),
     },
   });
 
@@ -106,7 +112,7 @@ export default function Update(props) {
 
 
   return (
-    updated ? <View question={updatedQuestion} /> :
+    updated ? <View question={updatedQuestion} updated={true}/> :
     cancelled ? <View question={oldQuestion} /> :
     <Card shadow="sm" padding="xl" radius="md" withBorder>
         <Title order={2}>Update Question</Title>

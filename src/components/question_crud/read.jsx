@@ -1,4 +1,5 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from 'react';
 import View from './view';
 import Create from './create';
@@ -45,6 +46,23 @@ const Read = (props) => {
   }, [])
 
 
+  //toggle a notification if question was just deleted or created
+  useEffect(() => {
+    if (props.state === "deleted") {
+      notifications.show({
+        title: 'Question deleted!',
+        autoClose: 1340,
+        color: "orange",
+      });
+    } else if (props.state === "created") {
+      notifications.show({
+        title: 'New question added!',
+        autoClose: 1340,
+        color: "green",
+      });
+    }
+  }, [])
+
 
   //to identify which question is the one being viewed
   const setView = (selectedId, selectedTitle) => {
@@ -87,7 +105,7 @@ const Read = (props) => {
         <AccordionLabel {...item} />
       </Accordion.Control>
       <Accordion.Panel>
-      <Text size="sm" weight={400}>
+      <Text size="sm" weight={400} lineClamp={3}>
         {item.description}
       </Text>
       <Space h="md" />
@@ -97,28 +115,36 @@ const Read = (props) => {
   ))
   );
 
+  function showAccordian() {
+    return (
+      <>
+      <Space h="lg"/>
+      <Space h="lg" />
+        <div style={{ display: 'flex' }}>
+          <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
+          <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+            New Question
+          </Button>
+        </div>
+        <Space h="lg" />
+        <Accordion variant="contained">
+          {items}
+        </Accordion>
+        <>
+        
+        </>
+        
+      </>
+    );
+  }
+
 
   return (
       viewState ? <View question={questionToView} /> :
       createState ? <Create /> :
-    <>
-    <Space h="lg"/>
-    <Space h="lg" />
-      <div style={{ display: 'flex' }}>
-        <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-        <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
-          New Question
-        </Button>
-      </div>
-      <Space h="lg" />
-      <Accordion variant="contained">
-        {items}
-      </Accordion>
-      <>
+      <>{showAccordian()}</>
       
-      </>
-      
-    </>
+   
   );
 
 

@@ -6,9 +6,11 @@ const {
   isCorrectPassword,
 } = require("../utils/validation");
 const jwt = require("jsonwebtoken");
+const {v4: uuidv4} = require("uuid");
 
 const EXPIRATION_TIME = 15 * 60; // 15 min
 const JWT_SECRET_KEY = "iloveJWT";
+const ROLE = "user";
 
 exports.createUser = async (req, res) => {
   try {
@@ -17,8 +19,9 @@ exports.createUser = async (req, res) => {
     if (isDuplicate) {
       return res.status(401).send();
     } else {
+      const newId = uuidv4();
       await pool.query(
-        `INSERT INTO Users VALUES ('${email}', '${username}', '${password}')`
+        `INSERT INTO Users VALUES ('${email}', '${username}', '${password}', '${newId}', '${ROLE}')`
       );
       return res.status(201).send();
     }
@@ -47,10 +50,11 @@ exports.loginUser = async (req, res) => {
       return res.status(401).send();
     } else {
       const userInfo = await pool.query(
-        `SELECT username FROM Users where email_address = '${email}'`
+        `SELECT username, role FROM Users where email_address = '${email}'`
       );
       const username = userInfo.rows[0].username;
-      const password = userInfo.rows[0].password;
+      // const password = userInfo.rows[0].password;
+      const role = userInfo.rows[0].role; // admin or user
       const token = jwt.sign(
         { username: username, email: email },
         JWT_SECRET_KEY,
@@ -61,6 +65,7 @@ exports.loginUser = async (req, res) => {
         password: password,
         email: email,
         accessToken: token,
+        role: role,
       });
     }
   } catch (err) {

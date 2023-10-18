@@ -5,7 +5,7 @@ import ViewQuestions from "./pages/ViewQuestions";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
 import Home from "./pages/Home";
-import MatchFound from "./components/matching_elements/matchFound"
+import Room from "./pages/Room"
 // import Login from "./pages/Login";
 // import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -29,7 +29,7 @@ function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/viewQuestions" element={<ViewQuestions />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/matchFound" element={<MatchFound/>}/>
+            <Route path="/room" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />
           </Routes>
         </Router>

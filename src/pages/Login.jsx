@@ -55,7 +55,6 @@ export default function Login() {
       setErrorMessage(res);
     } else {
       const userInfo = res;
-      console.log(userInfo);
       dispatch(
         login({
           username: userInfo.username,

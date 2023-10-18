@@ -23,10 +23,8 @@ export const updateUserApi = async (req) => {
 export const loginUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/loginUser`, req);
-    console.log("res: ", res);
     return res.data;
   } catch (error) {
-    console.log("error msg: ", error.response.data);
     return error.response.data;
   }
 };

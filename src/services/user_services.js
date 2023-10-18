@@ -5,9 +5,9 @@ const basePath = "http://localhost:4200/api/users";
 export const createUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/createUser`, req);
-    return res;
+    return res.data;
   } catch (error) {
-    return "error";
+    return error.response.data;
   }
 };
 
@@ -23,9 +23,11 @@ export const updateUserApi = async (req) => {
 export const loginUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/loginUser`, req);
-    return res;
+    console.log("res: ", res);
+    return res.data;
   } catch (error) {
-    return "error";
+    console.log("error msg: ", error.response.data);
+    return error.response.data;
   }
 };
 

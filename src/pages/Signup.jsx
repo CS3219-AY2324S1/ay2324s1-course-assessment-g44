@@ -9,17 +9,21 @@ import {
   Text,
   TextInput,
   PasswordInput,
+  rem
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { login } from "../backend/user_backend/features/auth";
 import { useDispatch } from "react-redux";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
 
 export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [visible, { toggle }] = useDisclosure(false);
   const dispatch = useDispatch();
+  const checkIcon = <IconCheck style={{ width: rem(20), height: rem(20) }} />;
 
   const newUser = {
     email: "",
@@ -45,12 +49,19 @@ export default function Signup() {
     newUser.username = values.username;
     newUser.password = values.password;
     const res = await createUserApi(newUser);
-    if (res.status == 201) {
+    if (res === "User created!") {
       await setData(newUser);
-      navigate("/viewQuestions");
-    } else if (res === "error") {
+      notifications.show({
+        title: "Successful sign up!",
+        message: "Enjoy using PeerPrep!",
+        color: "green",
+        autoClose: 5000,
+        icon: <IconCheck />
+      })
+      navigate("/login");
+    } else {
       setErrorMessage(
-        "An account with this email exists! Please log in instead."
+        res
       );
     }
   };

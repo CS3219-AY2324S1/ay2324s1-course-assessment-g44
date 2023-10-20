@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import Messages from './messages';
-import MessageInput from './messageinput';
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  Stack,
+  Title,
+  Text,
+  CardSection,
+  ScrollArea,
+  Space
+} from "@mantine/core";
+import io from "socket.io-client";
+import Messages from "./messages";
+import MessageInput from "./messageinput";
 
-
-function Chatbox(props) {
-  console.log(props.restart);
+function Chatbox() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -14,23 +21,32 @@ function Chatbox(props) {
     return () => newSocket.close();
   }, [setSocket]);
 
-  const func = () => {
-    console.log("func");
-  }
-
   return (
-    <div className="App">
-      <header className="app-header">
-        PeerPrep Chat
-      </header>
-      { socket ? (
-        <div className="chat-container">
-          <Messages socket={socket}/>
-          <MessageInput socket={socket} />
-        </div>
-      ) : (
-        <div>Not Connected</div>
-      )}
+    <div>
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <CardSection>
+          <Stack
+            h={40}
+            bg="var(--mantine-color-blue-light)"
+            justify="center"
+            align="center"
+          >
+            <Title order={5}>PeerPrep Chat</Title>
+          </Stack>
+        </CardSection>
+
+        {socket ? (
+          <div>
+            <ScrollArea h={170} type="always">
+            <Messages socket={socket} />
+            </ScrollArea >
+            <Space size="lg"/>
+            <MessageInput socket={socket} />
+          </div>
+        ) : (
+          <div>Not Connected</div>
+        )}
+      </Card>
     </div>
   );
 }

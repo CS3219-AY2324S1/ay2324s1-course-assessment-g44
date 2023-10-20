@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-var chat = require('../chat');
+var chat = require('./chat');
 var socketio = require('socket.io');
 
 /**
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('./app');
 var debug = require('debug')('chat-server:server');
 var http = require('http');
 

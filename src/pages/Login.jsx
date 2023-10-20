@@ -51,8 +51,10 @@ export default function Login() {
     }
     const res = await loginUserApi(newUser);
 
-    if (res === "This account has not been registered, please sign up first!" || res === "Incorrect email or password provided!") {
-      setErrorMessage(res);
+    if (res === "This account has not been registered, please sign up first!") {
+      form.setErrors({ email: res });
+    } else if (res === "Incorrect email or password provided!") {
+      form.setErrors({ password: res });
     } else {
       const userInfo = res;
       dispatch(
@@ -105,9 +107,9 @@ export default function Login() {
           />
           <Space h="md" />
 
-          <Text size="md" c="red" fw={500}>
+          {/* <Text size="md" c="red" fw={500}>
             {errorMessage && <p className="error"> {errorMessage} </p>}
-          </Text>
+          </Text> */}
 
           <Space h="md" />
 

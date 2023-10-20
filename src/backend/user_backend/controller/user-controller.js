@@ -36,10 +36,14 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { email, username, password } = req.body;
+    const isDuplicateUsername = await isExistingUsername(username);
+    if (isDuplicateUsername) {
+      return res.status(401).send("This username is already in use, please pick another username!");
+    }
     await pool.query(
       `UPDATE Users SET username = '${username}', password = '${password}' WHERE email_address = '${email}'`
     )
-    return res.status(201).send();
+    return res.status(201).send("User info is updated!");
   } catch (err) {
     console.log(err.message);
   }

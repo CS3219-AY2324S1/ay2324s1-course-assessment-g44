@@ -45,7 +45,7 @@ function Match() {
     setMatchFound(true);
     setIsLoading(false);
     clearTimer();
-    navigate(`/room`, {state: {username: username, question: question, roomID: roomID }});
+    navigate(`/room/${roomID}`, {state: {username: username, question: question, roomID: roomID }});
   };
 
   const handleMatch = () => {

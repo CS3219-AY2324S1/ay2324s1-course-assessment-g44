@@ -29,7 +29,7 @@ function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/viewQuestions" element={<ViewQuestions />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/room" element={<Room/>}/>
+            <Route path="/room/:roomID" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />
           </Routes>
         </Router>

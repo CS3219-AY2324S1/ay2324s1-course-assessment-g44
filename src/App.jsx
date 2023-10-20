@@ -30,7 +30,7 @@ function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/viewQuestions" element={<ViewQuestions />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/matchFound" element={<Room/>}/>
+            <Route path="/room/:roomID" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />
             <Route path="/chatbox" element={<ChatboxPage/>} />
           </Routes>

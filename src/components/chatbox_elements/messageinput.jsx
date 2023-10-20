@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Space } from '@mantine/core'; // Assuming 'Loader' component is available
+import { Space, TextInput } from '@mantine/core';
 
 
 import { useSelector } from "react-redux";
@@ -11,16 +11,17 @@ const NewMessage = ({socket}) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    // socket.emit('message', value);
-    socket.emit('message', user.username + ";" + value);
+    socket.emit('message', {sender: user.username, content: value});
+
     setValue('');
   };
 
   return (
     <div>
     <form onSubmit={submitForm}>
-      <input
+      <TextInput
         autoFocus
+        variant="filled"
         value={value}
         placeholder="Type your message"
         onChange={(e) => {

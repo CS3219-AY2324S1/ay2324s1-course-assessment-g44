@@ -32,9 +32,9 @@ export const loginUserApi = async (req) => {
 export const getUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/getUser`, null, req);
-    return res;
+    return res.data;
   } catch (error) {
-    return "error";
+    return error.response.data;
   }
 };
 

@@ -7,7 +7,7 @@ const {
 const jwt = require("jsonwebtoken");
 const {v4: uuidv4} = require("uuid");
 
-const EXPIRATION_TIME = 15 * 60; // 15 min
+const EXPIRATION_TIME = 15; // 15 min
 const JWT_SECRET_KEY = "iloveJWT";
 const ROLE = "user";
 
@@ -53,7 +53,6 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const isExisting = await isExistingUser(email);
-    console.log("does this email exist: ", isExisting);
     if (!isExisting) {
       return res.status(401).send("This account has not been registered, please sign up first!");
     } else {

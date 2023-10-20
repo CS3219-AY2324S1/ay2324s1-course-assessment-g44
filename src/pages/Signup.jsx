@@ -23,7 +23,6 @@ export default function Signup() {
   const navigate = useNavigate();
   const [visible, { toggle }] = useDisclosure(false);
   const dispatch = useDispatch();
-  const checkIcon = <IconCheck style={{ width: rem(20), height: rem(20) }} />;
 
   const newUser = {
     email: "",
@@ -38,11 +37,14 @@ export default function Signup() {
       password: "",
       confirmPassword: "",
     },
+    validate: {
+      password: (values) => (values.length < 5 ? "Password should be at least 6 characters!" : null),
+    }
   });
 
   const postData = async (values) => {
     if (values.password !== values.confirmPassword) {
-      setErrorMessage("Password and confirm password should not be the same!");
+      form.setErrors({ confirmPassword: "Password and confirm password should be the same!" });
       return;
     }
     newUser.email = values.email;
@@ -60,9 +62,7 @@ export default function Signup() {
       })
       navigate("/login");
     } else {
-      setErrorMessage(
-        res
-      );
+      form.setErrors({ email: res });
     }
   };
 
@@ -133,9 +133,9 @@ export default function Signup() {
           />
           <Space h="md" />
 
-          <Text size="md" c="red" fw={500}>
+          {/* <Text size="md" c="red" fw={500}>
             {errorMessage && <p className="error"> {errorMessage} </p>}
-          </Text>
+          </Text> */}
 
           <Space h="md" />
 

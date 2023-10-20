@@ -14,9 +14,9 @@ export const createUserApi = async (req) => {
 export const updateUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/updateUser`, req);
-    return res;
+    return res.data;
   } catch (error) {
-    return "error";
+    return error.response.data;
   }
 };
 

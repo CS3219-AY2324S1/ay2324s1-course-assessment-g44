@@ -51,8 +51,12 @@ export default function Login() {
     }
     const res = await loginUserApi(newUser);
 
-    if (res.status == 201) {
-      const userInfo = res.data;
+    if (res === "This account has not been registered, please sign up first!") {
+      form.setErrors({ email: res });
+    } else if (res === "Incorrect email or password provided!") {
+      form.setErrors({ password: res });
+    } else {
+      const userInfo = res;
       dispatch(
         login({
           username: userInfo.username,
@@ -63,10 +67,7 @@ export default function Login() {
           loggedIn: true,
         })
       )
-      // await setData(newUser);
       navigate("/viewQuestions");
-    } else if (res === "error") {
-      setErrorMessage("Incorrect email or password provided!");
     }
   };
 
@@ -106,9 +107,9 @@ export default function Login() {
           />
           <Space h="md" />
 
-          <Text size="md" c="red" fw={500}>
+          {/* <Text size="md" c="red" fw={500}>
             {errorMessage && <p className="error"> {errorMessage} </p>}
-          </Text>
+          </Text> */}
 
           <Space h="md" />
 

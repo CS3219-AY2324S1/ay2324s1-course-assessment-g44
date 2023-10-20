@@ -33,7 +33,7 @@ function App() {
             <Route path="/logout" element={<Logout/>} />
           </Routes>
         </Router>
-        <Notifications />
+        <Notifications/>
       </ModalsProvider>
     </MantineProvider>
   );

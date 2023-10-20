@@ -1,9 +1,8 @@
-const { useRandomClassName } = require("@mantine/core");
 const pool = require("../server");
 const {
   isDuplicateEmail,
   isExistingUser,
-  isCorrectPassword,
+  isExistingUsername,
 } = require("../utils/validation");
 const jwt = require("jsonwebtoken");
 const {v4: uuidv4} = require("uuid");
@@ -15,15 +14,19 @@ const ROLE = "user";
 exports.createUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    const isDuplicate = await isDuplicateEmail(email);
-    if (isDuplicate) {
-      return res.status(401).send();
+    const isDuplicateEmailAddress = await isDuplicateEmail(email);
+    if (isDuplicateEmailAddress) {
+      return res.status(401).send("This email address has already been registered!");
+    }
+    const isDuplicateUsername = await isExistingUsername(username);
+    if (isDuplicateUsername) {
+      return res.status(401).send("This username is already in use, please pick another username!");
     } else {
       const newId = uuidv4();
       await pool.query(
         `INSERT INTO Users VALUES ('${email}', '${username}', '${password}', '${newId}', '${ROLE}')`
       );
-      return res.status(201).send();
+      return res.status(201).send("User created!");
     }
   } catch (err) {
     console.log(err.message);
@@ -33,10 +36,14 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { email, username, password } = req.body;
+    const isDuplicateUsername = await isExistingUsername(username);
+    if (isDuplicateUsername) {
+      return res.status(401).send("This username is already in use, please pick another username!");
+    }
     await pool.query(
       `UPDATE Users SET username = '${username}', password = '${password}' WHERE email_address = '${email}'`
     )
-    return res.status(201).send();
+    return res.status(201).send("User info is updated!");
   } catch (err) {
     console.log(err.message);
   }
@@ -45,15 +52,18 @@ exports.updateUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const isExisting = await isExistingUser(email, password);
+    const isExisting = await isExistingUser(email);
+    console.log("does this email exist: ", isExisting);
     if (!isExisting) {
-      return res.status(401).send();
+      return res.status(401).send("This account has not been registered, please sign up first!");
     } else {
       const userInfo = await pool.query(
-        `SELECT username, role FROM Users where email_address = '${email}'`
+        `SELECT username, role FROM Users where email_address = '${email}' and password = '${password}'`
       );
+      if (userInfo.rowCount == 0) {
+        return res.status(401).send("Incorrect email or password provided!");
+      }
       const username = userInfo.rows[0].username;
-      // const password = userInfo.rows[0].password;
       const role = userInfo.rows[0].role; // admin or user
       const token = jwt.sign(
         { username: username, email: email },

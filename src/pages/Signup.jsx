@@ -9,11 +9,14 @@ import {
   Text,
   TextInput,
   PasswordInput,
+  rem
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { login } from "../backend/user_backend/features/auth";
 import { useDispatch } from "react-redux";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
 
 export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,24 +37,32 @@ export default function Signup() {
       password: "",
       confirmPassword: "",
     },
+    validate: {
+      password: (values) => (values.length < 5 ? "Password should be at least 6 characters!" : null),
+    }
   });
 
   const postData = async (values) => {
     if (values.password !== values.confirmPassword) {
-      setErrorMessage("Password and confirm password should not be the same!");
+      form.setErrors({ confirmPassword: "Password and confirm password should be the same!" });
       return;
     }
     newUser.email = values.email;
     newUser.username = values.username;
     newUser.password = values.password;
     const res = await createUserApi(newUser);
-    if (res.status == 201) {
+    if (res === "User created!") {
       await setData(newUser);
-      navigate("/viewQuestions");
-    } else if (res === "error") {
-      setErrorMessage(
-        "An account with this email exists! Please log in instead."
-      );
+      notifications.show({
+        title: "Successful sign up!",
+        message: "Enjoy using PeerPrep!",
+        color: "green",
+        autoClose: 5000,
+        icon: <IconCheck />
+      })
+      navigate("/login");
+    } else {
+      form.setErrors({ email: res });
     }
   };
 
@@ -122,9 +133,9 @@ export default function Signup() {
           />
           <Space h="md" />
 
-          <Text size="md" c="red" fw={500}>
+          {/* <Text size="md" c="red" fw={500}>
             {errorMessage && <p className="error"> {errorMessage} </p>}
-          </Text>
+          </Text> */}
 
           <Space h="md" />
 

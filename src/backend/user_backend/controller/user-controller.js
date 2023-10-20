@@ -54,13 +54,14 @@ exports.loginUser = async (req, res) => {
       return res.status(401).send("This account has not been registered, please sign up first!");
     } else {
       const userInfo = await pool.query(
-        `SELECT username, role FROM Users where email_address = '${email}' and password = '${password}'`
+        `SELECT username, role, completed_questions FROM Users where email_address = '${email}' and password = '${password}'`
       );
       if (userInfo.rowCount == 0) {
         return res.status(401).send("Incorrect email or password provided!");
       }
       const username = userInfo.rows[0].username;
       const role = userInfo.rows[0].role; // admin or user
+      const completedQuestions = userInfo.rows[0].completed_questions;
       const token = jwt.sign(
         { username: username, email: email },
         JWT_SECRET_KEY,
@@ -72,6 +73,7 @@ exports.loginUser = async (req, res) => {
         email: email,
         accessToken: token,
         role: role,
+        completedQuestions: completedQuestions,
       });
     }
   } catch (err) {
@@ -113,3 +115,5 @@ exports.deleteUser = async(req, res) => {
         console.log(err.message);
     }
 }
+
+

@@ -63,6 +63,7 @@ export default function Login() {
           accessToken: userInfo.accessToken,
           role: userInfo.role,
           loggedIn: true,
+          completedQuestions: userInfo.completedQuestions,
         })
       )
       navigate("/viewQuestions");

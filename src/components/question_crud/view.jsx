@@ -2,6 +2,7 @@ import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import {modals} from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
+import { difficultyBadge, completedBadge } from './question';
 import Read from "./read"
 import Update from './update';
 import axios from 'axios';
@@ -13,6 +14,7 @@ export default function View(props) {
   const [backState, setBackState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [deleteState, setDeleteState] = useState(false);
+  const [toggleCompleteState, setToggleCompleteState] = useState(false);
   const user = useSelector(selectUser);
   const isAdmin = user.role === "admin";
   
@@ -26,14 +28,6 @@ export default function View(props) {
       });
     }
   }, []);
-
-  const difficultyBadge = (difficulty) => {
-    return (
-      difficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge>
-      : difficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge>
-      : <Badge color="red" size="sm">Hard</Badge>
-    );
-  }
 
 
   const openDeleteModal = (question) => modals.openConfirmModal({
@@ -82,13 +76,24 @@ export default function View(props) {
     );
   }
 
+  const handleToggleComplete = (questionToToggle) => {
+    return
+  }
+
+  const toggleCompleteButton = (questionCompleted) => {
+    return questionCompleted ? "Mark as Incomplete" : "Mark as Complete";
+  }
+
 
   
 
   function viewScreen(question) {
     return (
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Text fw={500} size="lg">{question.title}</Text>
+        <Group>
+          <Text fw={500} size="lg">{question.title}</Text>
+          <>{completedBadge(props.question.completed)}</>
+        </Group>
         <Space h="sm" />
         <Text size="md" c="dimmed">
           {question.description}
@@ -106,10 +111,17 @@ export default function View(props) {
           <Text fw={500}>Difficulty:</Text>
           <>{difficultyBadge(question.difficulty)}</>
         </Group>
+        <Space h="md"/>
+        
+        {props.question.completed && <>
+          <Text>Good job! You have completed this question!</Text>
+          <Space h="md"/>
+        </>
+        }
 
-        <Space h="md" />
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
+          <Button variant="light" color="grape" radius="md" onClick={() => setToggleCompleteState(true)}>{toggleCompleteButton(props.question.completed)}</Button>
           {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
           {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
@@ -122,6 +134,7 @@ export default function View(props) {
     backState ? <Read />
     : deleteState ? <>{handleDelete(props.question)}</>
     : updateState ? <>{handleUpdate(props.question)}</>
+    : toggleCompleteState ? <>{handleToggleComplete(props.question)}</>
     : <>{viewScreen(props.question)}</> 
   );
 

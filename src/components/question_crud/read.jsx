@@ -1,6 +1,10 @@
-import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
+import { Accordion, Badge, Button, Group, Space, Text, Title, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../backend/user_backend/features/auth";
+import { mapQuestions, difficultyBadge, completedBadge } from './question';
 import React, { useEffect, useState } from 'react';
+import { IconCheck } from '@tabler/icons-react';
 import View from './view';
 import Create from './create';
 import axios from 'axios';
@@ -11,6 +15,8 @@ const Read = (props) => {
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
+
+  const user = useSelector(selectUser)
 
   
   //handle fetching of data from local json server
@@ -41,7 +47,9 @@ const Read = (props) => {
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
-    .then(response => setQuestions(response.data))
+    .then(response =>{
+      setQuestions(mapQuestions(response.data, user.completedQuestions));
+    })
     .catch(error => console.error(error));
   }, [])
 
@@ -74,21 +82,29 @@ const Read = (props) => {
   }
 }
 
-  const difficultyBadge = (questionDifficulty) => {
-    return (
-      questionDifficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge> :
-      questionDifficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge> :
-      <Badge color="red" size="sm">Hard</Badge>
-    );
-  }
+  // const difficultyBadge = (questionDifficulty) => {
+  //   return (
+  //     questionDifficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge> :
+  //     questionDifficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge> :
+  //     <Badge color="red" size="sm">Hard</Badge>
+  //   );
+  // }
 
-  function AccordionLabel({ title, category, difficulty}) {
+  // const completedBadge = (questionCompleted) => {
+  //   const iconCheck = <IconCheck style={{ width: rem(12), height: rem(12) }} />;
+  //   return (
+  //     questionCompleted ? <Badge rightSection={iconCheck} color="grey" size="sm" variant="light">Completed</Badge> : null
+  //   );
+  // }
+
+  function AccordionLabel({ title, category, difficulty, completed }) {
     return (
       <Group noWrap>
         <div>
           <Group>
             <Text>{title}</Text>
             <>{difficultyBadge(difficulty)}</>
+            <>{completedBadge(completed)}</>
           </Group>
           <Text size="sm" color="teal.4" weight={400}>
             {category}
@@ -115,6 +131,34 @@ const Read = (props) => {
   ))
   );
 
+  // const items = createAccordian(questions);
+
+
+  // function createAccordian(questionsToShow) {
+  //   console.log("ji")
+  //   if (questionsToShow === null) {
+  //     return null;
+  //   }
+
+  //   const res = questionsToShow.map((item => {
+  //     <Accordion.Item key={item.id} value={item.title}>
+  //     <Accordion.Control>
+  //       <AccordionLabel {...item} />
+  //     </Accordion.Control>
+  //     <Accordion.Panel>
+  //     <Text size="sm" weight={400} lineClamp={3}>
+  //       {item.description}
+  //     </Text>
+  //     <Space h="md" />
+  //     <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
+  //     </Accordion.Panel>
+  //   </Accordion.Item>
+  //   }));
+
+  //   return res;
+  // }
+
+
   function showAccordian() {
     return (
       <>
@@ -130,6 +174,7 @@ const Read = (props) => {
         <Accordion variant="contained">
           {items}
         </Accordion>
+        <Text>{user.username}, {user.email}, {user.completedQuestions} </Text>
         <>
         
         </>

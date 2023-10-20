@@ -16,7 +16,7 @@ const setupSocket = (directToRoom) => {
 
     socket.on('navigate-to-room', (username) => {
         if (directToRoom) {
-            directToRoom(username);
+            directToRoom(username.user);
         }
     });
     return socket;

@@ -165,7 +165,7 @@ const Room = () => {
       navbar={{ width: 750, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Navbar p="md">Question goes here {question}</AppShell.Navbar>
+      <AppShell.Navbar p="md">Question: {question}</AppShell.Navbar>
 
       <AppShell.Main>
         <RoomMainArea />

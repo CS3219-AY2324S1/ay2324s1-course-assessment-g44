@@ -74,8 +74,8 @@ io.on("connection", socket => {
     
             // Retrieve the random question
             const randomQuestion = filteredQuestions[randomIndex];
-            io.to(socket.id).emit("navigate-to-room", {user: otherUser.user, question: randomQuestion.title, roomID: roomID});
-            io.to(otherUser.socketId).emit("navigate-to-room", {user: user, question: randomQuestion.title, roomID: roomID});
+            io.to(socket.id).emit("navigate-to-room", {user: otherUser.user, question: randomQuestion.description, roomID: roomID});
+            io.to(otherUser.socketId).emit("navigate-to-room", {user: user, question: randomQuestion.description, roomID: roomID});
 
             console.log(`Random question with complexity ${complexity}:`, randomQuestion);
             } else {

@@ -81,8 +81,8 @@ export default function Update() {
   
       setUpdated(true);
       notifications.show({
-        title: "Successful sign up!",
-        message: "Enjoy using PeerPrep!",
+        title: "Success",
+        message: "Your info is updated!",
         color: "green",
         autoClose: 5000,
         icon: <IconCheck />

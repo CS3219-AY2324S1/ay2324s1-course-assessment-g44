@@ -7,7 +7,7 @@ const {
 const jwt = require("jsonwebtoken");
 const {v4: uuidv4} = require("uuid");
 
-const EXPIRATION_TIME = 15; // 15 min
+const EXPIRATION_TIME = 15 * 60; // 15 min
 const JWT_SECRET_KEY = "iloveJWT";
 const ROLE = "user";
 

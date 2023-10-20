@@ -41,11 +41,11 @@ function Match() {
   };
 
   const navigate = useNavigate();
-  const directToRoom = (username) => {
+  const directToRoom = (username, question, roomID) => {
     setMatchFound(true);
     setIsLoading(false);
     clearTimer();
-    navigate(`/room`, {state: {username: username} });
+    navigate(`/room`, {state: {username: username, question: question, roomID: roomID }});
   };
 
   const handleMatch = () => {

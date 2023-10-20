@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useKeyPress from "../components/hooks/useKeyPress";
 import { AppShell, Burger, Button, Container, Group } from "@mantine/core";
 import RoomMainArea from "../components/collab_elements/roomMainArea";
+import { useLocation } from 'react-router-dom';
 
 // const javascriptDefault = `/**
 // * Problem: Binary Search: Search a sorted array for a target value.
@@ -43,6 +44,8 @@ const Room = () => {
   const [processing, setProcessing] = useState(null);
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
+  const location = useLocation();
+  const { username, question, roomID } = location.state;
 
   useEffect(() => {
     if (enterPress && ctrlPress) {
@@ -162,7 +165,7 @@ const Room = () => {
       navbar={{ width: 750, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Navbar p="md">Question goes here</AppShell.Navbar>
+      <AppShell.Navbar p="md">Question goes here {question}</AppShell.Navbar>
 
       <AppShell.Main>
         <RoomMainArea />

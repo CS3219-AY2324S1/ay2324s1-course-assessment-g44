@@ -6,6 +6,7 @@ const {
   isCorrectPassword,
 } = require("../utils/validation");
 const jwt = require("jsonwebtoken");
+const {v4: uuidv4} = require("uuid");
 
 const EXPIRATION_TIME = 15 * 60; // 15 min
 const JWT_SECRET_KEY = "iloveJWT";
@@ -18,8 +19,9 @@ exports.createUser = async (req, res) => {
     if (isDuplicate) {
       return res.status(401).send();
     } else {
+      const newId = uuidv4();
       await pool.query(
-        `INSERT INTO Users(email_address, username, password, role) VALUES ('${email}', '${username}', '${password}', '${ROLE}')`
+        `INSERT INTO Users VALUES ('${email}', '${username}', '${password}', '${newId}', '${ROLE}')`
       );
       return res.status(201).send();
     }

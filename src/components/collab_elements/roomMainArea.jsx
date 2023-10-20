@@ -4,6 +4,7 @@ import LanguagesDropdown from "./languagesDropdown";
 import { languageOptions } from "./languageOptions";
 import classes from "../../css/RoomMainArea.module.css";
 import { Container,Button, Flex } from "@mantine/core";
+import Chatbox from "../chatbox_elements/chatbox.jsx";
 
 function RoomMainArea() {
   const [language, setLanguage] = useState(languageOptions[0]);
@@ -37,7 +38,7 @@ function RoomMainArea() {
             language={language?.value}
           />
         </div>
-        <div className={classes.chatbox}>chatbox area</div>
+        <div className={classes.chatbox}> < Chatbox /> </div>
         <Flex className={classes.buttons}>
           <Button style={{ backgroundColor: 'red', color: 'black' }}>Quit</Button>
           <Button style={{ backgroundColor: 'orange', color: 'black' }}>Previous</Button>

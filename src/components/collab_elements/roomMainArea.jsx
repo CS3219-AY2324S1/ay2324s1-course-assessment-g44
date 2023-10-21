@@ -3,11 +3,16 @@ import CodeEditorWindow from "./codeEditorWindow";
 import LanguagesDropdown from "./languagesDropdown";
 import { languageOptions } from "./languageOptions";
 import classes from "../../css/RoomMainArea.module.css";
-import { Container,Button, Flex } from "@mantine/core";
+import { Container, Button, Flex } from "@mantine/core";
+import { useMantineTheme, Modal, Paper } from '@mantine/core';
+import { useNavigate } from "react-router-dom";
+import Chatbox from "../chatbox_elements/chatbox.jsx";
 
 function RoomMainArea() {
   const [language, setLanguage] = useState(languageOptions[0]);
   const [code, setCode] = useState("");
+  const [isQuitModalOpen, setIsQuitModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const onSelectChange = (sl) => {
     console.log("selected Option...", sl);
@@ -26,6 +31,40 @@ function RoomMainArea() {
     }
   };
 
+  const handleQuitClick = () => {
+    setIsQuitModalOpen(true);
+  };
+
+  const handleQuitConfirmation = () => {
+    setIsQuitModalOpen(false);
+    navigate('/');
+  };
+
+  const theme = useMantineTheme();
+  const modalStyles = { maxWidth: 400, padding: 20 };
+
+  const modal = (
+    <Modal
+      size="sm"
+      title="Quit Confirmation"
+      opened={isQuitModalOpen}
+      onClose={() => setIsQuitModalOpen(false)}
+    >
+      <Paper style={modalStyles}>
+        <p>You cannot return to this page if you quit.</p>
+        <Flex justify= "center" gap="lg">
+          <Button
+            style={{ backgroundColor: 'red', color: 'black' }}
+            onClick={handleQuitConfirmation}
+          >
+            Quit
+          </Button>
+          <Button onClick={() => setIsQuitModalOpen(false)}>Cancel</Button>
+        </Flex>
+      </Paper>
+    </Modal>
+  );
+
   return (
     <>
       <Container className={classes.app}>
@@ -37,15 +76,22 @@ function RoomMainArea() {
             language={language?.value}
           />
         </div>
-        <div className={classes.chatbox}>chatbox area</div>
+        <div className={classes.chatbox}> < Chatbox /> </div>
         <Flex className={classes.buttons}>
-          <Button style={{ backgroundColor: 'red', color: 'black' }}>Quit</Button>
+          <Button
+            style={{ backgroundColor: 'red', color: 'black' }}
+            onClick={handleQuitClick}
+          >
+            Quit
+          </Button>
           <Button style={{ backgroundColor: 'orange', color: 'black' }}>Previous</Button>
           <Button style={{ backgroundColor: 'green', color: 'white' }}>Next</Button>
         </Flex>
       </Container>
+      {modal}
     </>
   );
 }
 
 export default RoomMainArea;
+

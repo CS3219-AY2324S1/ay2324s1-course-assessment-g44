@@ -8,7 +8,7 @@ import { useMantineTheme, Modal, Paper } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import Chatbox from "../chatbox_elements/chatbox.jsx";
 
-function RoomMainArea() {
+function RoomMainArea(roomID) {
   const [language, setLanguage] = useState(languageOptions[0]);
   const [code, setCode] = useState("");
   const [isQuitModalOpen, setIsQuitModalOpen] = useState(false);
@@ -71,6 +71,7 @@ function RoomMainArea() {
         <div className={classes.editor}>
           <LanguagesDropdown onSelectChange={onSelectChange} />
           <CodeEditorWindow
+            roomID={roomID}
             code={code}
             onChange={onChange}
             language={language?.value}

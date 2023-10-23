@@ -26,6 +26,7 @@ export default function Update() {
     username: oldUser.username,
     email: oldUser.email,
     password: oldUser.password,
+    completedQuestions: oldUser.completedQuestions
   });
 
   const form = useForm({
@@ -44,6 +45,7 @@ export default function Update() {
         password: newUser.password,
         accessToken: oldUser.accessToken,
         loggedIn: true,
+        completedQuestions: oldUser.completedQuestions,
       })
     );
   };
@@ -69,6 +71,7 @@ export default function Update() {
       email: values.email,
       username: values.username,
       password: values.password,
+      completedQuestions: oldUser.completedQuestions,
     });
 
     setUpdated(true);

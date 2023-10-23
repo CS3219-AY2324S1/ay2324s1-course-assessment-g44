@@ -55,3 +55,12 @@ export const userMarkQuestionAsCompletedApi = async (req) => {
     return "error";
   }
 };
+
+export const userMarkQuestionAsIncompleteApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/userMarkQuestionAsIncomplete`, req);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+};

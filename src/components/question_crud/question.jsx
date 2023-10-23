@@ -1,6 +1,6 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title, rem } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
-import { userMarkQuestionAsCompletedApi } from '../../services/user_services';
+import { userMarkQuestionAsCompletedApi, userMarkQuestionAsIncompleteApi } from '../../services/user_services';
 
 
 export function mapQuestions(questionList, completedList) {
@@ -36,7 +36,7 @@ export const completedBadge = (questionCompleted) => {
 
 
 
-export const toggleComplete = (question, user) => {
+export const setComplete = (question, user) => {
 
     const req = {
         email: user.email,
@@ -63,6 +63,35 @@ export const toggleComplete = (question, user) => {
     //     username: user.username,
     //     completedQuestions: completedList,
     // }
-
 }
 
+
+
+export const setIncomplete = (question, user) => {
+
+    const req = {
+        email: user.email,
+        questionId: question.id
+    }
+
+    const res = userMarkQuestionAsIncompleteApi(req).then(response => {
+        console.log(response.status);
+        return response;
+    });
+
+    question["completed"] = false;
+
+    //completedList = user.completedQuestions;
+    //completedList.push(question.id);
+    
+    // const updatedUser = {
+    //     id: user.id,
+    //     accessToken: user.accessToken,
+    //     email: user.email,
+    //     loggedIn: user.loggedIn,
+    //     password: user.password,
+    //     role: user.role,
+    //     username: user.username,
+    //     completedQuestions: completedList,
+    // }
+}

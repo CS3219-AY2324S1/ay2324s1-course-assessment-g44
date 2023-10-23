@@ -130,3 +130,18 @@ exports.userMarkQuestionAsCompleted = async (req, res) => {
     console.log(err.message);
   }
 };
+
+
+exports.userMarkQuestionAsIncomplete = async (req, res) => {
+  try {
+    const { email, questionId } = req.body;
+    console.log(typeof questionId);
+    console.log(req.body)
+    await pool.query(
+      `UPDATE Users SET completed_questions =  ARRAY_REMOVE(completed_questions, '${questionId}') WHERE email_address = '${email}'`
+    )
+    return res.status(201).send();
+  } catch (err) {
+    console.log(err.message);
+  }
+};

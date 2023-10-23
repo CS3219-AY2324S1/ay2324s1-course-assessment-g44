@@ -14,6 +14,8 @@ router.post(`/deleteUser`, userController.deleteUser);
 
 router.post(`/userMarkQuestionAsCompleted`, userController.userMarkQuestionAsCompleted);
 
+router.post(`/userMarkQuestionAsIncomplete`, userController.userMarkQuestionAsIncomplete);
+
 module.exports = router;
 
 

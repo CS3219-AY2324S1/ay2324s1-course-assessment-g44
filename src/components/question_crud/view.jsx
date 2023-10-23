@@ -2,7 +2,7 @@ import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import {modals} from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
-import { difficultyBadge, completedBadge, toggleComplete } from './question';
+import { difficultyBadge, completedBadge, setComplete, setIncomplete } from './question';
 import Read from "./read"
 import Update from './update';
 import axios from 'axios';
@@ -78,9 +78,18 @@ export default function View(props) {
 
   const handleToggleComplete = (questionToToggle) => {
     console.log(props.user);
-    const [updatedQuestion, updatedUser] = toggleComplete(questionToToggle, props.user);
+    let [updatedQuestion, updatedUser] = [null, null];
+
+    if (questionToToggle.completed) {
+      setIncomplete(questionToToggle, props.user);
+    } else {
+      setComplete(questionToToggle, props.user);
+    }
+
     return (<><View question={updatedQuestion} user={updatedUser} /></>)
   }
+
+
 
   const toggleCompleteButton = (questionCompleted) => {
     return questionCompleted ? "Mark as Incomplete" : "Mark as Complete";

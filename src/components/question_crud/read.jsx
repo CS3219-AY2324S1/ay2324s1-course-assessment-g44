@@ -16,8 +16,6 @@ const Read = (props) => {
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
 
-  const user = useSelector(selectUser)
-
   
   //handle fetching of data from local json server
   // useEffect(() => {
@@ -48,7 +46,7 @@ const Read = (props) => {
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
     .then(response =>{
-      setQuestions(mapQuestions(response.data, user.completedQuestions));
+      setQuestions(mapQuestions(response.data, props.user.completedQuestions));
     })
     .catch(error => console.error(error));
   }, [])
@@ -174,7 +172,6 @@ const Read = (props) => {
         <Accordion variant="contained">
           {items}
         </Accordion>
-        <Text>{user.username}, {user.email}, {user.completedQuestions} </Text>
         <>
         
         </>
@@ -185,7 +182,7 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView} /> :
+      viewState ? <View question={questionToView} user={props.user}/> :
       createState ? <Create /> :
       <>{showAccordian()}</>
       

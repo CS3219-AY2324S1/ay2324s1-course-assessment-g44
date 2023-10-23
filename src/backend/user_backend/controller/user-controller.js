@@ -117,3 +117,16 @@ exports.deleteUser = async(req, res) => {
 }
 
 
+exports.userMarkQuestionAsCompleted = async (req, res) => {
+  try {
+    const { email, questionId } = req.body;
+    console.log(typeof questionId);
+    console.log(req.body)
+    await pool.query(
+      `UPDATE Users SET completed_questions =  ARRAY_APPEND(completed_questions, '${questionId}') WHERE email_address = '${email}'`
+    )
+    return res.status(201).send();
+  } catch (err) {
+    console.log(err.message);
+  }
+};

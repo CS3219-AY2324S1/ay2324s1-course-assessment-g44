@@ -47,4 +47,11 @@ export const deleteUserApi = async (req) => {
   }
 }
   
-  
+export const userMarkQuestionAsCompletedApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/userMarkQuestionAsCompleted`, req);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+};

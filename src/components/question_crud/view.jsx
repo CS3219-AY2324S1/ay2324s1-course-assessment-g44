@@ -2,7 +2,7 @@ import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
 import {modals} from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
-import { difficultyBadge, completedBadge } from './question';
+import { difficultyBadge, completedBadge, toggleComplete } from './question';
 import Read from "./read"
 import Update from './update';
 import axios from 'axios';
@@ -15,8 +15,8 @@ export default function View(props) {
   const [updateState, setUpdateState] = useState(false);
   const [deleteState, setDeleteState] = useState(false);
   const [toggleCompleteState, setToggleCompleteState] = useState(false);
-  const user = useSelector(selectUser);
-  const isAdmin = user.role === "admin";
+
+  const isAdmin = props.user.role === "admin";
   
 
   useEffect(() => {
@@ -77,7 +77,9 @@ export default function View(props) {
   }
 
   const handleToggleComplete = (questionToToggle) => {
-    return
+    console.log(props.user);
+    const [updatedQuestion, updatedUser] = toggleComplete(questionToToggle, props.user);
+    return (<><View question={updatedQuestion} user={updatedUser} /></>)
   }
 
   const toggleCompleteButton = (questionCompleted) => {
@@ -88,6 +90,7 @@ export default function View(props) {
   
 
   function viewScreen(question) {
+    console.log(props.user);
     return (
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Group>
@@ -131,7 +134,7 @@ export default function View(props) {
 
 
   return (
-    backState ? <Read />
+    backState ? <Read user={props.user} />
     : deleteState ? <>{handleDelete(props.question)}</>
     : updateState ? <>{handleUpdate(props.question)}</>
     : toggleCompleteState ? <>{handleToggleComplete(props.question)}</>

@@ -70,7 +70,7 @@ export default function Signup() {
       });
       navigate("/login");
     } else {
-      form.setErrors({ email: res });
+      form.setErrors({ username: res });
     }
   };
 

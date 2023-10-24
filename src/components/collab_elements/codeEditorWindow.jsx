@@ -41,7 +41,7 @@ const CodeEditorWindow = ({roomID, language,code }) => {
   const didEditorMount = (editor, monaco) => {
     // Y.js setup
     const ydoc = new Y.Doc();
-    const provider = new WebsocketProvider("ws://localhost:1234", `${roomID}`, ydoc);
+    const provider = new WebsocketProvider("ws://localhost:1234", roomID, ydoc);
     const ytext = ydoc.getText('monaco');
 
     // Monaco Editor setup

@@ -107,7 +107,7 @@ exports.getUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async(req, res) => {
+exports.deleteUser = async (req, res) => {
     try {
         const { email, username, password } = req.body;
         await pool.query(`DELETE FROM Users WHERE username = '${username}' AND password = '${password}' AND email_address = '${email}'`);
@@ -115,4 +115,20 @@ exports.deleteUser = async(req, res) => {
     } catch (err) {
         console.log(err.message);
     }
+}
+
+exports.isUserOrAdmin = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const adminOrUserInfo = await pool.query(`SELECT role FROM Users WHERE email_address = '${email}'`);
+    const adminOrUser = adminOrUserInfo.rows[0].role;
+    console.log("adminOrUser: ", adminOrUser);
+    if (adminOrUser === "admin") {
+      return res.status(200).send('User is an admin and is authorized to make changes to questions!');
+    } else {
+      return res.status(401).send("User is not an admin and cannot make changes to questions!");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 }

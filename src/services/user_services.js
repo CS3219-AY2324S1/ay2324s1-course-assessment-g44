@@ -46,5 +46,14 @@ export const deleteUserApi = async (req) => {
     return "error";
   }
 }
+
+export const isUserOrAdminApi = async (req) => {
+  try {
+    await axios.post(`${basePath}/isAdminOrUser`, req);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
   
   

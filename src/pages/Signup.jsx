@@ -94,7 +94,7 @@ export default function Signup() {
         <SignUpInfo />
       </Grid.Col>
       <Grid.Col span={4}>
-        <Card shadow="sm" radius="md" withBorde padding="xl">
+        <Card shadow="sm" radius="md" withBorder padding="xl">
           <Title fw={700} ta="center" order={3}>
             Sign up with PeerPrep
           </Title>

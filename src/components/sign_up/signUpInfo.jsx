@@ -12,7 +12,7 @@ import { IconCircleCheck, IconFlame, IconTrophy, IconUsers } from "@tabler/icons
 
 function SignUpInfo() {
   return (
-    <Container size={440}>
+    <Container size={700}>
       <Paper className={classes.form} radius={0} p={30} shadow="md">
         <Title ff="Verdana" fs={22} order={4}>
           {" "}

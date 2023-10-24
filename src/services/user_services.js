@@ -64,3 +64,12 @@ export const userMarkQuestionAsIncompleteApi = async (req) => {
     return "error";
   }
 };
+
+// export const getUserInfoApi = async (req) => {
+//   try {
+//     const res = await axios.post(`${basePath}/getUserInfo`, null, req);
+//     return res;
+//   } catch (error) {
+//     return "error";
+//   }
+// };

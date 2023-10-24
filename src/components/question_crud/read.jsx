@@ -14,7 +14,7 @@ const Read = (props) => {
   const [viewState, setViewState] = useState(false);
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
-  const [createState, setCreateState] = useState(false);
+  const [createState, setCreateState] = useState(false);  
 
   
   //handle fetching of data from local json server

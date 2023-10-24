@@ -1,8 +1,9 @@
-import { Card, Title, Text, Badge, Button, Group, Space } from '@mantine/core';
+import { Card, Title, Text, Badge, Button, Group, Space, closeOnEscape } from '@mantine/core';
 import {modals} from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
 import { difficultyBadge, completedBadge, setComplete, setIncomplete } from './question';
+//import { getUserInfoApi } from '../../services/user_services';
 import Read from "./read"
 import Update from './update';
 import axios from 'axios';
@@ -16,6 +17,7 @@ export default function View(props) {
   const [deleteState, setDeleteState] = useState(false);
   const [toggleCompleteState, setToggleCompleteState] = useState(false);
 
+  console.log(props.user);
   const isAdmin = props.user.role === "admin";
   
 
@@ -77,16 +79,34 @@ export default function View(props) {
   }
 
   const handleToggleComplete = (questionToToggle) => {
-    console.log(props.user);
-    let [updatedQuestion, updatedUser] = [null, null];
-
+    console.log(questionToToggle);
+    let updatedQuestion = null;
+  
     if (questionToToggle.completed) {
-      setIncomplete(questionToToggle, props.user);
+      updatedQuestion = setIncomplete(questionToToggle, props.user);
+      console.log(updatedQuestion);
     } else {
-      setComplete(questionToToggle, props.user);
+      updatedQuestion = setComplete(questionToToggle, props.user);
+      console.log(updatedQuestion);
     }
 
-    return (<><View question={updatedQuestion} user={updatedUser} /></>)
+    console.log(updatedQuestion);
+    // const req = {
+    //   email: props.user.email,
+    // };
+    
+
+    // const res = getUserInfoApi(req).then(response => {
+    //   console.log(response)
+    //   return response;
+    // });
+    
+    // console.log(res);
+    
+    // const updatedUser = res.data;
+    // console.log(updatedQuestion);
+
+    return (<><View question={updatedQuestion} user={props.user} /></>);
   }
 
 

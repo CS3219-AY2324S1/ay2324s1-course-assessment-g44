@@ -135,8 +135,8 @@ exports.userMarkQuestionAsCompleted = async (req, res) => {
 exports.userMarkQuestionAsIncomplete = async (req, res) => {
   try {
     const { email, questionId } = req.body;
-    console.log(typeof questionId);
-    console.log(req.body)
+    // console.log(typeof questionId);
+    // console.log(req.body)
     await pool.query(
       `UPDATE Users SET completed_questions =  ARRAY_REMOVE(completed_questions, '${questionId}') WHERE email_address = '${email}'`
     )
@@ -145,3 +145,20 @@ exports.userMarkQuestionAsIncomplete = async (req, res) => {
     console.log(err.message);
   }
 };
+
+
+// exports.getUserInfo = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     const user = await pool.query(
+//       `SELECT email_address FROM Users WHERE email_address = '${email}'`
+//     )
+//     console.log(user);
+//     return res.status(201).send({
+//       message: user,
+//     });
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+
+// }

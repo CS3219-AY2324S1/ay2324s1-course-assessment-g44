@@ -48,21 +48,17 @@ export const setComplete = (question, user) => {
         return response;
     });
 
-    question["completed"] = true;
+    const updatedQuestion = {
+        id: question.id,
+        title: question.title,
+        description: question.description,
+        category: question.category,
+        difficulty: question.difficulty,
+        completed: true,
+    };
 
-    completedList = user.completedQuestions;
-    completedList.push(question.id);
-    
-    // const updatedUser = {
-    //     id: user.id,
-    //     accessToken: user.accessToken,
-    //     email: user.email,
-    //     loggedIn: user.loggedIn,
-    //     password: user.password,
-    //     role: user.role,
-    //     username: user.username,
-    //     completedQuestions: completedList,
-    // }
+    return updatedQuestion;
+
 }
 
 
@@ -79,19 +75,14 @@ export const setIncomplete = (question, user) => {
         return response;
     });
 
-    question["completed"] = false;
+    const updatedQuestion = {
+        id: question.id,
+        title: question.title,
+        description: question.description,
+        category: question.category,
+        difficulty: question.difficulty,
+        completed: false,
+    };
 
-    //completedList = user.completedQuestions;
-    //completedList.push(question.id);
-    
-    // const updatedUser = {
-    //     id: user.id,
-    //     accessToken: user.accessToken,
-    //     email: user.email,
-    //     loggedIn: user.loggedIn,
-    //     password: user.password,
-    //     role: user.role,
-    //     username: user.username,
-    //     completedQuestions: completedList,
-    // }
+    return updatedQuestion;
 }

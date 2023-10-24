@@ -12,7 +12,8 @@ import {
   rem,
   Title,
   Grid,
-  Anchor
+  Anchor,
+  Paper
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { login } from "../backend/user_backend/features/auth";
@@ -89,6 +90,7 @@ export default function Signup() {
   };
 
   return (
+    <Paper h={900} bg="#E6FCF5">
     <Grid gutter={0}>
       <Grid.Col offset={2} span={4}>
         <SignUpInfo />
@@ -168,5 +170,6 @@ export default function Signup() {
         </Card>
       </Grid.Col>
     </Grid>
+    </Paper>
   );
 }

@@ -34,7 +34,7 @@ function SignUpInfo() {
           }
         >
           <List.Item>
-            Practice commonly-tested quetions in technical interviews
+            Practice commonly-tested questions in technical interviews
           </List.Item>
           <List.Item icon={
             <ThemeIcon color="pink" size={24} radius="xl">

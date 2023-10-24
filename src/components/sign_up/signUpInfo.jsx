@@ -52,7 +52,7 @@ function SignUpInfo() {
               </ThemeIcon>
             }
           >
-            Joining us is free!
+            More than 20 programming languages to choose from
           </List.Item>
           <List.Item
             icon={

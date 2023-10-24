@@ -4,7 +4,7 @@ import Signup from "./pages/Signup";
 import ViewQuestions from "./pages/ViewQuestions";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import Room from "./pages/Room"
 import ChatboxPage from "./pages/ChatboxPage";
 // import Login from "./pages/Login";

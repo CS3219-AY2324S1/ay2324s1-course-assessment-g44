@@ -130,11 +130,11 @@ export default function Login() {
             />
             <Group>
               <Checkbox label="Keep me logged in" mt="xl" size="md" />
-              <Space w="xl" />
+              {/* <Space w="xl" />
               <Space w={30} />
               <Box mt="xl">
                 <LightModeAndDarkModeButton />
-              </Box>
+              </Box> */}
             </Group>
             <Button fullWidth mt="xl" size="md" type="submit">
               Login

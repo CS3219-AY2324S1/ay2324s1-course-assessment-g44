@@ -8,7 +8,7 @@ const defaultUser = {
   name: 'Anonymous',
 };
 
-const messageExpirationTimeMS = 5*60 * 1000;
+const messageExpirationTimeMS = 5*60 * 10000;
 
 class Connection {
   constructor(io, socket) {
@@ -21,10 +21,23 @@ class Connection {
     socket.on('connect_error', (err) => {
       console.log(`connect_error due to ${err.message}`);
     });
+    socket.on('leaveRoom', (roomID) => this.leaveRoom(roomID));
+    socket.on('joinRoom', (roomID) => this.joinRoom(roomID));
+  }
+
+  leaveRoom(roomID) {
+    this.socket.leave(roomID);
+  }
+
+  joinRoom(roomID) {
+    console.log(roomID);
+    this.socket.join(roomID);
   }
   
   sendMessage(message) {
-    this.io.sockets.emit('message', message);
+    const roomID = message.value.room;
+    console.log(this.io.sockets.adapter.rooms);
+    this.io.sockets.to(roomID).emit('message', message);
   }
   
   getMessages() {
@@ -58,7 +71,7 @@ class Connection {
 
 function chat(io) {
   io.on('connection', (socket) => {
-    new Connection(io, socket);   
+    new Connection(io, socket);
   });
 };
 

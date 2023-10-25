@@ -5,13 +5,13 @@ import { Space, TextInput } from '@mantine/core';
 import { useSelector } from "react-redux";
 import { selectUser } from "../../backend/user_backend/features/auth";
 
-const NewMessage = ({socket}) => {
+const NewMessage = ({socket, roomID}) => {
   const user = useSelector(selectUser);
   const [value, setValue] = useState('');
 
   const submitForm = (e) => {
     e.preventDefault();
-    socket.emit('message', {sender: user.username, content: value});
+    socket.emit('message', {sender: user.username, content: value, room: roomID});
 
     setValue('');
   };

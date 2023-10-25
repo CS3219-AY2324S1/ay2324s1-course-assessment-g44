@@ -3,13 +3,12 @@ import { Card, Stack, Flex, Text, Box } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../backend/user_backend/features/auth";
 
-function Messages({ socket }) {
+function Messages({ socket, roomID }) {
   const [messages, setMessages] = useState({});
   const user = useSelector(selectUser);
 
   useEffect(() => {
     const messageListener = (message) => {
-      console.log(message);
       setMessages((prevMessages) => {
         const newMessages = { ...prevMessages };
         newMessages[message.id] = message;
@@ -40,7 +39,7 @@ function Messages({ socket }) {
       {[...Object.values(messages)]
         .sort((a, b) => a.time - b.time)
         .map((message) => (
-          <div>
+          <div key={message.id}>
             <Stack gap="xs">
               <Box>
                 <Flex
@@ -56,9 +55,7 @@ function Messages({ socket }) {
                   }
                 >
                   <Card padding="xs" withBorder>
-                    <Text>
-                      {message.value.content}
-                    </Text>
+                    <Text>{message.value.content}</Text>
                   </Card>
                 </Flex>
                 <Flex
@@ -67,7 +64,8 @@ function Messages({ socket }) {
                   }
                 >
                   <Text size="xs">
-                      {new Date(message.time).toLocaleTimeString()}</Text>
+                    {new Date(message.time).toLocaleTimeString()}
+                  </Text>
                 </Flex>
               </Box>
             </Stack>

@@ -10,17 +10,32 @@ import {
   Space,
   Text,
   TextInput,
-  PasswordInput
+  PasswordInput,
+  Anchor,
+  Paper,
+  Title,
+  Checkbox,
+  Grid,
+  Image,
+  rem,
+  Center,
+  Container,
+  BackgroundImage,
+  Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import classes from "../css/Authentication.module.css";
+import Logo from "../../images/logo2.png";
+import student from "../../images/student_coding_peerprep.jpeg";
+import LightModeAndDarkModeButton from "../components/buttons/lightModeAndDarkModeButton";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [visible, {toggle}] = useDisclosure(false);
+  const [visible, { toggle }] = useDisclosure(false);
 
   const newUser = {
     email: "",
@@ -66,7 +81,7 @@ export default function Login() {
           role: userInfo.role,
           loggedIn: true,
         })
-      )
+      );
       navigate("/viewQuestions");
     }
   };
@@ -76,74 +91,64 @@ export default function Login() {
   };
 
   return (
-    <Group align="center" justify="center">
-      <Card shadow="sm" padding="xl" radius="md" withBorder>
-        <Text fw={700} ta="center" size="xl">
-          Peerprep
-        </Text>
-
-        <Space h="md" />
-
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            required
-            withAsterisk
-            size="md"
-            label="Email"
-            placeholder="email"
-            {...form.getInputProps("email")}
-          />
+    <BackgroundImage src={student} radius="sm" h={850}>
+      <Container size={420}>
+        <Paper
+          className={classes.form}
+          radius={0}
+          p={30}
+          shadow="md"
+        >
+          <Image src={Logo} radius="sm" />
           <Space h="md" />
-
-          <PasswordInput
-            required
-            label="Password"
-            placeholder="password"
-            size="md"
-            width="lg"
-            visible={visible}
-            onVisibilityChange={toggle}
-            {...form.getInputProps("password")}
-          />
-          <Space h="md" />
-
-          {/* <Text size="md" c="red" fw={500}>
-            {errorMessage && <p className="error"> {errorMessage} </p>}
-          </Text> */}
-
-          <Space h="md" />
-
-          <Group mt="md">
-            <Button
-              fullWidth
-              variant="light"
-              color="grape"
-              type="submit"
+          <Title
+            order={2}
+            className={classes.title}
+            ta="center"
+            mt="md"
+            mb={50}
+          >
+            Welcome to PeerPrep!
+          </Title>
+          <form onSubmit={form.onSubmit(handleSubmit)}>
+            <TextInput
+              label="Email address"
+              placeholder="Your email"
               size="md"
-            >
+              required
+              withAsterisk
+              {...form.getInputProps("email")}
+            />
+            <PasswordInput
+              label="Password"
+              placeholder="Your password"
+              mt="md"
+              size="md"
+              required
+              withAsterisk
+              {...form.getInputProps("password")}
+            />
+            <Group>
+              <Checkbox label="Keep me logged in" mt="xl" size="md" />
+              {/* <Space w="xl" />
+              <Space w={30} />
+              <Box mt="xl">
+                <LightModeAndDarkModeButton />
+              </Box> */}
+            </Group>
+            <Button fullWidth mt="xl" size="md" type="submit">
               Login
             </Button>
-          </Group>
+          </form>
 
-          <Space h="xl" />
-
-          <Group>
-            <Button 
-            fullWidth
-              variant="transparent"
-              color="blue"
-              type="reset"
-              size="md"
-              justify="right"
-              onClick={signup}
-            >
-              <Text td="underline" ta="center">
-                Sign up as a new user
-              </Text>
-            </Button>
-          </Group>
-        </form>
-      </Card>
-    </Group>
+          <Text ta="center" mt="md">
+            Don&apos;t have an account?{" "}
+            <Anchor href="#" fw={700} onClick={signup}>
+              Register
+            </Anchor>
+          </Text>
+        </Paper>
+      </Container>
+    </BackgroundImage>
   );
 }

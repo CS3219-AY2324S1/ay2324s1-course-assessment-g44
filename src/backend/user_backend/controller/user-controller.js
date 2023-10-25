@@ -53,7 +53,6 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const isExisting = await isExistingUser(email);
-    console.log("does this email exist: ", isExisting);
     if (!isExisting) {
       return res.status(401).send("This account has not been registered, please sign up first!");
     } else {

@@ -1,0 +1,27 @@
+/* CSS styles */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); /* Adjust the height as needed */
+}
+
+.editor {
+  padding: 10px; /* Add spacing as needed */
+  border: 3px solid #ccc; /* Add borders or other styling as needed */
+  overflow-y: auto; /* Add vertical scroll if content exceeds the available space */
+}
+
+.chatbox {
+  flex: 1;
+  padding: 10px; /* Add spacing as needed */
+  border: 1px solid #ccc; /* Add borders or other styling as needed */
+}
+
+.buttons {
+  min-height: 50px; /* Specify the minimum height with "px" */
+  gap: 20px; /* Add spacing between items (use the desired value in "px" or any valid unit) */
+  justify-content: flex-end; /* Align items along the main (horizontal) axis to the left */
+  align-items: flex-end; /* Align items along the cross (vertical) axis to the top */
+  flex-direction: row; /* Arrange items in a row (the default value, so you can omit this if not needed) */
+}
+

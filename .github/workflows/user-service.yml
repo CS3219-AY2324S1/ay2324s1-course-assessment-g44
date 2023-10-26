@@ -1,4 +1,4 @@
-name: Question Service CI
+name: User Service CI
 
 on:
   push:
@@ -9,20 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV: PROD
-      PORT: 8004
-      DB_CLOUD_URI: ${{ secrets.DB_CLOUD_URI }}
+      PORT: 4200
+      PG_USER: ${{ secrets.PG_USER }}
+      PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+      PG_DATABASE: ${{ secrets.PG_DATABASE }}
+    
     strategy:
       matrix:
         node-version: [16.x]
     steps:
-      - uses: actions/checkout@v3   
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        working-directory: ./src/backend/question_backend
+        working-directory: ./backend/user-service
         run: npm i
       - name: Run Tests
-        working-directory: ./src/backend/question_backend
+        working-directory: ./backend/user-service
         run: npm test

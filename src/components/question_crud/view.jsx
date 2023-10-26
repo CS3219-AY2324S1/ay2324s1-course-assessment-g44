@@ -7,14 +7,20 @@ import Update from './update';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../backend/user_backend/features/auth';
+import verifyAccessToken from '../../backend/user_backend/utils/Utils';
+import { useNavigate } from 'react-router-dom';
+import { isUserOrAdminApi } from '../../services/user_services';
 
 export default function View(props) {
 
   const [backState, setBackState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [deleteState, setDeleteState] = useState(false);
+  const [adminState, setAdminState] = useState(false);
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
-  const isAdmin = user.role === "admin";
+  // const isAdmin = user.role === "admin";
+  // var admin = null;
   
 
   useEffect(() => {
@@ -25,6 +31,18 @@ export default function View(props) {
         color: "blue",
       });
     }
+
+    verifyAccessToken(user).then((isVerified) => {
+      if (!isVerified) {
+        navigate('/login');
+      }
+    });
+
+    isUserOrAdminApi(user).then((isAdmin) => {
+      if (isAdmin) {
+        setAdminState(true);
+      }
+    })
   }, []);
 
   const difficultyBadge = (difficulty) => {
@@ -110,8 +128,8 @@ export default function View(props) {
         <Space h="md" />
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
-          {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
-          {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
+          {adminState && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
+          {adminState && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
       </Card>
     );

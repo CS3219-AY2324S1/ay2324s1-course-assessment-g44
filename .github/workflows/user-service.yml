@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        working-directory: ./backend/user-service
+        working-directory: ./src/backend/user-service
         run: npm i
       - name: Run Tests
-        working-directory: ./backend/user-service
+        working-directory: ./src/backend/user-service
         run: npm test

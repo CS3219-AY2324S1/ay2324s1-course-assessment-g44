@@ -1,0 +1,15 @@
+FROM node:18
+
+WORKDIR /usr/src/user_backend
+
+COPY package*.json ./
+
+RUN npm install
+
+# RUN npm ci --omit=dev
+
+COPY . .
+
+EXPOSE 4200
+
+CMD ["node", "index.js"]

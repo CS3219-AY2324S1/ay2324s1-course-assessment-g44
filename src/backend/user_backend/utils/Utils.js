@@ -12,7 +12,7 @@ const verifyAccessToken = async (user) => {
     headers: { authorization: "Bearer " + user.accessToken },
   };
   const res = await getUserApi(req);
-  if (res === "error") {
+  if (res === "Token expired!") {
     notifications.show({
       title: "You were logged out!",
       message: "Please login again",

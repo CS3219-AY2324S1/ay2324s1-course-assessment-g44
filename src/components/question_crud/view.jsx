@@ -11,6 +11,9 @@ import axios from 'axios';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../backend/user_backend/features/auth';
+import verifyAccessToken from '../../backend/user_backend/utils/Utils';
+import { useNavigate } from 'react-router-dom';
+import { isUserOrAdminApi } from '../../services/user_services';
 
 export default function View(props) {
 
@@ -28,6 +31,10 @@ export default function View(props) {
   const dispatch = useDispatch();
 
   const isAdmin = user.role === "admin";
+  const [adminState, setAdminState] = useState(false);
+  const navigate = useNavigate();
+  // const isAdmin = user.role === "admin";
+  // var admin = null;
   
 
   useEffect(() => {
@@ -38,6 +45,18 @@ export default function View(props) {
         color: "blue",
       });
     }
+
+    verifyAccessToken(user).then((isVerified) => {
+      if (!isVerified) {
+        navigate('/login');
+      }
+    });
+
+    isUserOrAdminApi(user).then((isAdmin) => {
+      if (isAdmin) {
+        setAdminState(true);
+      }
+    })
   }, []);
 
   const openDeleteModal = (question) => modals.openConfirmModal({
@@ -165,8 +184,10 @@ export default function View(props) {
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
           <Button variant="light" color="grape" radius="md" onClick={() => handleToggleComplete(props.question)}>{toggleCompleteButton(props.question.completed)}</Button>
-          {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
-          {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
+          {/* {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
+          {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>} */}
+          {adminState && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
+          {adminState && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
       </Card>
     );

@@ -17,6 +17,7 @@ router.post(`/userMarkQuestionAsCompleted`, userController.userMarkQuestionAsCom
 router.post(`/userMarkQuestionAsIncomplete`, userController.userMarkQuestionAsIncomplete);
 
 // router.post(`/getUserInfo`, userController.getUserInfo);
+router.post(`/isAdminOrUser`, userController.isUserOrAdmin);
 
 module.exports = router;
 

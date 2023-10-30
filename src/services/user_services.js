@@ -14,9 +14,9 @@ export const createUserApi = async (req) => {
 export const updateUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/updateUser`, req);
-    return res;
+    return res.data;
   } catch (error) {
-    return "error";
+    return error.response.data;
   }
 };
 
@@ -32,9 +32,9 @@ export const loginUserApi = async (req) => {
 export const getUserApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/getUser`, null, req);
-    return res;
+    return res.data;
   } catch (error) {
-    return "error";
+    return error.response.data;
   }
 };
 
@@ -44,6 +44,15 @@ export const deleteUserApi = async (req) => {
     return res;
   } catch (error) {
     return "error";
+  }
+}
+
+export const isUserOrAdminApi = async (req) => {
+  try {
+    await axios.post(`${basePath}/isAdminOrUser`, req);
+    return true;
+  } catch (error) {
+    return false;
   }
 }
   

@@ -36,10 +36,14 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { email, username, password } = req.body;
+    const isDuplicateUsername = await isExistingUsername(username);
+    if (isDuplicateUsername) {
+      return res.status(401).send("This username is already in use, please pick another username!");
+    }
     await pool.query(
       `UPDATE Users SET username = '${username}', password = '${password}' WHERE email_address = '${email}'`
     )
-    return res.status(201).send();
+    return res.status(201).send("User info is updated!");
   } catch (err) {
     console.log(err.message);
   }
@@ -49,7 +53,6 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const isExisting = await isExistingUser(email);
-    console.log("does this email exist: ", isExisting);
     if (!isExisting) {
       return res.status(401).send("This account has not been registered, please sign up first!");
     } else {
@@ -104,7 +107,7 @@ exports.getUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async(req, res) => {
+exports.deleteUser = async (req, res) => {
     try {
         const { email, username, password } = req.body;
         await pool.query(`DELETE FROM Users WHERE username = '${username}' AND password = '${password}' AND email_address = '${email}'`);
@@ -112,4 +115,20 @@ exports.deleteUser = async(req, res) => {
     } catch (err) {
         console.log(err.message);
     }
+}
+
+exports.isUserOrAdmin = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const adminOrUserInfo = await pool.query(`SELECT role FROM Users WHERE email_address = '${email}'`);
+    const adminOrUser = adminOrUserInfo.rows[0].role;
+    console.log("adminOrUser: ", adminOrUser);
+    if (adminOrUser === "admin") {
+      return res.status(200).send('User is an admin and is authorized to make changes to questions!');
+    } else {
+      return res.status(401).send("User is not an admin and cannot make changes to questions!");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 }

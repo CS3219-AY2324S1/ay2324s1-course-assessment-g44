@@ -3,22 +3,31 @@ import {modals} from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
 import { difficultyBadge, completedBadge, setComplete, setIncomplete } from './question';
-//import { getUserInfoApi } from '../../services/user_services';
+import { useDispatch } from "react-redux";
+import { login } from "../../backend/user_backend/features/auth";
 import Read from "./read"
 import Update from './update';
 import axios from 'axios';
+
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../backend/user_backend/features/auth';
 
 export default function View(props) {
 
+  const user = useSelector(selectUser);
+
   const [backState, setBackState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [deleteState, setDeleteState] = useState(false);
   const [toggleCompleteState, setToggleCompleteState] = useState(false);
+  const [updatedList, setUpdatedList] = useState(user.completedQuestions);
+  const [toggled, setToggled] = useState(false);
+  const [key, setKey] = useState(0);
 
-  console.log(props.user);
-  const isAdmin = props.user.role === "admin";
+  
+  const dispatch = useDispatch();
+
+  const isAdmin = user.role === "admin";
   
 
   useEffect(() => {
@@ -30,7 +39,6 @@ export default function View(props) {
       });
     }
   }, []);
-
 
   const openDeleteModal = (question) => modals.openConfirmModal({
     title: 'Are you sure you want to delete this question?',
@@ -78,37 +86,39 @@ export default function View(props) {
     );
   }
 
-  const handleToggleComplete = (questionToToggle) => {
-    console.log(questionToToggle);
+
+  const handleToggleComplete = async (questionToToggle) => {
     let updatedQuestion = null;
+    let updatedCompletedList = null;
   
     if (questionToToggle.completed) {
-      updatedQuestion = setIncomplete(questionToToggle, props.user);
-      console.log(updatedQuestion);
+      [updatedQuestion, updatedCompletedList] = await setIncomplete(questionToToggle, user);
+
+
     } else {
-      updatedQuestion = setComplete(questionToToggle, props.user);
-      console.log(updatedQuestion);
+      [updatedQuestion, updatedCompletedList] = await setComplete(questionToToggle, user);
     }
 
-    console.log(updatedQuestion);
-    // const req = {
-    //   email: props.user.email,
-    // };
-    
+    setUpdatedUser(updatedCompletedList);
 
-    // const res = getUserInfoApi(req).then(response => {
-    //   console.log(response)
-    //   return response;
-    // });
-    
-    // console.log(res);
-    
-    // const updatedUser = res.data;
-    // console.log(updatedQuestion);
+    setToggleCompleteState(true);
 
-    return (<><View question={updatedQuestion} user={props.user} /></>);
   }
 
+
+  const setUpdatedUser = async (updatedCompletedList) => {
+    const completedListObj = Object.assign({}, updatedCompletedList);
+    dispatch(
+      login({
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        accessToken: user.accessToken,
+        loggedIn: true,
+        completedQuestions: completedListObj,
+      })
+    );
+  };
 
 
   const toggleCompleteButton = (questionCompleted) => {
@@ -119,9 +129,9 @@ export default function View(props) {
   
 
   function viewScreen(question) {
-    console.log(props.user);
+    console.log(user);
     return (
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card shadow="sm" padding="lg" radius="md" withBorder key={key}>
         <Group>
           <Text fw={500} size="lg">{question.title}</Text>
           <>{completedBadge(props.question.completed)}</>
@@ -153,7 +163,7 @@ export default function View(props) {
 
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
-          <Button variant="light" color="grape" radius="md" onClick={() => setToggleCompleteState(true)}>{toggleCompleteButton(props.question.completed)}</Button>
+          <Button variant="light" color="grape" radius="md" onClick={() => handleToggleComplete(props.question)}>{toggleCompleteButton(props.question.completed)}</Button>
           {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
           {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
@@ -163,10 +173,10 @@ export default function View(props) {
 
 
   return (
-    backState ? <Read user={props.user} />
+    backState ? <Read />
     : deleteState ? <>{handleDelete(props.question)}</>
     : updateState ? <>{handleUpdate(props.question)}</>
-    : toggleCompleteState ? <>{handleToggleComplete(props.question)}</>
+    : toggleCompleteState ? <Read state={"toggled"} question={props.question}/>  
     : <>{viewScreen(props.question)}</> 
   );
 

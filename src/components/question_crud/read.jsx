@@ -10,11 +10,14 @@ import Create from './create';
 import axios from 'axios';
 
 const Read = (props) => {
+
+  const user = useSelector(selectUser);
+
   const [questions, setQuestions] = useState(null);
   const [viewState, setViewState] = useState(false);
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
-  const [createState, setCreateState] = useState(false);  
+  const [createState, setCreateState] = useState(false);
 
   
   //handle fetching of data from local json server
@@ -46,7 +49,7 @@ const Read = (props) => {
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
     .then(response =>{
-      setQuestions(mapQuestions(response.data, props.user.completedQuestions));
+      setQuestions(mapQuestions(response.data, user.completedQuestions));
     })
     .catch(error => console.error(error));
   }, [])
@@ -66,6 +69,24 @@ const Read = (props) => {
         autoClose: 1340,
         color: "green",
       });
+    } else if (props.state === "toggled") {
+      const questionTitle = props.question.title;
+      if (!props.question.completed) {
+        notifications.show({
+          title: 'Question marked as complete!',
+          message: questionTitle,
+          autoClose: 1340,
+          color: "grape",
+        })
+      } else {
+          notifications.show({
+          title: 'Question marked as incomplete!',
+          message: questionTitle,
+          autoClose: 1340,
+          color: "yellow",
+        })
+      }
+      
     }
   }, [])
 
@@ -182,7 +203,7 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView} user={props.user}/> :
+      viewState ? <View question={questionToView}/> :
       createState ? <Create /> :
       <>{showAccordian()}</>
       

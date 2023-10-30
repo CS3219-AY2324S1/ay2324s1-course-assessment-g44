@@ -50,6 +50,7 @@ export const deleteUserApi = async (req) => {
 export const userMarkQuestionAsCompletedApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/userMarkQuestionAsCompleted`, req);
+    console.log(res);
     return res;
   } catch (error) {
     return "error";
@@ -59,17 +60,10 @@ export const userMarkQuestionAsCompletedApi = async (req) => {
 export const userMarkQuestionAsIncompleteApi = async (req) => {
   try {
     const res = await axios.post(`${basePath}/userMarkQuestionAsIncomplete`, req);
+    console.log(res);
     return res;
   } catch (error) {
     return "error";
   }
 };
 
-// export const getUserInfoApi = async (req) => {
-//   try {
-//     const res = await axios.post(`${basePath}/getUserInfo`, null, req);
-//     return res;
-//   } catch (error) {
-//     return "error";
-//   }
-// };

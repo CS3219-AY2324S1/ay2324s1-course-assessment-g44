@@ -125,7 +125,9 @@ exports.userMarkQuestionAsCompleted = async (req, res) => {
     await pool.query(
       `UPDATE Users SET completed_questions =  ARRAY_APPEND(completed_questions, '${questionId}') WHERE email_address = '${email}'`
     )
-    return res.status(201).send();
+    return res.status(201).send({
+      message: questionId
+    });
   } catch (err) {
     console.log(err.message);
   }
@@ -140,7 +142,9 @@ exports.userMarkQuestionAsIncomplete = async (req, res) => {
     await pool.query(
       `UPDATE Users SET completed_questions =  ARRAY_REMOVE(completed_questions, '${questionId}') WHERE email_address = '${email}'`
     )
-    return res.status(201).send();
+    return res.status(201).json({
+      message: questionId,
+    });
   } catch (err) {
     console.log(err.message);
   }

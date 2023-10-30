@@ -1,11 +1,16 @@
 import { Accordion, Badge, Button, Group, Space, Text, Title, rem } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { userMarkQuestionAsCompletedApi, userMarkQuestionAsIncompleteApi } from '../../services/user_services';
+import { useDispatch } from "react-redux";
+import { login } from "../../backend/user_backend/features/auth";
 
 
 export function mapQuestions(questionList, completedList) {
+    if (completedList === null) {
+        completedList = [];
+    }
     return questionList.map(item => {
-        const completed = completedList.includes(item._id) ? true : false;
+        const completed = Object.values(completedList).includes(item._id) ? true : false;
         const mappedQuestion = {
             id: item._id,
             title: item.title,
@@ -36,17 +41,17 @@ export const completedBadge = (questionCompleted) => {
 
 
 
-export const setComplete = (question, user) => {
-
+export const setComplete = async (question, user) => {
     const req = {
         email: user.email,
         questionId: question.id
     }
 
-    const res = userMarkQuestionAsCompletedApi(req).then(response => {
-        console.log(response.status);
-        return response;
-    });
+    const res = await userMarkQuestionAsCompletedApi(req);
+    // .then(response => {
+    //     console.log(response);
+    //     return response;
+    // });
 
     const updatedQuestion = {
         id: question.id,
@@ -57,23 +62,32 @@ export const setComplete = (question, user) => {
         completed: true,
     };
 
-    return updatedQuestion;
+
+    let updatedCompletedList = user.completedQuestions === null ? [] : [...Object.values(user.completedQuestions)];
+    updatedCompletedList.push(question.id);
+    console.log(updatedQuestion);
+
+    //setUpdatedUser(user, updatedCompletedList);
+
+    return [updatedQuestion, updatedCompletedList];
 
 }
 
 
 
-export const setIncomplete = (question, user) => {
+export const setIncomplete = async (question, user) => {
 
     const req = {
         email: user.email,
         questionId: question.id
     }
 
-    const res = userMarkQuestionAsIncompleteApi(req).then(response => {
-        console.log(response.status);
-        return response;
-    });
+    const res = await userMarkQuestionAsIncompleteApi(req);
+    // .then(response => {
+    //     console.log(response.status);
+    //     return response;
+    // }
+    // );
 
     const updatedQuestion = {
         id: question.id,
@@ -84,5 +98,30 @@ export const setIncomplete = (question, user) => {
         completed: false,
     };
 
-    return updatedQuestion;
+    let updatedCompletedList = user.completedQuestions === null ? [] : [...Object.values(user.completedQuestions)];
+    const index = updatedCompletedList.findIndex(x => {
+        return x === question.id;
+    })
+    
+    updatedCompletedList.splice(index, 1);
+    console.log(typeof updatedCompletedList);
+
+    return [updatedQuestion, updatedCompletedList];
 }
+
+
+
+const setUpdatedUser = async (user, completedList) => {
+    const dispatch = useDispatch();
+
+    dispatch(
+        login({
+            email: user.email,
+            username: user.username,
+            password: user.password,
+            accessToken: user.accessToken,
+            loggedIn: true,
+            completedQuestions: completedList,
+          })
+    );
+} 

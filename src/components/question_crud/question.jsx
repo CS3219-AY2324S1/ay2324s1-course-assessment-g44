@@ -9,6 +9,7 @@ export function mapQuestions(questionList, completedList) {
     if (completedList === null) {
         completedList = [];
     }
+
     return questionList.map(item => {
         const completed = Object.values(completedList).includes(item._id) ? true : false;
         const mappedQuestion = {
@@ -21,6 +22,16 @@ export function mapQuestions(questionList, completedList) {
         }
         return mappedQuestion;
     });
+}
+
+export const completedCount = (questionList) => {
+    let count = 0;
+    questionList.forEach(question => {
+        if (question.completed) {
+            count += 1
+        }
+    });
+    return count;
 }
 
 export const difficultyBadge = (questionDifficulty) => {
@@ -38,6 +49,14 @@ export const completedBadge = (questionCompleted) => {
       questionCompleted ? <Badge rightSection={iconCheck} color="grey" size="sm" variant="light">Completed</Badge> : null
     );
   }
+
+export const completedBadgeSmall = (questionCompleted) => {
+    const iconCheck = <IconCheck style={{ width: rem(12), height: rem(12) }} />;
+    return (
+      questionCompleted ? <Badge rightSection={iconCheck} color="grey" size="sm" variant="light"></Badge> : null
+    );
+  }
+
 
 
 

@@ -115,6 +115,7 @@ export default function View(props) {
         password: user.password,
         accessToken: user.accessToken,
         loggedIn: true,
+        role: user.role,
         completedQuestions: completedListObj,
       })
     );

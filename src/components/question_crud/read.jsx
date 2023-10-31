@@ -32,20 +32,6 @@ const Read = (props) => {
   //   });
   // }, [])
 
-
-  //attempts to connect to mongo db
-
-  // useEffect(() => {
-  //   fetch('/getQuestions')
-  //   .then(res => {
-  //     return res.json();
-  //   })
-  //   .then(data => {
-  //     console.log(data);
-  //     setQuestions(data);
-  //   });
-  // }, [])
-
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
     .then(response =>{
@@ -101,21 +87,6 @@ const Read = (props) => {
   }
 }
 
-  // const difficultyBadge = (questionDifficulty) => {
-  //   return (
-  //     questionDifficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge> :
-  //     questionDifficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge> :
-  //     <Badge color="red" size="sm">Hard</Badge>
-  //   );
-  // }
-
-  // const completedBadge = (questionCompleted) => {
-  //   const iconCheck = <IconCheck style={{ width: rem(12), height: rem(12) }} />;
-  //   return (
-  //     questionCompleted ? <Badge rightSection={iconCheck} color="grey" size="sm" variant="light">Completed</Badge> : null
-  //   );
-  // }
-
   function AccordionLabel({ title, category, difficulty, completed }) {
     return (
       <Group noWrap>
@@ -149,33 +120,6 @@ const Read = (props) => {
     </Accordion.Item>
   ))
   );
-
-  // const items = createAccordian(questions);
-
-
-  // function createAccordian(questionsToShow) {
-  //   console.log("ji")
-  //   if (questionsToShow === null) {
-  //     return null;
-  //   }
-
-  //   const res = questionsToShow.map((item => {
-  //     <Accordion.Item key={item.id} value={item.title}>
-  //     <Accordion.Control>
-  //       <AccordionLabel {...item} />
-  //     </Accordion.Control>
-  //     <Accordion.Panel>
-  //     <Text size="sm" weight={400} lineClamp={3}>
-  //       {item.description}
-  //     </Text>
-  //     <Space h="md" />
-  //     <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
-  //     </Accordion.Panel>
-  //   </Accordion.Item>
-  //   }));
-
-  //   return res;
-  // }
 
 
   function showAccordian() {

@@ -13,7 +13,7 @@ export function mapQuestions(questionList, completedList) {
     return questionList.map(item => {
         const completed = Object.values(completedList).includes(item._id) ? true : false;
         const mappedQuestion = {
-            id: item._id,
+            _id: item._id,
             title: item.title,
             description: item.description,
             category: item.category,

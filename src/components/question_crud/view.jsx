@@ -100,8 +100,9 @@ export default function View(props) {
   
 
   const handleUpdate = (questionToView) => {
+    console.log(questionToView);
     return (
-      <Update question = {questionToView}/>
+      <Update question={questionToView}/>
     );
   }
 
@@ -149,7 +150,6 @@ export default function View(props) {
   
 
   function viewScreen(question) {
-    console.log(user);
     return (
       <Card shadow="sm" padding="lg" radius="md" withBorder key={key}>
         <Group>
@@ -184,8 +184,6 @@ export default function View(props) {
         <Group>
           <Button variant="light" color="gray" radius="md" onClick={() => setBackState(true)}>Back</Button>
           <Button variant="light" color="grape" radius="md" onClick={() => handleToggleComplete(props.question)}>{toggleCompleteButton(props.question.completed)}</Button>
-          {/* {isAdmin && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
-          {isAdmin && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>} */}
           {adminState && <Button variant="light" color="blue" radius="md" onClick={() => setUpdateState(true)}>Update</Button>}
           {adminState && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>

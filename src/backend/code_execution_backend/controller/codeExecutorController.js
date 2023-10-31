@@ -1,0 +1,124 @@
+const axios = require("axios");
+const KEY = "561a72f6cemshf4ed04cc5169602p145abajsnd269629a1c66";
+const HOST = "judge0-ce.p.rapidapi.com";
+const URL = "https://judge0-ce.p.rapidapi.com";
+const ERR_MESSAGE = "Server error. Try again later!";
+
+exports.getLanguages = async (req, res) => {
+  const options = {
+    method: "GET",
+    url: `${URL}/languages`,
+    headers: {
+      "X-RapidAPI-Key": KEY,
+      "X-RapidAPI-Host": HOST,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    return res.status(200).json({
+      message: "Messages successfully retrieved",
+      body: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    // return res.status(500).send(ERR_MESSAGE);
+  }
+};
+
+exports.getLanguage = async (req, res) => {
+  const options = {
+    method: "GET",
+    url: `${URL}/languages/${req.params.id}`,
+    headers: {
+      "X-RapidAPI-Key": KEY,
+      "X-RapidAPI-Host": HOST,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    return res.status(200).json({
+      message: "Language id retrieved",
+      data: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    // return res.status(500).send(ERR_MESSAGE);
+  }
+};
+
+exports.createSubmission = async (req, res) => {
+  const language_id = req.body.language_id;
+  console.log(language_id);
+  const source_code = req.body.source_code;
+  console.log(source_code);
+  const stdin = req.body.stdin;
+  console.log(stdin);
+  const options = {
+    method: "POST",
+    url: `${URL}/submissions`,
+    params: {
+      base64_encoded: "true",
+      fields: "*",
+    },
+    headers: {
+      "content-type": "application/json",
+      "Content-Type": "application/json",
+      "X-RapidAPI-Key": KEY,
+      "X-RapidAPI-Host": HOST,
+    },
+    data: {
+      language_id: language_id,
+      source_code: source_code,
+      stdin: stdin,
+    },
+  };
+
+  // console.log(req);
+  console.log('yo');
+
+  try {
+    const response = await axios.request(options);
+    // console.log(response.data);
+    return res.status(200).json({
+      message: "Code successfully submitted",
+      data: response.data,
+    });
+  } catch (error) {
+    // return res.status(500).send(ERR_MESSAGE);
+    console.log(error.response.data)
+// 
+  }
+};
+
+exports.getSubmission = async (req, res) => {
+  const token = req.params.token;
+
+  const options = {
+    method: "GET",
+    url: `${URL}/submissions/${token}`,
+    params: {
+      base64_encoded: "true",
+      fields: "*",
+    },
+    headers: {
+      "X-RapidAPI-Key": KEY,
+      "X-RapidAPI-Host": HOST,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    return res.status(200).json({
+        message: "Code output successfully retrieved!",
+        body: response.data,
+    });
+  } catch (error) {
+    // return res.status(500).send(ERR_MESSAGE);
+    console.log(error);
+  }
+};

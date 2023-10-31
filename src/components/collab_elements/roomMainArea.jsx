@@ -76,6 +76,7 @@ function RoomMainArea(roomID) {
             code={code}
             onChange={onChange}
             language={language?.value}
+            languageID={language?.id}
           />
         </div>
         <div className={classes.chatbox}> < Chatbox roomID = {roomID} /> </div>

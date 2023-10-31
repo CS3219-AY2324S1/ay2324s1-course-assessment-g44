@@ -8,6 +8,7 @@ import { IconCheck } from '@tabler/icons-react';
 import View from './view';
 import Create from './create';
 import axios from 'axios';
+import { isUserOrAdminApi } from '../../services/user_services';
 
 const Read = (props) => {
 
@@ -18,19 +19,8 @@ const Read = (props) => {
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
+  const [adminState, setAdminState] = useState(false);
 
-  
-  //handle fetching of data from local json server
-  // useEffect(() => {
-  //   fetch('http://localhost:8000/questions')
-  //   .then(res => {
-  //     return res.json();
-  //   })
-  //   .then(data => {
-  //     console.log(data);
-  //     setQuestions(data);
-  //   });
-  // }, [])
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
@@ -71,10 +61,16 @@ const Read = (props) => {
           autoClose: 1340,
           color: "yellow",
         })
-      }
-      
+      } 
     }
+
+    isUserOrAdminApi(user).then((isAdmin) => {
+      if (isAdmin) {
+        setAdminState(true);
+      }
+    });
   }, [])
+
 
 
   //to identify which question is the one being viewed
@@ -129,9 +125,9 @@ const Read = (props) => {
       <Space h="lg" />
         <div style={{ display: 'flex' }}>
           <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-          <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+         {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
             New Question
-          </Button>
+          </Button>}
         </div>
         <Space h="lg" />
         <Accordion variant="contained">

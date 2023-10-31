@@ -30,13 +30,11 @@ class Connection {
   }
 
   joinRoom(roomID) {
-    console.log(roomID);
     this.socket.join(roomID);
   }
   
   sendMessage(message) {
     const roomID = message.value.room;
-    console.log(this.io.sockets.adapter.rooms);
     this.io.sockets.to(roomID).emit('message', message);
   }
   

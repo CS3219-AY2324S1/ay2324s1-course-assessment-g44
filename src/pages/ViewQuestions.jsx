@@ -40,7 +40,7 @@ function ViewQuestions() {
           </AppShell.Navbar>
     
           <AppShell.Main>
-            <Read />
+            <Read user={user}/>
           </AppShell.Main>
         </AppShell>
       );

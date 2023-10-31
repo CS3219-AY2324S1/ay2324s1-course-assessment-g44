@@ -1,47 +1,32 @@
-import { Accordion, Badge, Button, Group, Space, Text, Title } from '@mantine/core';
+import { Accordion, Badge, Button, Group, Space, Text, Title, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../backend/user_backend/features/auth";
+import { mapQuestions, difficultyBadge, completedBadge } from './question';
 import React, { useEffect, useState } from 'react';
+import { IconCheck } from '@tabler/icons-react';
 import View from './view';
 import Create from './create';
 import axios from 'axios';
+import { isUserOrAdminApi } from '../../services/user_services';
 
 const Read = (props) => {
+
+  const user = useSelector(selectUser);
+
   const [questions, setQuestions] = useState(null);
   const [viewState, setViewState] = useState(false);
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
+  const [adminState, setAdminState] = useState(false);
 
-  
-  //handle fetching of data from local json server
-  // useEffect(() => {
-  //   fetch('http://localhost:8000/questions')
-  //   .then(res => {
-  //     return res.json();
-  //   })
-  //   .then(data => {
-  //     console.log(data);
-  //     setQuestions(data);
-  //   });
-  // }, [])
-
-
-  //attempts to connect to mongo db
-
-  // useEffect(() => {
-  //   fetch('/getQuestions')
-  //   .then(res => {
-  //     return res.json();
-  //   })
-  //   .then(data => {
-  //     console.log(data);
-  //     setQuestions(data);
-  //   });
-  // }, [])
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
-    .then(response => setQuestions(response.data))
+    .then(response =>{
+      setQuestions(mapQuestions(response.data, user.completedQuestions));
+    })
     .catch(error => console.error(error));
   }, [])
 
@@ -60,8 +45,32 @@ const Read = (props) => {
         autoClose: 1340,
         color: "green",
       });
+    } else if (props.state === "toggled") {
+      const questionTitle = props.question.title;
+      if (!props.question.completed) {
+        notifications.show({
+          title: 'Question marked as complete!',
+          message: questionTitle,
+          autoClose: 1340,
+          color: "grape",
+        })
+      } else {
+          notifications.show({
+          title: 'Question marked as incomplete!',
+          message: questionTitle,
+          autoClose: 1340,
+          color: "yellow",
+        })
+      } 
     }
+
+    isUserOrAdminApi(user).then((isAdmin) => {
+      if (isAdmin) {
+        setAdminState(true);
+      }
+    });
   }, [])
+
 
 
   //to identify which question is the one being viewed
@@ -74,21 +83,14 @@ const Read = (props) => {
   }
 }
 
-  const difficultyBadge = (questionDifficulty) => {
-    return (
-      questionDifficulty === "easy" ? <Badge color="green" size="sm">Easy</Badge> :
-      questionDifficulty === "medium" ? <Badge color="orange" size="sm">Medium</Badge> :
-      <Badge color="red" size="sm">Hard</Badge>
-    );
-  }
-
-  function AccordionLabel({ title, category, difficulty}) {
+  function AccordionLabel({ title, category, difficulty, completed }) {
     return (
       <Group noWrap>
         <div>
           <Group>
             <Text>{title}</Text>
             <>{difficultyBadge(difficulty)}</>
+            <>{completedBadge(completed)}</>
           </Group>
           <Text size="sm" color="teal.4" weight={400}>
             {category}
@@ -115,6 +117,7 @@ const Read = (props) => {
   ))
   );
 
+
   function showAccordian() {
     return (
       <>
@@ -122,9 +125,9 @@ const Read = (props) => {
       <Space h="lg" />
         <div style={{ display: 'flex' }}>
           <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-          <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+         {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
             New Question
-          </Button>
+          </Button>}
         </div>
         <Space h="lg" />
         <Accordion variant="contained">
@@ -140,7 +143,7 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView} /> :
+      viewState ? <View question={questionToView}/> :
       createState ? <Create /> :
       <>{showAccordian()}</>
       

@@ -16,7 +16,6 @@ exports.getLanguages = async (req, res) => {
 
   try {
     const response = await axios.request(options);
-    console.log(response.data);
     return res.status(200).json({
       message: "Messages successfully retrieved",
       body: response.data,
@@ -39,7 +38,6 @@ exports.getLanguage = async (req, res) => {
 
   try {
     const response = await axios.request(options);
-    console.log(response.data);
     return res.status(200).json({
       message: "Language id retrieved",
       data: response.data,
@@ -52,11 +50,8 @@ exports.getLanguage = async (req, res) => {
 
 exports.createSubmission = async (req, res) => {
   const language_id = req.body.language_id;
-  console.log(language_id);
   const source_code = req.body.source_code;
-  console.log(source_code);
   const stdin = req.body.stdin;
-  console.log(stdin);
   const options = {
     method: "POST",
     url: `${URL}/submissions`,
@@ -76,9 +71,6 @@ exports.createSubmission = async (req, res) => {
       stdin: stdin,
     },
   };
-
-  // console.log(req);
-  console.log('yo');
 
   try {
     const response = await axios.request(options);
@@ -112,7 +104,6 @@ exports.getSubmission = async (req, res) => {
 
   try {
     const response = await axios.request(options);
-    console.log(response.data);
     return res.status(200).json({
         message: "Code output successfully retrieved!",
         body: response.data,

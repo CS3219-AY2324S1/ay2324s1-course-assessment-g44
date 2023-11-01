@@ -121,14 +121,6 @@ const Read = (props) => {
   function showAccordian() {
     return (
       <>
-      <Space h="lg"/>
-      <Space h="lg" />
-        <div style={{ display: 'flex' }}>
-          <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-         {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
-            New Question
-          </Button>}
-        </div>
         <Space h="lg" />
         <Accordion variant="contained">
           {items}
@@ -145,7 +137,12 @@ const Read = (props) => {
   return (
       viewState ? <View question={questionToView}/> :
       createState ? <Create /> :
-      <>{showAccordian()}</>
+      <>
+      {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+            New Question
+          </Button>}
+      {showAccordian()}
+      </>
       
    
   );

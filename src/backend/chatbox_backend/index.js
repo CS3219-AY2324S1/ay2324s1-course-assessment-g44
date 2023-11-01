@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var PORT = '3000';
+
 var chat = require('./chat');
 var socketio = require('socket.io');
 
@@ -15,7 +17,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || PORT);
 app.set('port', port);
 
 /**
@@ -36,6 +38,7 @@ chat(io);
  */
 
 server.listen(port);
+console.log(`Listening on port ${PORT}`);
 server.on('error', onError);
 server.on('listening', onListening);
 

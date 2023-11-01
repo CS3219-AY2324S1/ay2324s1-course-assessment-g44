@@ -13,6 +13,7 @@ function RoomMainArea(roomID) {
   const [code, setCode] = useState("");
   const [isQuitModalOpen, setIsQuitModalOpen] = useState(false);
   const navigate = useNavigate();
+  // const fn = C
 
   const onSelectChange = (sl) => {
     console.log("selected Option...", sl);
@@ -77,7 +78,7 @@ function RoomMainArea(roomID) {
             language={language?.value}
           />
         </div>
-        <div className={classes.chatbox}> < Chatbox /> </div>
+        <div className={classes.chatbox}> < Chatbox roomID = {roomID} /> </div>
         <Flex className={classes.buttons}>
           <Button
             style={{ backgroundColor: 'red', color: 'black' }}

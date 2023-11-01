@@ -1,16 +1,16 @@
 import { Accordion, Badge, Button, Card, Group, Space, Text, Title, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useSelector } from 'react-redux';
-import { selectUser } from "../../backend/user_backend/features/auth";
-import { mapQuestions, difficultyBadge, completedBadge } from './question';
+import { selectUser } from "../../../backend/user_backend/features/auth";
+import { mapQuestions, difficultyBadge, completedBadge } from '../question';
 import React, { useEffect, useState } from 'react';
 import { IconCheck } from '@tabler/icons-react';
-import View from './view';
-import Create from './create';
+import View from '../view';
+import Create from '../create';
 import axios from 'axios';
-import { isUserOrAdminApi } from '../../services/user_services';
+import { isUserOrAdminApi } from '../../../services/user_services';
 
-const Read = (props) => {
+const TaggedQuestions = (props) => {
 
   const user = useSelector(selectUser);
 
@@ -147,4 +147,4 @@ const Read = (props) => {
 
 }
 
-export default Read;
+export default TaggedQuestions;

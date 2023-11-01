@@ -57,13 +57,14 @@ exports.loginUser = async (req, res) => {
       return res.status(401).send("This account has not been registered, please sign up first!");
     } else {
       const userInfo = await pool.query(
-        `SELECT username, role FROM Users where email_address = '${email}' and password = '${password}'`
+        `SELECT username, role, completed_questions FROM Users where email_address = '${email}' and password = '${password}'`
       );
       if (userInfo.rowCount == 0) {
         return res.status(401).send("Incorrect email or password provided!");
       }
       const username = userInfo.rows[0].username;
       const role = userInfo.rows[0].role; // admin or user
+      const completedQuestions = userInfo.rows[0].completed_questions;
       const token = jwt.sign(
         { username: username, email: email },
         JWT_SECRET_KEY,
@@ -75,6 +76,7 @@ exports.loginUser = async (req, res) => {
         email: email,
         accessToken: token,
         role: role,
+        completedQuestions: completedQuestions,
       });
     }
   } catch (err) {
@@ -117,6 +119,56 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
+
+exports.userMarkQuestionAsCompleted = async (req, res) => {
+  try {
+    const { email, questionId } = req.body;
+    console.log(typeof questionId);
+    console.log(req.body)
+    await pool.query(
+      `UPDATE Users SET completed_questions =  ARRAY_APPEND(completed_questions, '${questionId}') WHERE email_address = '${email}'`
+    )
+    return res.status(201).send({
+      message: questionId
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+
+exports.userMarkQuestionAsIncomplete = async (req, res) => {
+  try {
+    const { email, questionId } = req.body;
+    // console.log(typeof questionId);
+    // console.log(req.body)
+    await pool.query(
+      `UPDATE Users SET completed_questions =  ARRAY_REMOVE(completed_questions, '${questionId}') WHERE email_address = '${email}'`
+    )
+    return res.status(201).json({
+      message: questionId,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+
+// exports.getUserInfo = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     const user = await pool.query(
+//       `SELECT email_address FROM Users WHERE email_address = '${email}'`
+//     )
+//     console.log(user);
+//     return res.status(201).send({
+//       message: user,
+//     });
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+
+// }
 exports.isUserOrAdmin = async (req, res) => {
   try {
     const { email } = req.body;

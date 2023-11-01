@@ -29,6 +29,7 @@ export default function Update() {
     username: oldUser.username,
     email: oldUser.email,
     password: oldUser.password,
+    completedQuestions: oldUser.completedQuestions
   });
 
   const form = useForm({
@@ -50,6 +51,7 @@ export default function Update() {
         password: newUser.password,
         accessToken: oldUser.accessToken,
         loggedIn: true,
+        completedQuestions: oldUser.completedQuestions,
       })
     );
   };
@@ -89,6 +91,12 @@ export default function Update() {
       })
     }
 
+    setUpdatedUser({
+      email: values.email,
+      username: values.username,
+      password: values.password,
+      completedQuestions: oldUser.completedQuestions,
+    });
     // if (res.status == 201) {
     //   setData(values);
     // }

@@ -19,9 +19,7 @@ function ViewQuestions() {
 
   useEffect(() => {
     verifyAccessToken(user).then(isVerified => {
-      if (!isVerified && user) {
-        navigate("/login", { state: {isTimeOut: true} });
-      } else if (!isVerified && !user) {
+      if (!isVerified) {
         navigate("/login");
       }
     })
@@ -42,7 +40,7 @@ function ViewQuestions() {
           </AppShell.Navbar>
     
           <AppShell.Main>
-            <Read />
+            <Read user={user}/>
           </AppShell.Main>
         </AppShell>
       );

@@ -35,7 +35,7 @@ function App() {
             <Route path="/chatbox" element={<ChatboxPage/>} />
           </Routes>
         </Router>
-        <Notifications />
+        <Notifications/>
       </ModalsProvider>
     </MantineProvider>
   );

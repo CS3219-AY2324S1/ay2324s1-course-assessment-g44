@@ -3,9 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Table, ScrollArea, Text, Badge, Button  } from '@mantine/core';
 import axios from 'axios'; // Import axios if not already imported
 import classes from '../../css/TableScrollArea.module.css';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../backend/user_backend/features/auth';
+import { completedBadgeSmall, mapQuestions } from '../question_crud/question';
 
 
 export default function TableScrollArea() {
+
+  const user = useSelector(selectUser);
   const [scrolled, setScrolled] = useState(false);
   const [questions, setQuestions] = useState(null);
   const [viewState, setViewState] = useState(false);
@@ -13,7 +18,7 @@ export default function TableScrollArea() {
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
-    .then(response => setQuestions(response.data))
+    .then(response => setQuestions(mapQuestions(response.data, user.completedQuestions)))
     .catch(error => console.error(error));
   }, [])
   
@@ -34,6 +39,7 @@ export default function TableScrollArea() {
         <Table.Td>{question.title}</Table.Td>
         <Table.Td>{question.category}</Table.Td>
         <Table.Td>{difficultyBadge(question.difficulty)}</Table.Td>
+        <Table.Td>{completedBadgeSmall(question.completed)}</Table.Td>
       </Table.Tr>
       {viewState && questionToView && questionToView.id === question.id && (
         <Table.Tr>
@@ -62,6 +68,7 @@ export default function TableScrollArea() {
             <Table.Th>Question Name</Table.Th>
             <Table.Th>Category</Table.Th>
             <Table.Th>Difficulty</Table.Th>
+            <Table.Th>Completed</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{tableRows}</Table.Tbody>

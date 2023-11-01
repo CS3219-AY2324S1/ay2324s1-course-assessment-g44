@@ -7,6 +7,7 @@ import CreateQuestionbutton from './buttons/createQuestionbutton';
 import MatchButton from './buttons/matchButton'
 import {MantineLogo} from '@mantine/ds';
 import Match from './buttons/matchButton';
+import LightModeAndDarkModeButton from './buttons/lightModeAndDarkModeButton';
 
 
 function Header() {
@@ -19,6 +20,7 @@ function Header() {
         <img src={Logo} alt="logo" width={350} ></img>
         <Group gap={30} visibleFrom="xs">
           <MatchButton />
+          <LightModeAndDarkModeButton />
         </Group>
         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
       </Container>

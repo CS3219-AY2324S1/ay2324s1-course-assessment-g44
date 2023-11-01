@@ -73,7 +73,7 @@ export const setComplete = async (question, user) => {
     // });
 
     const updatedQuestion = {
-        id: question.id,
+        _id: question._id,
         title: question.title,
         description: question.description,
         category: question.category,
@@ -83,7 +83,7 @@ export const setComplete = async (question, user) => {
 
 
     let updatedCompletedList = user.completedQuestions === null ? [] : [...Object.values(user.completedQuestions)];
-    updatedCompletedList.push(question.id);
+    updatedCompletedList.push(question._id);
     console.log(updatedQuestion);
 
     //setUpdatedUser(user, updatedCompletedList);
@@ -109,7 +109,7 @@ export const setIncomplete = async (question, user) => {
     // );
 
     const updatedQuestion = {
-        id: question.id,
+        _id: question._id,
         title: question.title,
         description: question.description,
         category: question.category,
@@ -119,7 +119,7 @@ export const setIncomplete = async (question, user) => {
 
     let updatedCompletedList = user.completedQuestions === null ? [] : [...Object.values(user.completedQuestions)];
     const index = updatedCompletedList.findIndex(x => {
-        return x === question.id;
+        return x === question._id;
     })
     
     updatedCompletedList.splice(index, 1);

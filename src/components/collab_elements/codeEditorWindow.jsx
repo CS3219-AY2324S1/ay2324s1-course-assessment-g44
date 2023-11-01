@@ -76,7 +76,6 @@ const CodeEditorWindow = ({ roomID, language, code, languageID }) => {
         overlayProps={{ backgroundOpacity: 0, blur: 0 }}
         size={280}
         lockScroll={false}
-        trapFocus={false}
       >
         <CompileCodeArea languageID={languageID} code={value} />
       </Drawer>

@@ -1,5 +1,5 @@
-import { Button, TextInput, Textarea, Space, Container, Text, Box } from "@mantine/core";
-import { useState } from "react";
+import { Button, TextInput, Textarea, Space, Container, Box, Text, Loader } from "@mantine/core";
+import { useEffect, useState } from "react";
 import { submitCodeApi, getCodeResultApi } from "../../services/code_execution_service";
 import OutputDetails from "./outputDetails";
 import React from "react";
@@ -9,24 +9,19 @@ const CompileCodeArea = ({ languageID, code }) => {
   const [output, setOutput] = useState("");
 
   const handleCompile = async () => {
-    console.log("languageID: ", languageID);
-    console.log("code: ", code);
 
     setProcessing(true);
     const data = {
-      language_id: languageID,
+      language_id: languageID,  
       source_code: btoa(code),
-      stdin: btoa("hi"),
+      stdin: btoa(""),
     };
-    console.log("data: ", data);
     const response = await submitCodeApi(data);
     if (response !== "error") {
-      console.log("response: ", response);
       const token = response.data.token;
       checkStatus(token);
     } else {
       setProcessing(false);
-      console.log(response);
     }
     
   };
@@ -56,10 +51,10 @@ const CompileCodeArea = ({ languageID, code }) => {
 
   return (
     <>
-      <Button onClick={handleCompile}> Run code here </Button>
+      <Button onClick={handleCompile} color='green'> Run code here </Button>
       <Space h="md" />
       <Box h={100}>
-        <OutputDetails outputDetails={output} />
+        {processing ? <Loader color="blue"/> : <OutputDetails outputDetails={output} />}
       </Box>
     </>
   );

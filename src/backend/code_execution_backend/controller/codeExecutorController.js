@@ -1,5 +1,5 @@
 const axios = require("axios");
-const KEY = "561a72f6cemshf4ed04cc5169602p145abajsnd269629a1c66";
+const KEY = "f4d58a97damsh76cea5afa3ddeb0p1dacedjsn82f392cd7a0a";
 const HOST = "judge0-ce.p.rapidapi.com";
 const URL = "https://judge0-ce.p.rapidapi.com";
 const ERR_MESSAGE = "Server error. Try again later!";

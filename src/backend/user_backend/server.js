@@ -1,5 +1,5 @@
 const Pool = require('pg').Pool;
-require('dotenv').config({path: './../../../.env'});
+require('dotenv').config({path: './.env'});
 const pool = new Pool({
     host: 'localhost',
     user: process.env.PG_USER,

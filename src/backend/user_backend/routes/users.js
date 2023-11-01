@@ -12,6 +12,11 @@ router.post(`/updateUser`, userController.updateUser);
 
 router.post(`/deleteUser`, userController.deleteUser);
 
+router.post(`/userMarkQuestionAsCompleted`, userController.userMarkQuestionAsCompleted);
+
+router.post(`/userMarkQuestionAsIncomplete`, userController.userMarkQuestionAsIncomplete);
+
+// router.post(`/getUserInfo`, userController.getUserInfo);
 router.post(`/isAdminOrUser`, userController.isUserOrAdmin);
 
 module.exports = router;

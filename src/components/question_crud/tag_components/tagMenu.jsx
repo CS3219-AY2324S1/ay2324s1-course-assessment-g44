@@ -4,7 +4,6 @@ import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { propTypes } from 'react-bootstrap/esm/Image';
 import TagQuestions from '../../../pages/TagQuestions';
-import TaggedQuestions from './taggedQuestions';
 import { NOFILTER } from './taggingProcess';
 
 function TagMenu(props) {

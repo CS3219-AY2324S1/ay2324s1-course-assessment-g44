@@ -14,8 +14,6 @@ import { selectUser } from '../../backend/user_backend/features/auth';
 import verifyAccessToken from '../../backend/user_backend/utils/Utils';
 import { useNavigate } from 'react-router-dom';
 import { isUserOrAdminApi } from '../../services/user_services';
-import TaggedQuestions from './tag_components/taggedQuestions';
-
 export default function View(props) {
 
   const user = useSelector(selectUser);

@@ -92,7 +92,7 @@ export default function View(props) {
       });
 
       return (
-      <Read state={"deleted"} filters={props.filters}/>
+      <Read state={"deleted"} filters={props.filters} isViewQuestions={props.isViewQuestions}/>
       );
   };
   
@@ -101,7 +101,7 @@ export default function View(props) {
   const handleUpdate = (questionToView) => {
     console.log(questionToView);
     return (
-      <Update question={questionToView} filters={props.filters}/>
+      <Update question={questionToView} filters={props.filters} isViewQuestions={props.isViewQuestions}/>
     );
   }
 
@@ -196,7 +196,7 @@ export default function View(props) {
 
 
   return (
-    backState ? <Read filters={props.filters}/>
+    backState ? <Read filters={props.filters} isViewQuestions={props.isViewQuestions}/>
     : deleteState ? <>{handleDelete(props.question)}</>
     : updateState ? <>{handleUpdate(props.question)}</>
     : toggleCompleteState ? <Read state={"toggled"} question={props.question} filters={props.filters}/>  

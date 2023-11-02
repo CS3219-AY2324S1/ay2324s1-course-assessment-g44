@@ -21,6 +21,7 @@ const Read = (props) => {
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
   const [adminState, setAdminState] = useState(false);
+  const [isViewQuestions, setIsViewQuestions] = useState(props.isViewQuestions);
 
 
   useEffect(() => {
@@ -138,9 +139,12 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView} filters={props.filters}/> :
-      createState ? <Create /> :
+      viewState ? <View question={questionToView} filters={props.filters} isViewQuestions={props.isViewQuestions}/> :
+      createState ? <Create isViewQuestions={props.isViewQuestions}/> :
       <>
+      {adminState && isViewQuestions && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+            New Question
+            </Button>}
       {showAccordian()}
       </>
       

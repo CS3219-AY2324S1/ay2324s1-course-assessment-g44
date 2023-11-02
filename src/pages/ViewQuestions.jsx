@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/header';
 import Navbar from '../components/navbar';
 import Read from '../components/question_crud/read';
+import Create from '../components/question_crud/create';
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Button, Tabs, rem, Space } from '@mantine/core';
 import { IconPhoto, IconMessageCircle, IconSettings, IconAbacus, IconFilter } from '@tabler/icons-react';
@@ -18,7 +19,7 @@ import { NOFILTER } from '../components/question_crud/tag_components/taggingProc
 function ViewQuestions() {
   const navigate = useNavigate();
   const [opened, { toggle }] = useDisclosure();
-  const [state, setState] = useState(() => "READ");
+  const [createState, setCreateState] = useState(false);
   const [adminState, setAdminState] = useState(false);
   const user = useSelector(selectUser);
 
@@ -39,6 +40,7 @@ function ViewQuestions() {
   });
 
     return (
+      createState ? <Create /> :
         <AppShell
         header={{ height: 100 }}
         navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
@@ -55,10 +57,7 @@ function ViewQuestions() {
           <AppShell.Main>
             <QuestionNavbar currentValue="viewQuestions"/>
             <Space h="lg"/>
-            {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
-            New Question
-        </Button>}
-            <Read filters={NOFILTER}/>
+            <Read filters={NOFILTER} isViewQuestions={true}/>
           </AppShell.Main>
         </AppShell>
       );

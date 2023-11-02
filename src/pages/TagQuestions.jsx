@@ -58,7 +58,7 @@ function TagQuestions() {
             <Space h="xl" />
             <TagStatus filters={filters} />
             <Space h="md" />
-            <Read filters={filters}/>
+            <Read filters={filters} isViewQuestions={false}/>
           </AppShell.Main>
         </AppShell>
       );

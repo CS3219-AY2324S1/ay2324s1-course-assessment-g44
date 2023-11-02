@@ -14,6 +14,7 @@ import { selectUser } from '../../backend/user_backend/features/auth';
 import verifyAccessToken from '../../backend/user_backend/utils/Utils';
 import { useNavigate } from 'react-router-dom';
 import { isUserOrAdminApi } from '../../services/user_services';
+import TaggedQuestions from './tag_components/taggedQuestions';
 
 export default function View(props) {
 
@@ -93,7 +94,7 @@ export default function View(props) {
       });
 
       return (
-      <Read state={"deleted"} />
+      <Read state={"deleted"} filters={props.filters}/>
       );
   };
   
@@ -102,7 +103,7 @@ export default function View(props) {
   const handleUpdate = (questionToView) => {
     console.log(questionToView);
     return (
-      <Update question={questionToView}/>
+      <Update question={questionToView} filters={props.filters}/>
     );
   }
 
@@ -193,10 +194,10 @@ export default function View(props) {
 
 
   return (
-    backState ? <Read />
+    backState ? <Read filters={props.filters}/>
     : deleteState ? <>{handleDelete(props.question)}</>
     : updateState ? <>{handleUpdate(props.question)}</>
-    : toggleCompleteState ? <Read state={"toggled"} question={props.question}/>  
+    : toggleCompleteState ? <Read state={"toggled"} question={props.question} filters={props.filters}/>  
     : <>{viewScreen(props.question)}</> 
   );
 

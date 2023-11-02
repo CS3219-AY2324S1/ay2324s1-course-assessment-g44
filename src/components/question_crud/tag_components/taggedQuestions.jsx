@@ -3,6 +3,7 @@ import { notifications } from '@mantine/notifications';
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../../backend/user_backend/features/auth";
 import { mapQuestions, difficultyBadge, completedBadge } from '../question';
+import { filterQuestions } from './taggingProcess';
 import React, { useEffect, useState } from 'react';
 import { IconCheck } from '@tabler/icons-react';
 import View from '../view';
@@ -17,18 +18,26 @@ const TaggedQuestions = (props) => {
   const [questions, setQuestions] = useState(null);
   const [viewState, setViewState] = useState(false);
   const [questionToView, setQuestionToView] = useState(null);
-  const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
   const [adminState, setAdminState] = useState(false);
+  const [filters, setFilters] = useState(null);
+
+
+  // const completeFilter = props.filters.completeFilter;
+  // const difficultyFilter = props.filters.difficultyFilter;
+  // const titleFilter = props.filters.titleFilter;
+  // const categoryFilter = props.filters.categoryFilter;
 
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
     .then(response =>{
-      setQuestions(mapQuestions(response.data, user.completedQuestions));
+      const mappedQuestions = mapQuestions(response.data, user.completedQuestions);
+      const filteredQuestions = props.filters === null ? mappedQuestions : filterQuestions(mappedQuestions, props.filters);
+      setQuestions(filteredQuestions);
     })
     .catch(error => console.error(error));
-  }, [])
+  }, [props.filters])
 
 
   //toggle a notification if question was just deleted or created
@@ -70,6 +79,7 @@ const TaggedQuestions = (props) => {
       }
     });
   }, [])
+
 
 
 
@@ -135,8 +145,8 @@ const TaggedQuestions = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView}/> :
-      createState ? <Create /> :
+      viewState ? <View question={questionToView} isTagged={true}/> :
+      createState ? <Create isTagged={true}/> :
       <>
       {showAccordian()}
       </>

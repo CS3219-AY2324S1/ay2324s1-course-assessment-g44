@@ -12,6 +12,7 @@ import { isUserOrAdminApi } from '../services/user_services';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuestionNavbar from '../components/question_crud/questionNavbar';
+import { NOFILTER } from '../components/question_crud/tag_components/taggingProcess';
 
 
 function ViewQuestions() {
@@ -57,7 +58,7 @@ function ViewQuestions() {
             {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
             New Question
         </Button>}
-            <Read />
+            <Read filters={NOFILTER}/>
           </AppShell.Main>
         </AppShell>
       );

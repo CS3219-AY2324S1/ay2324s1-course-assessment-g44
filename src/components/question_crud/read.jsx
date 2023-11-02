@@ -3,6 +3,7 @@ import { notifications } from '@mantine/notifications';
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../backend/user_backend/features/auth";
 import { mapQuestions, difficultyBadge, completedBadge } from './question';
+import { filterQuestions } from './tag_components/taggingProcess';
 import React, { useEffect, useState } from 'react';
 import { IconCheck } from '@tabler/icons-react';
 import View from './view';
@@ -24,11 +25,13 @@ const Read = (props) => {
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
-    .then(response =>{
-      setQuestions(mapQuestions(response.data, user.completedQuestions));
+    .then(response => {
+      const mappedQuestions = mapQuestions(response.data, user.completedQuestions);
+      const filteredQuestions = filterQuestions(mappedQuestions, props.filters);
+      setQuestions(filteredQuestions);
     })
     .catch(error => console.error(error));
-  }, [])
+  }, [props.filters])
 
 
   //toggle a notification if question was just deleted or created
@@ -69,7 +72,7 @@ const Read = (props) => {
         setAdminState(true);
       }
     });
-  }, [])
+  }, []);
 
 
 
@@ -135,7 +138,7 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView}/> :
+      viewState ? <View question={questionToView} filters={props.filters}/> :
       createState ? <Create /> :
       <>
       {showAccordian()}

@@ -150,7 +150,10 @@ export default function View(props) {
 
   function viewScreen(question) {
     return (
+      <>
+      <Space h="md" />
       <Card shadow="sm" padding="lg" radius="md" withBorder key={key}>
+        
         <Group>
           <Text fw={500} size="lg">{question.title}</Text>
           <>{completedBadge(props.question.completed)}</>
@@ -187,6 +190,7 @@ export default function View(props) {
           {adminState && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
       </Card>
+      </>
     );
   }
 

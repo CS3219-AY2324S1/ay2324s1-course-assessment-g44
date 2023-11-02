@@ -3,7 +3,7 @@ import Header from '../components/header';
 import Navbar from '../components/navbar';
 import Read from '../components/question_crud/read';
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Tabs, rem, Space, LoadingOverlay } from '@mantine/core';
+import { AppShell, Burger, Tabs, rem, Space, LoadingOverlay, Grid } from '@mantine/core';
 import { IconPhoto, IconMessageCircle, IconSettings, IconAbacus, IconFilter } from '@tabler/icons-react';
 import { selectUser } from '../backend/user_backend/features/auth';
 import { useSelector } from 'react-redux';
@@ -26,7 +26,6 @@ function TagQuestions() {
 
   const getFilter = (data) => {
     setFilters(data);
-    setVisible(true);
   }
 
   useEffect(() => {
@@ -54,9 +53,14 @@ function TagQuestions() {
           <AppShell.Main>
             <QuestionNavbar currentValue="tagQuestions"/>
             <Space h="lg"/>
+            <Grid>
+            <Grid.Col span={4}>
             <TagMenu getFilterFunction={getFilter}/>
-            <Space h="xl" />
+            </Grid.Col>
+            <Grid.Col span={4}>
             <TagStatus filters={filters} />
+            </Grid.Col>
+            </Grid>
             <Space h="md" />
             <Read filters={filters} isViewQuestions={false}/>
           </AppShell.Main>

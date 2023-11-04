@@ -1,17 +1,28 @@
-import React, { useState } from "react";
-import CodeEditorWindow from "./codeEditorWindow";
+import React, { useState, useEffect, useRef } from "react";
+import Editor from "@monaco-editor/react";
+import * as Y from 'yjs';
+import { WebsocketProvider } from 'y-websocket';
+import { MonacoBinding } from 'y-monaco';
+import { loader } from '@monaco-editor/react';
 import LanguagesDropdown from "./languagesDropdown";
 import { languageOptions } from "./languageOptions";
 import classes from "../../css/RoomMainArea.module.css";
-import { Container, Button, Flex } from "@mantine/core";
+import { Container, Button, Flex, Drawer } from "@mantine/core";
 import { useMantineTheme, Modal, Paper } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
+import { useDisclosure } from "@mantine/hooks";
 import Chatbox from "../chatbox_elements/chatbox.jsx";
+import CompileCodeArea from "./compileCodeArea";
 
 function RoomMainArea(roomID) {
   const [language, setLanguage] = useState(languageOptions[0]);
-  const [code, setCode] = useState("");
   const [isQuitModalOpen, setIsQuitModalOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [ydoc, setYdoc] = useState("");
+  const [opened, { open, close }] = useDisclosure(false);
+
+  
+
   const navigate = useNavigate();
   // const fn = C
 
@@ -20,26 +31,67 @@ function RoomMainArea(roomID) {
     setLanguage(sl);
   };
 
-  const onChange = (action, data) => {
-    switch (action) {
-      case "code": {
-        setCode(data);
-        break;
-      }
-      default: {
-        console.warn("case not handled!", action, data);
-      }
-    }
-  };
-
   const handleQuitClick = () => {
     setIsQuitModalOpen(true);
   };
 
   const handleQuitConfirmation = () => {
     setIsQuitModalOpen(false);
+    const ytext = ydoc.getText('monaco');
+    ytext.delete(0, ytext.length);
+  
+    // Clear the Monaco Editor's content
+    editorRef.current.setValue("");
     navigate('/');
   };
+
+
+  const editorRef = useRef(null); // Create a ref for the editor
+
+  const handleEditorChange = (currContent) => {
+    setValue(currContent);
+  };
+
+  const options = {
+    autoIndent: "full",
+    contextmenu: true,
+    fontFamily: "monospace",
+    fontSize: 15,
+    lineHeight: 22,
+    hideCursorInOverviewRuler: false,
+    matchBrackets: "always",
+    minimap: {
+      enabled: true,
+    },
+    scrollbar: {
+      horizontalSliderSize: 4,
+      verticalSliderSize: 18,
+    },
+    selectOnLineNumbers: true,
+    roundedSelection: false,
+    readOnly: false,
+    cursorStyle: "line",
+    automaticLayout: true,
+  };
+
+  const didEditorMount = (editor) => {
+    // Y.js setup
+    editorRef.current = editor;
+    const ydocInstance = new Y.Doc();
+    const provider = new WebsocketProvider("ws://localhost:1234", roomID, ydocInstance);
+    const ytext = ydocInstance.getText('monaco');
+    setYdoc(ydocInstance);
+    // Monaco Editor setup
+    loader.init().then((monaco) => {
+      const editor = monaco.editor.create(editorRef.current, {
+        setEditorContent: value,
+        language: language,
+      })});
+
+      // Y.js and Monaco Binding
+    const monacoBinding = new MonacoBinding(ytext, editor.getModel(), new Set([editor]), provider.awareness);
+  }
+
 
   const theme = useMantineTheme();
   const modalStyles = { maxWidth: 400, padding: 20 };
@@ -71,13 +123,28 @@ function RoomMainArea(roomID) {
       <Container className={classes.app}>
         <div className={classes.editor}>
           <LanguagesDropdown onSelectChange={onSelectChange} />
-          <CodeEditorWindow
-            roomID={roomID}
-            code={code}
-            onChange={onChange}
+          <Drawer
+            opened={opened}
+            onClose={close}
+            position="bottom"
+            title="Run Output"
+            overlayProps={{ backgroundOpacity: 0, blur: 0 }}
+            size={280}
+            lockScroll={false}
+          >
+            <CompileCodeArea languageID={language?.id} code={value} />
+          </Drawer>
+          <Editor
+            height={"55vh"}
+            width={"100%"}
+            onMount={didEditorMount}
+            onChange={handleEditorChange}
             language={language?.value}
             languageID={language?.id}
+            value={value}
+            options={options}
           />
+          <Button onClick={open}> Compile </Button>
         </div>
         <div className={classes.chatbox}> < Chatbox roomID = {roomID} /> </div>
         <Flex className={classes.buttons}>

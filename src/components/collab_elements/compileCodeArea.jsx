@@ -17,6 +17,7 @@ const CompileCodeArea = ({ languageID, code }) => {
       stdin: btoa(""),
     };
     const response = await submitCodeApi(data);
+    console.log(response.data);
     if (response !== "error") {
       const token = response.data.token;
       checkStatus(token);

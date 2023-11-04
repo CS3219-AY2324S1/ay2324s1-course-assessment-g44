@@ -1,8 +1,5 @@
 const axios = require("axios");
 require("dotenv").config({path: './../../../.env'});
-const KEY = "f4d58a97damsh76cea5afa3ddeb0p1dacedjsn82f392cd7a0a";
-const HOST = "judge0-ce.p.rapidapi.com";
-const URL = "https://judge0-ce.p.rapidapi.com";
 const ERR_MESSAGE = "Server error. Try again later!";
 
 exports.getLanguages = async (req, res) => {

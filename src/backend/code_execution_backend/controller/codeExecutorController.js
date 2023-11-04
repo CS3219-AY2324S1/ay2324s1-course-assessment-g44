@@ -1,4 +1,5 @@
 const axios = require("axios");
+require("dotenv").config({path: './../../../.env'});
 const KEY = "f4d58a97damsh76cea5afa3ddeb0p1dacedjsn82f392cd7a0a";
 const HOST = "judge0-ce.p.rapidapi.com";
 const URL = "https://judge0-ce.p.rapidapi.com";
@@ -7,10 +8,10 @@ const ERR_MESSAGE = "Server error. Try again later!";
 exports.getLanguages = async (req, res) => {
   const options = {
     method: "GET",
-    url: `${URL}/languages`,
+    url: `${process.env.URL}/languages`,
     headers: {
-      "X-RapidAPI-Key": KEY,
-      "X-RapidAPI-Host": HOST,
+      "X-RapidAPI-Key": process.env.KEY,
+      "X-RapidAPI-Host": process.env.HOST,
     },
   };
 
@@ -21,18 +22,18 @@ exports.getLanguages = async (req, res) => {
       body: response.data,
     });
   } catch (error) {
-    console.log(error);
-    // return res.status(500).send(ERR_MESSAGE);
+    // console.log(error);
+    return res.status(500).send(ERR_MESSAGE);
   }
 };
 
 exports.getLanguage = async (req, res) => {
   const options = {
     method: "GET",
-    url: `${URL}/languages/${req.params.id}`,
+    url: `${process.env.URL}/languages/${req.params.id}`,
     headers: {
-      "X-RapidAPI-Key": KEY,
-      "X-RapidAPI-Host": HOST,
+      "X-RapidAPI-Key": process.env.KEY,
+      "X-RapidAPI-Host": process.env.HOST,
     },
   };
 
@@ -43,8 +44,8 @@ exports.getLanguage = async (req, res) => {
       data: response.data,
     });
   } catch (error) {
-    console.log(error);
-    // return res.status(500).send(ERR_MESSAGE);
+    // console.log(error);
+    return res.status(500).send(ERR_MESSAGE);
   }
 };
 
@@ -54,7 +55,7 @@ exports.createSubmission = async (req, res) => {
   const stdin = req.body.stdin;
   const options = {
     method: "POST",
-    url: `${URL}/submissions`,
+    url: `${process.env.URL}/submissions`,
     params: {
       base64_encoded: "true",
       fields: "*",
@@ -62,8 +63,8 @@ exports.createSubmission = async (req, res) => {
     headers: {
       "content-type": "application/json",
       "Content-Type": "application/json",
-      "X-RapidAPI-Key": KEY,
-      "X-RapidAPI-Host": HOST,
+      "X-RapidAPI-Key": process.env.KEY,
+      "X-RapidAPI-Host": process.env.HOST,
     },
     data: {
       language_id: language_id,
@@ -74,15 +75,13 @@ exports.createSubmission = async (req, res) => {
 
   try {
     const response = await axios.request(options);
-    // console.log(response.data);
     return res.status(200).json({
       message: "Code successfully submitted",
       data: response.data,
     });
   } catch (error) {
-    // return res.status(500).send(ERR_MESSAGE);
-    console.log(error.response.data)
-// 
+    return res.status(500).send(ERR_MESSAGE);
+    // console.log(error.response.data)
   }
 };
 
@@ -91,14 +90,14 @@ exports.getSubmission = async (req, res) => {
 
   const options = {
     method: "GET",
-    url: `${URL}/submissions/${token}`,
+    url: `${process.env.URL}/submissions/${token}`,
     params: {
       base64_encoded: "true",
       fields: "*",
     },
     headers: {
-      "X-RapidAPI-Key": KEY,
-      "X-RapidAPI-Host": HOST,
+      "X-RapidAPI-Key": process.env.KEY,
+      "X-RapidAPI-Host": process.env.HOST,
     },
   };
 
@@ -109,7 +108,7 @@ exports.getSubmission = async (req, res) => {
         body: response.data,
     });
   } catch (error) {
-    // return res.status(500).send(ERR_MESSAGE);
-    console.log(error);
+    return res.status(500).send(ERR_MESSAGE);
+    // console.log(error);
   }
 };

@@ -16,6 +16,8 @@ import Logout from "./pages/Logout";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import TagQuestions from "./pages/TagQuestions";
+import QuestionNavbar from "./components/question_crud/questionNavbar";
 
 function App() {
   
@@ -29,6 +31,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/viewQuestions" element={<ViewQuestions />} />
+            <Route path="tagQuestions" element={<TagQuestions/>} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/room/:roomID" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />

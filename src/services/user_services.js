@@ -56,4 +56,23 @@ export const isUserOrAdminApi = async (req) => {
   }
 }
   
-  
+export const userMarkQuestionAsCompletedApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/userMarkQuestionAsCompleted`, req);
+    console.log(res);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+};
+
+export const userMarkQuestionAsIncompleteApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/userMarkQuestionAsIncomplete`, req);
+    console.log(res);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+};
+

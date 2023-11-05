@@ -1,5 +1,5 @@
 const axios = require("axios");
-require("dotenv").config({path: './../../../.env'});
+require("dotenv").config({path: './.env'});
 const ERR_MESSAGE = "Server error. Try again later!";
 
 exports.getLanguages = async (req, res) => {

@@ -42,16 +42,6 @@ button {
   font-size: calc(10px + 2vmin);
 }
 
-.main{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #212121;
-  color: whitesmoke;
-  flex-direction: column;
-}
-
 .main-header{
   font-family: 'Montserrat', sans-serif;
 }

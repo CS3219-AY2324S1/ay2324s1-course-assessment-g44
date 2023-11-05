@@ -74,7 +74,6 @@ io.on("connection", socket => {
     
             // Retrieve the random question
             const randomQuestion = filteredQuestions[randomIndex];
-            console.log(randomQuestion)
             io.to(socket.id).emit("navigate-to-room", {user: otherUser.user, question: randomQuestion, roomID: roomID});
             io.to(otherUser.socketId).emit("navigate-to-room", {user: user, question: randomQuestion, roomID: roomID});
 

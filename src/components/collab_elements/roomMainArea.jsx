@@ -7,7 +7,7 @@ import { loader } from '@monaco-editor/react';
 import LanguagesDropdown from "./languagesDropdown";
 import { languageOptions } from "./languageOptions";
 import classes from "../../css/RoomMainArea.module.css";
-import { Container, Button, Flex, Drawer } from "@mantine/core";
+import { Container, Button, Flex, Drawer, Box } from "@mantine/core";
 import { useMantineTheme, Modal, Paper } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
@@ -135,7 +135,7 @@ function RoomMainArea(roomID) {
             <CompileCodeArea languageID={language?.id} code={value} />
           </Drawer>
           <Editor
-            height={"55vh"}
+            height={"50vh"}
             width={"100%"}
             onMount={didEditorMount}
             onChange={handleEditorChange}
@@ -157,7 +157,7 @@ function RoomMainArea(roomID) {
           <Button style={{ backgroundColor: 'orange', color: 'black' }}>Previous</Button>
           <Button style={{ backgroundColor: 'green', color: 'white' }}>Next</Button>
         </Flex>
-      </Container>
+        </Container>
       {modal}
     </>
   );

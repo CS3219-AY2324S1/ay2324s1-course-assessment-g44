@@ -54,7 +54,7 @@ const Room = () => {
     const res = await axios.get("http://localhost:3001/routes/getQuestions");
     const questions = res.data;
     const filtered = questions.filter(
-      (question) => question.difficulty === "easy".toLowerCase()
+      (question) => question.difficulty === questionJSON.difficulty.toLowerCase()
     );
 
     for (let i = 0; i < filtered.length; i++) {
@@ -67,7 +67,7 @@ const Room = () => {
     const res = await axios.get("http://localhost:3001/routes/getQuestions");
     const questions = res.data;
     const filtered = questions.filter(
-      (question) => question.difficulty === "easy".toLowerCase()
+      (question) => question.difficulty === questionJSON.difficulty.toLowerCase()
     );
 
     for (let i = 0; i < filtered.length; i++) {

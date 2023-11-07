@@ -25,6 +25,5 @@ jobs:
         run: npm i
       - name: Run Server
         working-directory: ./src/backend/question_backend
-        run: |
-          node index.js 
-          npx cypress run --spec "cypress/e2e/question_api.cy.js"
+        run: 
+          node index.js && npx cypress run --spec "cypress/e2e/question_api.cy.js"

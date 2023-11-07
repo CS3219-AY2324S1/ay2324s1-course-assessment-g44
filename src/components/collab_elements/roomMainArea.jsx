@@ -17,6 +17,7 @@ import CompileCodeArea from "./compileCodeArea";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../backend/user_backend/features/auth";
 import { submitAttemptApi } from "../../services/user_services";
+import { notifications } from "@mantine/notifications";
 
 function RoomMainArea({roomID, question}) {
   const [language, setLanguage] = useState(languageOptions[0]);
@@ -155,7 +156,14 @@ function RoomMainArea({roomID, question}) {
       code: value,
       language: language.label
     }
-    await submitAttemptApi(req);
+    const res = await submitAttemptApi(req);
+    if (res.status === 201) {
+      notifications.show({
+        title: 'Attempt submitted!',
+        autoClose: 1340,
+        color: "dark green",
+      });
+    }
   }
 
   return (

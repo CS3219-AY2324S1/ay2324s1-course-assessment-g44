@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const port = process.env.PORT || 8080;
+
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -8,7 +10,7 @@ export default defineConfig({
       usePolling: true,
     },
     host: true,
-    port: 8080,
+    port: port,
   },
   test: {
     globals: true,

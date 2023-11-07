@@ -4,6 +4,7 @@ import cors from 'cors';
 import { Server } from 'socket.io';
 import { connect } from 'amqplib'; 
 import 'dotenv';
+import axios from 'axios';
 
 const app = express();
 const http = createServer(app);
@@ -60,11 +61,26 @@ io.on("connection", socket => {
         } else {
             // Case 2: User already in queue
             const otherUser = JSON.parse(dequeueMsg.content.toString());
-            console.log(user);
+            // console.log(user);
             // This case handles after matching, what to do
             const roomID = generateRoomID();
-            io.to(socket.id).emit("navigate-to-room", otherUser.user);
-            io.to(otherUser.socketId).emit("navigate-to-room", user);
+            const res = await axios.get('http://localhost:3001/routes/getQuestions');
+            const questions = res.data;
+            const filteredQuestions = questions.filter(question => question.difficulty === complexity.toLowerCase());
+    
+            if (filteredQuestions.length > 0) {
+            // Generate a random index within the range of easyQuestions
+            const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
+    
+            // Retrieve the random question
+            const randomQuestion = filteredQuestions[randomIndex];
+            io.to(socket.id).emit("navigate-to-room", {user: otherUser.user, question: randomQuestion, roomID: roomID});
+            io.to(otherUser.socketId).emit("navigate-to-room", {user: user, question: randomQuestion, roomID: roomID});
+
+            console.log(`Random question with complexity ${complexity}:`, randomQuestion);
+            } else {
+            console.log(`No questions with complexity ${complexity}  found.`);
+            }
 
         }
     });

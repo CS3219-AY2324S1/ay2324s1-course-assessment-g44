@@ -7,7 +7,7 @@ import axios from 'axios';
 
 
 export default function Update(props) {
-  const oldQuestion = props.question;
+  const [oldQuestion, setOldQuestion] = useState(props.question);
   const [updated, setUpdated] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
@@ -41,7 +41,7 @@ export default function Update(props) {
     },
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     // Check if the title and description already exist in the database
     // axios.post('http://localhost:3001/routes/checkQuestionExistence', {
     //   title: values.title,
@@ -53,67 +53,26 @@ export default function Update(props) {
     //   } else {
     //     setWarningMessage('');
         // Continue with the update if the question doesn't already exist
+        console.log(props.question);
         const updatedQuestion = {
           title: values.title,
           description: values.description,
           category: values.category,
           difficulty: values.difficulty,
-          _id: oldQuestion._id, // Use MongoDB _id here
+          _id: oldQuestion._id // Use MongoDB _id here
         };
-        axios.patch('http://localhost:3001/routes/updateQuestion', updatedQuestion)
+        const res = await axios.patch('http://localhost:3001/routes/updateQuestion', updatedQuestion)
             .then(() => {
               console.log("Success update");
               setUpdatedQuestion(updatedQuestion); // Update the local state with the updated question
               setUpdated(true);
             })
         }
-    
-      // .catch((error) => {
-      //   console.error("Error checking question existence:", error);
-      // });
-
-  
-
-  // const form = useForm({
-  //   initialValues: {
-  //     title: oldQuestion.title,
-  //     description: oldQuestion.description,
-  //     category: oldQuestion.category,
-  //     difficulty: oldQuestion.difficulty
-  //   },
-  // });
-
-  // const handleSubmit = (values) => {
-  //   const q = {
-  //     title: values.title,
-  //     description: values.description,
-  //     category: values.category,
-  //     difficulty: values.difficulty,
-  //     id: oldQuestion.id
-  //   }
-  //   //console.log(updatedQuestion);
-
-  //   fetch('http://localhost:8000/questions/' + oldQuestion.id, {
-  //     method: 'PUT',
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(q)
-  //   }).then(() => console.log("update success"));
-
-  //   setUpdatedQuestion({
-  //     title: values.title,
-  //     description: values.description,
-  //     category: values.category,
-  //     difficulty: values.difficulty,
-  //     id: oldQuestion.id
-  //   });
-
-  //   setUpdated(true);
-  // }
 
 
   return (
-    updated ? <View question={updatedQuestion} updated={true}/> :
-    cancelled ? <View question={oldQuestion} /> :
+    updated ? <View question={updatedQuestion} updated={true} filters={props.filters} isViewQuestions={props.isViewQuestions}/> :
+    cancelled ? <View question={oldQuestion} filters={props.filters} isViewQuestions={props.isViewQuestions}/> :
     <Card shadow="sm" padding="xl" radius="md" withBorder>
         <Title order={2}>Update Question</Title>
         <Space h="lg" />

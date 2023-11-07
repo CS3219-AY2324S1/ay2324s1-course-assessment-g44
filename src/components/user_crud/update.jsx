@@ -10,6 +10,8 @@ import { selectUser } from "../../backend/user_backend/features/auth";
 import verifyAccessToken from "../../backend/user_backend/utils/Utils";
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
 
 export default function Update() {
   const navigate = useNavigate();
@@ -21,11 +23,13 @@ export default function Update() {
 
   const [updated, setUpdated] = useState(false);
   const [cancelled, setCancelled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [updatedUser, setUpdatedUser] = useState({
     username: oldUser.username,
     email: oldUser.email,
     password: oldUser.password,
+    completedQuestions: oldUser.completedQuestions
   });
 
   const form = useForm({
@@ -33,10 +37,13 @@ export default function Update() {
       username: oldUser.username,
       email: oldUser.email,
       password: oldUser.password,
-    },
+    }, 
+    validate: {
+      password: (value) => (value.length < 5 ? 'Password should be at least 6 characters!' : null)
+    }
   });
 
-  const setData = async (newUser) => {
+  const setData = newUser => {
     dispatch(
       login({
         email: newUser.email,
@@ -44,6 +51,7 @@ export default function Update() {
         password: newUser.password,
         accessToken: oldUser.accessToken,
         loggedIn: true,
+        completedQuestions: oldUser.completedQuestions,
       })
     );
   };
@@ -59,19 +67,47 @@ export default function Update() {
       username: values.username,
       password: values.password,
     };
+    if (q.password === oldUser.password && q.username === oldUser.username) {
+      return;
+    }
     const res = await updateUserApi(q);
-
-    if (res.status == 201) {
-      await setData(values);
+    if (res === "This username is already in use, please pick another username!") {
+      form.setErrors({ username: res });
+    } else {
+      setData(values);
+      setUpdatedUser({
+        email: values.email,
+        username: values.username,
+        password: values.password,
+      });
+  
+      setUpdated(true);
+      notifications.show({
+        title: "Success",
+        message: "Your info is updated!",
+        color: "green",
+        autoClose: 5000,
+        icon: <IconCheck />
+      })
     }
 
     setUpdatedUser({
       email: values.email,
       username: values.username,
       password: values.password,
+      completedQuestions: oldUser.completedQuestions,
     });
+    // if (res.status == 201) {
+    //   setData(values);
+    // }
 
-    setUpdated(true);
+    // setUpdatedUser({
+    //   email: values.email,
+    //   username: values.username,
+    //   password: values.password,
+    // });
+
+    // setUpdated(true);
   };
 
   const handleDelete = async () => {

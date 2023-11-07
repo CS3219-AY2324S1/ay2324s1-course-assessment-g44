@@ -184,3 +184,18 @@ exports.isUserOrAdmin = async (req, res) => {
     console.log(err.message);
   }
 }
+
+
+exports.submitAttempt = async (req, res) => {
+  try {
+    const { email, questionId, date, code, language } = req.body;
+    await pool.query(
+      `INSERT INTO attempts VALUES (DEFAULT, '${email}', '${questionId}', '${date}', '${code}', '${language}')`
+    )
+    return res.status(201).send({
+      message: questionId
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}

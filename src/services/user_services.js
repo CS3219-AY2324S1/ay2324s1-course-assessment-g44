@@ -76,3 +76,13 @@ export const userMarkQuestionAsIncompleteApi = async (req) => {
   }
 };
 
+export const submitAttemptApi = async (req) => {
+  try {
+    const res = await axios.post(`${basePath}/submitAttempt`, req);
+    console.log(res);
+    return res;
+  } catch (error) {
+    return "error";
+  }
+}
+

@@ -42,10 +42,12 @@ const Room = () => {
   const [qnDiff, setQnDiff] = useState();
   const [qnCat, setQnCat] = useState();
   const [qnDesc, setQnDesc] = useState();
+ 
 
 
   const questionJSON = JSON.parse(JSON.stringify(question));
 
+  const [qnID, setQnID] = useState(questionJSON._id);
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
   const [favourited, setFavourited] = useState(false);
@@ -103,6 +105,7 @@ const Room = () => {
         setQnCat(f.category);
         setQnDiff(f.difficulty);
         setQnDesc(f.description);
+        setQnID(f._id);
       }
     }
   }
@@ -204,7 +207,7 @@ const Room = () => {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <RoomMainArea roomID={roomID} />
+        <RoomMainArea roomID={roomID} question={qnID} questionN={qnTitle}/>
       </AppShell.Main>
     </AppShell>
   );

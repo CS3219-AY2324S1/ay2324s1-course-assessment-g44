@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 
-const apiPath = "http://localhost:3001/routes";
+const PORT = 8004;
+const apiPath = `http://localhost:${PORT}/routes`;
 const checkQuestionExistencePath = "checkQuestionExistence";
 const addQuestionPath = "addQuestion";
 const updateQuestionPath = "updateQuestion";

@@ -14,7 +14,6 @@ import { useDisclosure } from "@mantine/hooks";
 import {modals} from '@mantine/modals';
 import Chatbox from "../chatbox_elements/chatbox.jsx";
 import CompileCodeArea from "./compileCodeArea";
-import AttemptManager from "./attemptManager";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../backend/user_backend/features/auth";
 import { submitAttemptApi } from "../../services/user_services";

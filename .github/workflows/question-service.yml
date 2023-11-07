@@ -28,6 +28,3 @@ jobs:
         run: |
           node index.js 
           npx cypress run --spec "cypress/e2e/question_api.cy.js"
-      - name: Run tests
-        working-directory: ./src
-        run: npx cypress run --spec "cypress/e2e/question_api.cy.js"

@@ -24,27 +24,27 @@ jobs:
         working-directory: ./src/backend/question_backend
         run: npm i
       - name: Run Server
-        working-directory: ./src/backend/question_backend
-        run: node index.js
-  
-  run-tests:
-    runs-on: ubuntu-latest
-    env:
-      ENV: PROD
-      PORT: 8004
-      DB_CLOUD_URI: ${{ secrets.DB_CLOUD_URI }}
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-      - uses: actions/checkout@v3   
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install typescript
-        working-directory: ./src/cypress
-        run: npm install --save-dev typescript
-      - name: Run tests
         working-directory: ./src
-        run: npx cypress run --headed chrome --no-exit --spec "cypress/e2e/question_api.cy.js"
+        run: node backend/question_backend/index.js & npx cypress run --headed chrome --no-exit --spec "cypress/e2e/question_api.cy.js"
+  
+  # run-tests:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     ENV: PROD
+  #     PORT: 8004
+  #     DB_CLOUD_URI: ${{ secrets.DB_CLOUD_URI }}
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+  #   steps:
+  #     - uses: actions/checkout@v3   
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Install typescript
+  #       working-directory: ./src/cypress
+  #       run: npm install --save-dev typescript
+  #     - name: Run tests
+  #       working-directory: ./src
+  #       run: npx cypress run --headed chrome --no-exit --spec "cypress/e2e/question_api.cy.js"

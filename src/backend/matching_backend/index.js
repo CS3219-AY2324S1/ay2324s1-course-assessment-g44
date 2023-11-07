@@ -54,12 +54,18 @@ io.on("connection", socket => {
             const queueMsg = {
                 user: user, socketId: socket.id
             };
+            // Check queue status before matching
+            // checkQueue() returns object: { queue: '<complexity>', messageCount: <>, consumerCount: <> }
+            const queueStatus = await channel.checkQueue(complexity);
+            console.log(queueStatus);
             console.log("Adding to message queue");
             console.log(queueMsg);
-
             channel.sendToQueue(complexity, Buffer.from(JSON.stringify(queueMsg)));
         } else {
             // Case 2: User already in queue
+            console.log("Match found!")
+            const queueStatus = await channel.checkQueue(complexity);
+            console.log(queueStatus);
             const otherUser = JSON.parse(dequeueMsg.content.toString());
             // console.log(user);
             // This case handles after matching, what to do

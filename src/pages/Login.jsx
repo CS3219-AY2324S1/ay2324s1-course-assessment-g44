@@ -26,8 +26,8 @@ import {
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "../css/Authentication.module.css";
-import Logo from "../../images/logo2.png";
-import student from "../../images/student_coding_peerprep.jpeg";
+import Logo from "../images/logo2.png";
+import student from "../images/student_coding_peerprep.jpeg";
 import LightModeAndDarkModeButton from "../components/buttons/lightModeAndDarkModeButton";
 
 export default function Login() {

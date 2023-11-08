@@ -19,18 +19,15 @@ import { selectUser } from "../../backend/user_backend/features/auth";
 import { submitAttemptApi } from "../../services/user_services";
 import { notifications } from "@mantine/notifications";
 
-function RoomMainArea({roomID, question}) {
+function RoomMainArea({roomID, question, detectSubmission}) {
   const [language, setLanguage] = useState(languageOptions[0]);
   const [isQuitModalOpen, setIsQuitModalOpen] = useState(false);
   const [value, setValue] = useState("");
   const [ydoc, setYdoc] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
-  const [attemptOpened, { attemptOpen, attemptClose }] = useDisclosure(false);
 
   const user = useSelector(selectUser);
-  console.log(user);
 
-  console.log(question);
 
   const navigate = useNavigate();
   // const fn = C
@@ -164,6 +161,7 @@ function RoomMainArea({roomID, question}) {
         color: "dark green",
       });
     }
+    detectSubmission();
   }
 
   return (
@@ -192,12 +190,7 @@ function RoomMainArea({roomID, question}) {
             value={value}
             options={options}
           />
-          <Modal
-            size="sm"
-            title="attempt"
-            opened={attemptOpened}
-            onClose={attemptClose}
-          ></Modal>
+        
           <Group grow>
           <Button onClick={open} variant='light' color='grape'> Compile </Button>
           <Button onClick={openSubmitModal} variant='light' color='dark green'> Submit Attempt </Button>

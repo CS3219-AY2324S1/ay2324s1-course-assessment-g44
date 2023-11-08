@@ -90,7 +90,6 @@ export const getAttemptsApi = async (req) => {
     const res = await axios.get(`${basePath}/getAttempts`, {
       params: {email: req.email}
     }).then(result => {
-      console.log(result);
       return result;
     });
     return res; 

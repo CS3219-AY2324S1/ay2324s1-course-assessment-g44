@@ -17,7 +17,6 @@ export default function Update() {
   const navigate = useNavigate();
   const [opened, { toggle, close }] = useDisclosure();
   const [visible, handlers] = useDisclosure(false);
-  //const oldUser = props.user;
   const oldUser = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -62,10 +61,11 @@ export default function Update() {
         navigate("/login");
       }
     });
+    const tok = JSON.stringify({ headers: { authorization: "Bearer " + oldUser.accessToken }});
     const q = {
-      email: values.email,
       username: values.username,
       password: values.password,
+      token: tok
     };
     if (q.password === oldUser.password && q.username === oldUser.username) {
       return;
@@ -97,17 +97,6 @@ export default function Update() {
       password: values.password,
       completedQuestions: oldUser.completedQuestions,
     });
-    // if (res.status == 201) {
-    //   setData(values);
-    // }
-
-    // setUpdatedUser({
-    //   email: values.email,
-    //   username: values.username,
-    //   password: values.password,
-    // });
-
-    // setUpdated(true);
   };
 
   const handleDelete = async () => {

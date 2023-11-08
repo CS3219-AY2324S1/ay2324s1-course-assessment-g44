@@ -35,7 +35,21 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const id = req.params.token;
+    const idJSON = JSON.parse(id);
+    const authToken = idJSON.headers.authorization.split(" ")[1];
+    const user = jwt.verify(
+      authToken,
+      JWT_SECRET_KEY,
+      (err, decoded) => {
+        if (err) {
+          return res.status(403).send("Token expired!");
+        }
+        return decoded;
+      }
+    );
+    const email = user.email;
+    const { username, password} = req.body;
     const isDuplicateUsername = await isExistingUsername(username);
     if (isDuplicateUsername) {
       return res.status(401).send("This username is already in use, please pick another username!");
@@ -86,7 +100,9 @@ exports.loginUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const authToken = req.headers.authorization.split(" ")[1];
+    const id = req.params.token;
+    const idJSON = JSON.parse(id);
+    const authToken = idJSON.headers.authorization.split(" ")[1];
     const user = jwt.verify(
       authToken,
       JWT_SECRET_KEY,
@@ -101,7 +117,7 @@ exports.getUser = async (req, res) => {
     const userInfo = await pool.query(
       `SELECT * FROM Users where email_address = '${email}'`
     );
-    return res.status(201).send({
+    return res.status(200).send({
       message: userInfo,
     });
   } catch (err) {

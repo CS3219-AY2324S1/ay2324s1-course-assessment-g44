@@ -3,11 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import { connect } from 'amqplib'; 
-import 'dotenv';
+import dotenv from 'dotenv';
 import axios from 'axios';
 
 const app = express();
 const http = createServer(app);
+const config = dotenv.config({path: './.env'});
+const hostName = process.env.HOST_NAME;
 
 const io =  new Server(http, {
     cors: {origin: "*"}
@@ -17,7 +19,7 @@ const ampqURL = 'amqps://ctkrippq:VOktAb86Bup5TVgqhHCa1sljcwFUHYSG@armadillo.rmq
 const PORT = 8002;
 
 
-app.use(cors());
+app.use(cors());    
 app.use(express.json());    
 
 app.get('/', (req, res) => {
@@ -70,7 +72,10 @@ io.on("connection", socket => {
             // console.log(user);
             // This case handles after matching, what to do
             const roomID = generateRoomID();
-            const res = await axios.get('http://localhost:3001/routes/getQuestions');
+            // const res = await axios.get(`http://localhost:3001/routes/getQuestions`);
+            console.log(hostName);
+            const res = await axios.get(`http://${hostName}:3001/routes/getQuestions`);
+              
             const questions = res.data;
             const filteredQuestions = questions.filter(question => question.difficulty === complexity.toLowerCase());
     

@@ -100,10 +100,8 @@ export default function Update() {
   };
 
   const handleDelete = async () => {
-    const email = updatedUser.email;
-    const password = updatedUser.password;
-    const username = updatedUser.username;
-    const req = { email: email, password: password, username: username };
+    const tok = JSON.stringify({ headers: { authorization: "Bearer " + oldUser.accessToken }});
+    const req = { token: tok };
 
     const res = await deleteUserApi(req);
     if (res.status == 200) {

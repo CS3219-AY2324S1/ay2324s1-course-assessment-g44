@@ -10,7 +10,7 @@ router.get(`/getUser/:token`, userController.getUser);
 
 router.patch(`/updateUser/:token`, userController.updateUser);
 
-router.post(`/deleteUser`, userController.deleteUser);
+router.delete(`/deleteUser/:token`, userController.deleteUser);
 
 router.post(`/userMarkQuestionAsCompleted`, userController.userMarkQuestionAsCompleted);
 

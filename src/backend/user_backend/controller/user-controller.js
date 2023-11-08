@@ -5,7 +5,7 @@ const {
   isExistingUsername,
 } = require("../utils/validation");
 const jwt = require("jsonwebtoken");
-const {v4: uuidv4} = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const EXPIRATION_TIME = 15 * 60; // 15 min
 const JWT_SECRET_KEY = "iloveJWT";
@@ -16,11 +16,15 @@ exports.createUser = async (req, res) => {
     const { username, email, password } = req.body;
     const isDuplicateEmailAddress = await isDuplicateEmail(email);
     if (isDuplicateEmailAddress) {
-      return res.status(401).send("This email address has already been registered!");
+      return res
+        .status(401)
+        .send("This email address has already been registered!");
     }
     const isDuplicateUsername = await isExistingUsername(username);
     if (isDuplicateUsername) {
-      return res.status(401).send("This username is already in use, please pick another username!");
+      return res
+        .status(401)
+        .send("This username is already in use, please pick another username!");
     } else {
       const newId = uuidv4();
       await pool.query(
@@ -38,25 +42,23 @@ exports.updateUser = async (req, res) => {
     const id = req.params.token;
     const idJSON = JSON.parse(id);
     const authToken = idJSON.headers.authorization.split(" ")[1];
-    const user = jwt.verify(
-      authToken,
-      JWT_SECRET_KEY,
-      (err, decoded) => {
-        if (err) {
-          return res.status(403).send("Token expired!");
-        }
-        return decoded;
+    const user = jwt.verify(authToken, JWT_SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(403).send("Token expired!");
       }
-    );
+      return decoded;
+    });
     const email = user.email;
-    const { username, password} = req.body;
+    const { username, password } = req.body;
     const isDuplicateUsername = await isExistingUsername(username);
     if (isDuplicateUsername) {
-      return res.status(401).send("This username is already in use, please pick another username!");
+      return res
+        .status(401)
+        .send("This username is already in use, please pick another username!");
     }
     await pool.query(
       `UPDATE Users SET username = '${username}', password = '${password}' WHERE email_address = '${email}'`
-    )
+    );
     return res.status(201).send("User info is updated!");
   } catch (err) {
     console.log(err.message);
@@ -68,7 +70,9 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const isExisting = await isExistingUser(email);
     if (!isExisting) {
-      return res.status(401).send("This account has not been registered, please sign up first!");
+      return res
+        .status(401)
+        .send("This account has not been registered, please sign up first!");
     } else {
       const userInfo = await pool.query(
         `SELECT username, role, completed_questions FROM Users where email_address = '${email}' and password = '${password}'`
@@ -83,7 +87,7 @@ exports.loginUser = async (req, res) => {
         { username: username, email: email },
         JWT_SECRET_KEY,
         { expiresIn: EXPIRATION_TIME }
-      ); 
+      );
       return res.status(201).json({
         username: username,
         password: password,
@@ -103,16 +107,12 @@ exports.getUser = async (req, res) => {
     const id = req.params.token;
     const idJSON = JSON.parse(id);
     const authToken = idJSON.headers.authorization.split(" ")[1];
-    const user = jwt.verify(
-      authToken,
-      JWT_SECRET_KEY,
-      (err, decoded) => {
-        if (err) {
-          return res.status(403).send("Token expired!");
-        }
-        return decoded;
+    const user = jwt.verify(authToken, JWT_SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(403).send("Token expired!");
       }
-    );
+      return decoded;
+    });
     const email = user.email;
     const userInfo = await pool.query(
       `SELECT * FROM Users where email_address = '${email}'`
@@ -126,32 +126,43 @@ exports.getUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-    try {
-        const { email, username, password } = req.body;
-        await pool.query(`DELETE FROM Users WHERE username = '${username}' AND password = '${password}' AND email_address = '${email}'`);
-        return res.status(200).send('User is successfully deleted!');
-    } catch (err) {
-        console.log(err.message);
-    }
-}
-
-
-exports.userMarkQuestionAsCompleted = async (req, res) => {
   try {
-    const { email, questionId } = req.body;
-    console.log(typeof questionId);
-    console.log(req.body)
-    await pool.query(
-      `UPDATE Users SET completed_questions =  ARRAY_APPEND(completed_questions, '${questionId}') WHERE email_address = '${email}'`
-    )
-    return res.status(201).send({
-      message: questionId
+    const id = req.params.token;
+    console.log(id);
+    const idJSON = JSON.parse(id);
+    const authToken = idJSON.headers.authorization.split(" ")[1];
+    const user = jwt.verify(authToken, JWT_SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(403).send("Token expired!");
+      }
+      return decoded;
     });
+    const email = user.email;
+
+    await pool.query(
+      `DELETE FROM Users WHERE email_address = '${email}'`
+    );
+    return res.status(200).send("User is successfully deleted!");
   } catch (err) {
     console.log(err.message);
   }
 };
 
+exports.userMarkQuestionAsCompleted = async (req, res) => {
+  try {
+    const { email, questionId } = req.body;
+    console.log(typeof questionId);
+    console.log(req.body);
+    await pool.query(
+      `UPDATE Users SET completed_questions =  ARRAY_APPEND(completed_questions, '${questionId}') WHERE email_address = '${email}'`
+    );
+    return res.status(201).send({
+      message: questionId,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 exports.userMarkQuestionAsIncomplete = async (req, res) => {
   try {
@@ -160,7 +171,7 @@ exports.userMarkQuestionAsIncomplete = async (req, res) => {
     // console.log(req.body)
     await pool.query(
       `UPDATE Users SET completed_questions =  ARRAY_REMOVE(completed_questions, '${questionId}') WHERE email_address = '${email}'`
-    )
+    );
     return res.status(201).json({
       message: questionId,
     });
@@ -168,7 +179,6 @@ exports.userMarkQuestionAsIncomplete = async (req, res) => {
     console.log(err.message);
   }
 };
-
 
 // exports.getUserInfo = async (req, res) => {
 //   try {
@@ -188,15 +198,23 @@ exports.userMarkQuestionAsIncomplete = async (req, res) => {
 exports.isUserOrAdmin = async (req, res) => {
   try {
     const { email } = req.body;
-    const adminOrUserInfo = await pool.query(`SELECT role FROM Users WHERE email_address = '${email}'`);
+    const adminOrUserInfo = await pool.query(
+      `SELECT role FROM Users WHERE email_address = '${email}'`
+    );
     const adminOrUser = adminOrUserInfo.rows[0].role;
     console.log("adminOrUser: ", adminOrUser);
     if (adminOrUser === "admin") {
-      return res.status(200).send('User is an admin and is authorized to make changes to questions!');
+      return res
+        .status(200)
+        .send(
+          "User is an admin and is authorized to make changes to questions!"
+        );
     } else {
-      return res.status(401).send("User is not an admin and cannot make changes to questions!");
+      return res
+        .status(401)
+        .send("User is not an admin and cannot make changes to questions!");
     }
   } catch (err) {
     console.log(err.message);
   }
-}
+};

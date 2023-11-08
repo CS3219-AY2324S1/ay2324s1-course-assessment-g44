@@ -13,7 +13,7 @@ export const createUserApi = async (req) => {
 
 export const updateUserApi = async (req) => {
   try {
-    console.log(req.token);
+    // console.log(req.token);
     const res = await axios.patch(`${basePath}/updateUser/${req.token}`, req);
     return res.data;
   } catch (error) {
@@ -32,7 +32,6 @@ export const loginUserApi = async (req) => {
 
 export const getUserApi = async (req) => {
   try {
-    // console.log(req);
     const token = JSON.stringify(req)
     const res = await axios.get(`${basePath}/getUser/${token}`);
     return res.data;
@@ -43,7 +42,7 @@ export const getUserApi = async (req) => {
 
 export const deleteUserApi = async (req) => {
   try {
-    const res = await axios.post(`${basePath}/deleteUser`, req);
+    const res = await axios.delete(`${basePath}/deleteUser/${req.token}`, req);
     return res;
   } catch (error) {
     return "error";

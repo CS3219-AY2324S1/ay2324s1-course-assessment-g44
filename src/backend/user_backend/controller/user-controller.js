@@ -192,8 +192,24 @@ exports.submitAttempt = async (req, res) => {
     await pool.query(
       `INSERT INTO attempts VALUES (DEFAULT, '${email}', '${questionId}', '${date}', '${code}', '${language}')`
     )
+    
     return res.status(201).send({
       message: questionId
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+exports.getAttempts = async (req, res) => {
+  try {
+    const { email } = req.query;
+    console.log(email);
+    const response = await pool.query(
+      `SELECT * FROM attempts WHERE email_address = '${email}'`
+    )
+    return res.status(200).send({
+      message: response,
     });
   } catch (err) {
     console.log(err.message);

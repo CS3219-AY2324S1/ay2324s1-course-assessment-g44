@@ -20,6 +20,8 @@ router.post(`/isAdminOrUser`, userController.isUserOrAdmin);
 
 router.post(`/submitAttempt`, userController.submitAttempt);
 
+router.get(`/getAttempts`, userController.getAttempts);
+
 module.exports = router;
 
 

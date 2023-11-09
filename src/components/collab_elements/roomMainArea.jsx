@@ -145,7 +145,7 @@ function RoomMainArea({roomID, question, detectSubmission}) {
   }
 
   const handleSubmit = async (dateString) => {
-    console.log(dateString);
+    console.log(language.name + ' ' + language.id);
     const req = {
       email: user.email,
       questionId: question,

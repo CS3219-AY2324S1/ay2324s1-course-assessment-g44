@@ -1,7 +1,8 @@
-import { Card, Title, Text, Paper, Button, Select, Code, Space, Drawer, Group } from "@mantine/core";
-import { Carousel } from '@mantine/carousel'
+import { Card, Title, Text, Paper, Button, Select, Code, Space, Drawer, Group, HoverCard, HoverCardDropdown } from "@mantine/core";
+import { CodeHighlight } from '@mantine/code-highlight';
 import { useEffect, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
+import { IconClock, IconCalendarEvent, IconPencil } from "@tabler/icons-react";
 import { format } from "morgan";
 
 
@@ -46,6 +47,7 @@ const AttemptList = ({attempts}) => {
         value = {value}
         onChange={handleSelect}
         searchable
+        required
         nothingFoundMessage="No such questions found..."
         ></Select>
         <Space h= 'md'/>
@@ -60,21 +62,33 @@ const AttemptList = ({attempts}) => {
             <Title order={4}>Attempt {value}</Title>
             <Space h="md"/>
             <Group>
-            <Text fw={600}>Date: </Text>
-            <Text>{attempts[value - 1].date_attempted.substring(0,10)}</Text>
+            <HoverCard>
+                <HoverCard.Target>
+                    <IconCalendarEvent size={18}/>
+                </HoverCard.Target>
+                <HoverCard.Target>
+                    <Text>{attempts[value - 1].date_attempted.substring(0,10)}</Text> 
+                </HoverCard.Target>
+                <HoverCard.Dropdown><Text size="xs">Date attempted</Text></HoverCard.Dropdown>
+            </HoverCard>
+            <Space w="lg"/>
+            <HoverCard>
+                <HoverCard.Target>
+                    <IconClock size={18}/>
+                </HoverCard.Target>
+                <HoverCard.Target>
+                    <Text>{attempts[value - 1].date_attempted.substring(11,19)}</Text>
+                </HoverCard.Target>
+                <HoverCard.Dropdown><Text size="xs">Time attempted</Text></HoverCard.Dropdown>
+            </HoverCard>
             </Group>
+            <Space h="xl"/>
             <Group>
-            <Text fw={600}>Time: </Text>
-            <Text>{attempts[value - 1].date_attempted.substring(11,19)}</Text>
-            </Group>
-            <Group>
-            <Text fw={600}>Language: </Text>
-            <Text>{attempts[value - 1].language}</Text>
+                <IconPencil size={18}/>
+                <Text>{attempts[value - 1].language}</Text>
             </Group>
             <Space h="md"/>
-            <Code>
-                {attempts[value - 1].code}
-            </Code>
+               <CodeHighlight code={attempts[value - 1].code} language="python" />
             </Card>
         </Drawer>
 

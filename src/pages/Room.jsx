@@ -57,8 +57,6 @@ const Room = () => {
     getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows.filter(att => att.question_id == qnID)));
   }, [qnID, submitted]);
 
-  console.log(attempts);
-
 
   const getQuestions = async () => {
     const res = await axios.get("http://localhost:3001/routes/getQuestions");

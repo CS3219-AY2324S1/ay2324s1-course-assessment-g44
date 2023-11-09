@@ -88,7 +88,9 @@ const AttemptList = ({attempts}) => {
                 <Text>{attempts[value - 1].language}</Text>
             </Group>
             <Space h="md"/>
-               <CodeHighlight code={attempts[value - 1].code} language="python" />
+            <Code>
+                {attempts[value - 1].code}
+            </Code>
             </Card>
         </Drawer>
 

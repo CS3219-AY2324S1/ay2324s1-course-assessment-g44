@@ -188,9 +188,9 @@ exports.isUserOrAdmin = async (req, res) => {
 
 exports.submitAttempt = async (req, res) => {
   try {
-    const { email, questionId, date, code, language } = req.body;
+    const { email, questionId, date, code, language_label, language_id } = req.body;
     await pool.query(
-      `INSERT INTO attempts VALUES (DEFAULT, '${email}', '${questionId}', '${date}', '${code}', '${language}')`
+      `INSERT INTO attempts VALUES (DEFAULT, '${email}', '${questionId}', '${date}', '${code}', '${language_label}', '${language_id}')`
     )
     
     return res.status(201).send({

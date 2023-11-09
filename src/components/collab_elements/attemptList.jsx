@@ -34,8 +34,8 @@ const AttemptList = ({attempts}) => {
         }
     }
 
-    function formatDate(date) {
-        return date.substring(0,10) + ' ' + date.substring(11,19);
+    function formatTime(date) {
+        return String((parseInt(date.substring(11,13)) + 8) % 24) + date.substring(13,19);
     }
     
     console.log(value);
@@ -77,7 +77,7 @@ const AttemptList = ({attempts}) => {
                     <IconClock size={18}/>
                 </HoverCard.Target>
                 <HoverCard.Target>
-                    <Text>{attempts[value - 1].date_attempted.substring(11,19)}</Text>
+                    <Text>{formatTime(attempts[value - 1].date_attempted)}</Text>
                 </HoverCard.Target>
                 <HoverCard.Dropdown><Text size="xs">Time attempted</Text></HoverCard.Dropdown>
             </HoverCard>
@@ -85,12 +85,10 @@ const AttemptList = ({attempts}) => {
             <Space h="xl"/>
             <Group>
                 <IconPencil size={18}/>
-                <Text>{attempts[value - 1].language}</Text>
+                <Text>{attempts[value - 1].language_label}</Text>
             </Group>
             <Space h="md"/>
-            <Code>
-                {attempts[value - 1].code}
-            </Code>
+            <CodeHighlight code={attempts[value - 1].code} language={attempts[value - 1].language_id}/>
             </Card>
         </Drawer>
 

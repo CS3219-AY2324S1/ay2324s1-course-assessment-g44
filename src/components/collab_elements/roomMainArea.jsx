@@ -151,7 +151,8 @@ function RoomMainArea({roomID, question, detectSubmission}) {
       questionId: question,
       date: dateString,
       code: value,
-      language: language.label
+      language_label: language.label,
+      language_id: language.value
     }
     const res = await submitAttemptApi(req);
     if (res.status === 201) {

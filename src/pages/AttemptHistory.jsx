@@ -95,7 +95,7 @@ function AttemptHistory() {
     
           <AppShell.Main>
             <QuestionNavbar currentValue="attemptHistory"/>
-            <Space h="lg"/>
+            <Space h="md"/>
             <Table striped>
             <Table.Thead> 
               <Table.Tr>

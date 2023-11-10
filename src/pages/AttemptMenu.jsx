@@ -1,4 +1,4 @@
-import { AppShell, Text, Space, Card, Spoiler, Grid, Group } from "@mantine/core";
+import { AppShell, Text, Space, Card, Spoiler, Grid, Group, Button } from "@mantine/core";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import Header from '../components/header';
@@ -11,6 +11,7 @@ import { getAttemptsApi } from "../services/user_services";
 import { useSelector } from "react-redux";
 import { selectUser } from "../backend/user_backend/features/auth";
 import { difficultyBadge } from "../components/question_crud/question";
+import { IconArrowLeft, IconChessRook } from "@tabler/icons-react";
 
 
 const Attempt = () => {
@@ -47,9 +48,10 @@ const Attempt = () => {
           <AppShell.Main>
             <QuestionNavbar currentValue="attemptHistory"/>
             <Space h="lg"/>
+            <Button variant='light' leftSection={<IconArrowLeft size={16}/>} color="pink" onClick={() => navigate('/attemptHistory')}>Choose a different question</Button>
             <Grid>
               <Grid.Col span={4}>
-                <Space h="sm"/>
+                <Space h="md"/>
                 <Card withBorder radius='md'>
                   <Group>
                     <Text fw={600} size='xl'>{question.title}</Text>

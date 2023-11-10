@@ -8,12 +8,15 @@ import { getAttemptsApi } from "../../services/user_services";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../backend/user_backend/features/auth";
 import axios from "axios";
+import Attempt from "./attempt";
 
 
 const MainAttemptList = ({questionId}) => {
 
     const [question, setQuestion] = useState({});
     const [attempts, setAttempts] = useState([]); 
+    const [selectedState, setSelectedState] = useState(false);
+    const [selectedAttempt, setSelectedAttempt] = useState(null);
     const user = useSelector(selectUser);
 
     useEffect(() => {
@@ -32,6 +35,11 @@ const MainAttemptList = ({questionId}) => {
         });
     }, [question]);
 
+    const handleSelect = (att) => {
+        setSelectedAttempt(att);
+        setSelectedState(true);
+    }
+
 
     let attNo = attempts.length + 1;
     const rows = attempts.reverse().map(att => {
@@ -41,7 +49,7 @@ const MainAttemptList = ({questionId}) => {
             <Table.Td>{attNo}</Table.Td>
             <Table.Td>{formatDate(att.date_attempted)}</Table.Td>
             <Table.Td>{att.language_label}</Table.Td>
-            <Table.Td><Button variant='subtle' size='xs' onClick={() => handleNavigate(q.id)}>View</Button></Table.Td>
+            <Table.Td><Button variant='subtle' size='xs' onClick={() => handleSelect(att)}>View</Button></Table.Td>
         </Table.Tr> 
 )});
 
@@ -58,6 +66,7 @@ const MainAttemptList = ({questionId}) => {
 
     
     return (
+        selectedState ? <Attempt attempt={selectedAttempt} questionId={questionId} attNo={attNo}/> :
         <>
         <Table striped>
             <Table.Thead> 

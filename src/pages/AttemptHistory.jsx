@@ -3,7 +3,7 @@ import Header from '../components/header';
 import Navbar from '../components/navbar';
 import Read from '../components/question_crud/read';
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Tabs, rem, Space, LoadingOverlay, Grid, Card, Table, Anchor, Button, Text } from '@mantine/core';
+import { AppShell, Burger, Title, rem, Space, LoadingOverlay, Grid, Card, Table, Anchor, Button, Text } from '@mantine/core';
 import { IconHistory } from '@tabler/icons-react';
 import { selectUser } from '../backend/user_backend/features/auth';
 import { useSelector } from 'react-redux';
@@ -78,6 +78,17 @@ function AttemptHistory() {
     
   ));
 
+  const noAttemptsYet = () => {
+    return (
+      <Card withBorder>
+        <Space h="md"></Space>
+        <Title ta='center' order={2}>No attempts yet!</Title>
+        <Space h="xs"></Space>
+        <Text fw={300} ta='center'>Match with a peer to start attempting questions!</Text>
+      </Card>
+    )
+  }
+
 
   return (
     <AppShell
@@ -107,6 +118,7 @@ function AttemptHistory() {
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>
           </Table>
+          {attempts.length === 0 && noAttemptsYet()}
           </AppShell.Main>
         </AppShell>
   );

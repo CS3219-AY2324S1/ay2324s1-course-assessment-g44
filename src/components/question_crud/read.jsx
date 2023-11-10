@@ -93,7 +93,7 @@ const Read = (props) => {
 
   function AccordionLabel({ title, category, difficulty, completed }) {
     return (
-      <Group noWrap>
+      <Group>
         <div>
           <Group>
             <Text>{title}</Text>
@@ -119,7 +119,7 @@ const Read = (props) => {
         {item.description}
       </Text>
       <Space h="md" />
-      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
+      <Button variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
   ))

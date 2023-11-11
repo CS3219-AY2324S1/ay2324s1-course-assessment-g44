@@ -144,3 +144,20 @@ const setUpdatedUser = async (user, completedList) => {
           })
     );
 } 
+
+
+export const formatQuestionDescription = (desc, size, c) => {
+    const lines = desc.split('\n');
+    return lines.map(line => {
+        const isExampleNext = (line.substring(0,7) === "Example" || line.substring(0,12) === "Constraints:");
+        return (
+            <>
+            {isExampleNext && <Space h="xs"/>}
+            {isExampleNext && <Text size={size} c={c} td="underline">{line}</Text>}
+            {!isExampleNext && <Text size={size} c={c}>{line}</Text>}
+            </>
+        );
+    }
+       
+    );
+}

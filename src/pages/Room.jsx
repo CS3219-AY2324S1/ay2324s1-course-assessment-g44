@@ -29,6 +29,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { getAttemptsApi } from "../services/user_services";
 import AttemptList from "../components/collab_elements/attemptList";
+import { formatQuestionDescription } from "../components/question_crud/question";
 
 const Room = () => {
   const [opened, { toggle }] = useDisclosure();
@@ -208,7 +209,7 @@ const Room = () => {
             <Text span fw={600}>
               Description:
             </Text>
-            <Text> {qnDesc ? qnDesc : questionJSON.description}</Text>
+            <Text> {qnDesc ? formatQuestionDescription(qnDesc, "md", "black") : formatQuestionDescription(questionJSON.description, "md", "black")}</Text>
           </Card>
           <Space h="xl"/>
           <Title order={5}>Past Attempts:</Title>

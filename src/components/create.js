@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { Dropdown } from "semantic-ui-react";
-import values  from "../data/data";
+// import values  from "../data/data";
 import { v4 as uuid } from 'uuid';
 
 const DifficultyOptions = [
@@ -45,7 +45,7 @@ export default function Create(props) {
       //     difficultyLevel,
       //   })
       //   .then(() => {
-      //     window.location.reload(true);
+      //     window.location.reload(true); 
       //   });
       const newQuestionID = uuid();
       const newQuestion = {
@@ -55,11 +55,10 @@ export default function Create(props) {
         difficultyLevel: difficultyLevel,
         category: category
       };
-      localStorage.setItem(newQuestionID.toString(), JSON.stringify(newQuestion));
+      window.localStorage.setItem(newQuestionID.toString(), JSON.stringify(newQuestion));
       const questions = getAllData();
       props.onUpdateStorage(questions);
       props.onCreateQuestion(false);
-      console.log("values: " + values);
     }
   };
 

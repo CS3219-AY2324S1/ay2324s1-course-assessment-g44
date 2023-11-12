@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button } from "semantic-ui-react";
 import Create from "./create";
 import Update from "./update";
 import View from "./view";
-import values from "../data/data";
+// import values from "../data/data";
 import { create } from "@mui/material/styles/createTransitions";
 
 export default function Read() {
-  const [storageData, setStorageData] = useState(values);
+  const [storageData, setStorageData] = useState([]);
   const [createState, setCreateState] = useState(false);
   const [updateState, setUpdateState] = useState(false);
   const [detailsState, setDetailsState] = useState(false);
@@ -23,23 +23,27 @@ export default function Read() {
     return values;
   };
 
+  useEffect(() => {
+    setStorageData(getAllData());
+  }, []);
+
   const setData = (data) => {
     let { id, questionName, question, difficultyLevel, category } = data;
-    localStorage.setItem("ID", id);
-    localStorage.setItem("Question Name", questionName);
-    localStorage.setItem("Question", question);
-    localStorage.setItem("Difficulty Level", difficultyLevel);
-    localStorage.setItem("Category", category);
+    window.localStorage.setItem("ID", id);
+    window.localStorage.setItem("Question Name", questionName);
+    window.localStorage.setItem("Question", question);
+    window.localStorage.setItem("Difficulty Level", difficultyLevel);
+    window.localStorage.setItem("Category", category);
     handleUpdate();
   };
 
   const showDetails = (data) => {
     let { id, questionName, question, difficultyLevel, category } = data;
-    localStorage.setItem("ID", id);
-    localStorage.setItem("Question Name", questionName);
-    localStorage.setItem("Question", question);
-    localStorage.setItem("Difficulty Level", difficultyLevel);
-    localStorage.setItem("Category", category);
+    window.localStorage.setItem("ID", id);
+    window.localStorage.setItem("Question Name", questionName);
+    window.localStorage.setItem("Question", question);
+    window.localStorage.setItem("Difficulty Level", difficultyLevel);
+    window.localStorage.setItem("Category", category);
     setDetailsState(!detailsState);
   };
 
@@ -55,7 +59,7 @@ export default function Read() {
 
   const onDelete = (id) => {
     const keyToRemove = id.toString();
-    localStorage.removeItem(keyToRemove);
+    window.localStorage.removeItem(keyToRemove);
     setStorageData(getAllData());
   };
 

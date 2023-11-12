@@ -16,8 +16,11 @@ import Logout from "./pages/Logout";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import '@mantine/code-highlight/styles.css';
 import TagQuestions from "./pages/TagQuestions";
 import QuestionNavbar from "./components/question_crud/questionNavbar";
+import AttemptHistory from "./pages/AttemptHistory";
+import AttemptMenu from "./pages/AttemptMenu";
 
 function App() {
   
@@ -36,6 +39,8 @@ function App() {
             <Route path="/room/:roomID" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />
             <Route path="/chatbox" element={<ChatboxPage/>} />
+            <Route path="/attemptHistory" element={<AttemptHistory/>} />
+            <Route path="/attemptHistory/:id" element={<AttemptMenu/>} />
           </Routes>
         </Router>
         <Notifications/>

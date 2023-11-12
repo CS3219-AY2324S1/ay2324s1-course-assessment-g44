@@ -6,18 +6,21 @@ router.post(`/loginUser`, userController.loginUser);
 
 router.post(`/createUser`, userController.createUser);
 
-router.post(`/getUser`, userController.getUser);
+router.get(`/getUser/:token`, userController.getUser);
 
-router.post(`/updateUser`, userController.updateUser);
+router.patch(`/updateUser/:token`, userController.updateUser);
 
-router.post(`/deleteUser`, userController.deleteUser);
+router.delete(`/deleteUser/:token`, userController.deleteUser);
 
 router.post(`/userMarkQuestionAsCompleted`, userController.userMarkQuestionAsCompleted);
 
 router.post(`/userMarkQuestionAsIncomplete`, userController.userMarkQuestionAsIncomplete);
 
-// router.post(`/getUserInfo`, userController.getUserInfo);
 router.post(`/isAdminOrUser`, userController.isUserOrAdmin);
+
+router.post(`/submitAttempt`, userController.submitAttempt);
+
+router.get(`/getAttempts`, userController.getAttempts);
 
 module.exports = router;
 

@@ -7,21 +7,27 @@ import { loader } from '@monaco-editor/react';
 import LanguagesDropdown from "./languagesDropdown";
 import { languageOptions } from "./languageOptions";
 import classes from "../../css/RoomMainArea.module.css";
-import { Container, Button, Flex, Drawer, Box } from "@mantine/core";
+import { Container, Button, Flex, Drawer, Box, Group, Text } from "@mantine/core";
 import { useMantineTheme, Modal, Paper } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
+import {modals} from '@mantine/modals';
 import Chatbox from "../chatbox_elements/chatbox.jsx";
 import CompileCodeArea from "./compileCodeArea";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../backend/user_backend/features/auth";
+import { submitAttemptApi } from "../../services/user_services";
+import { notifications } from "@mantine/notifications";
 
-function RoomMainArea(roomID) {
+function RoomMainArea({roomID, question, detectSubmission}) {
   const [language, setLanguage] = useState(languageOptions[0]);
   const [isQuitModalOpen, setIsQuitModalOpen] = useState(false);
   const [value, setValue] = useState("");
   const [ydoc, setYdoc] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
 
-  
+  const user = useSelector(selectUser);
+
 
   const navigate = useNavigate();
   // const fn = C
@@ -118,6 +124,47 @@ function RoomMainArea(roomID) {
     </Modal>
   );
 
+  const openSubmitModal = () => modals.openConfirmModal({
+    title: 'Are you sure you want to submit this attempt?',
+    children: (
+      <Text size="sm">
+        Your attempt will be recorded.
+      </Text>
+    ),
+    labels: { confirm: 'Submit', cancel: 'Cancel' },
+    onCancel: () => console.log('Cancel Submit'),
+    onConfirm: () => {
+      console.log('Submitted');
+      const date = new Date();
+      handleSubmit(formatDateString(date));
+    },
+  });
+
+  const formatDateString = (date) => {
+    return (String(date.getFullYear()) + "-" + String(Number(date.getMonth()) + 1) + "-" + String(date.getDate()) + " " + String(date.getHours()) + ":" + String(date.getMinutes()) + ":" + String(date.getSeconds()));
+  }
+
+  const handleSubmit = async (dateString) => {
+    console.log(language.name + ' ' + language.id);
+    const req = {
+      email: user.email,
+      questionId: question,
+      date: dateString,
+      code: value,
+      language_label: language.label,
+      language_id: language.value
+    }
+    const res = await submitAttemptApi(req);
+    if (res.status === 201) {
+      notifications.show({
+        title: 'Attempt submitted!',
+        autoClose: 1340,
+        color: "dark green",
+      });
+    }
+    detectSubmission();
+  }
+
   return (
     <>
       <Container className={classes.app}>
@@ -144,7 +191,12 @@ function RoomMainArea(roomID) {
             value={value}
             options={options}
           />
-          <Button onClick={open}> Compile </Button>
+        
+          <Group grow>
+          <Button onClick={open} variant='light' color='grape'> Compile </Button>
+          <Button onClick={openSubmitModal} variant='light' color='dark green'> Submit Attempt </Button>
+          </Group>
+          
         </div>
         <div className={classes.chatbox}> < Chatbox roomID = {roomID} /> </div>
         <Flex className={classes.buttons}>

@@ -9,7 +9,7 @@ import { IconPhoto, IconMessageCircle, IconSettings, IconAbacus, IconFilter } fr
 import { selectUser } from '../backend/user_backend/features/auth';
 import { useSelector } from 'react-redux';
 import verifyAccessToken from '../backend/user_backend/utils/Utils';
-import { isUserOrAdminApi } from '../services/user_services';
+import { getAttemptsApi, isUserOrAdminApi } from '../services/user_services';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuestionNavbar from '../components/question_crud/questionNavbar';
@@ -37,6 +37,7 @@ function ViewQuestions() {
         setAdminState(true);
       }
     });
+
   });
 
     return (

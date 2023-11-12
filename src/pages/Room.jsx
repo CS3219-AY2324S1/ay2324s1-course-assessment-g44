@@ -13,6 +13,7 @@ import {
   ActionIcon,
   ScrollArea,
   Select,
+  Title
 } from "@mantine/core";
 import {
   IconQuestionMark,
@@ -27,6 +28,8 @@ import { selectUser } from "../backend/user_backend/features/auth";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import session from "redux-persist/lib/storage/session";
+import { getAttemptsApi } from "../services/user_services";
+import AttemptList from "../components/collab_elements/attemptList";
 
 const Room = () => {
   const [opened, { toggle }] = useDisclosure();
@@ -34,13 +37,22 @@ const Room = () => {
   const { username, question, roomID } = location.state;
   const user = useSelector(selectUser);
 
+  const questionJSON = JSON.parse(JSON.stringify(question));
+
   const [filteredQns, setFilteredQns] = useState();
   const [filteredTitles, setFilteredTitles] = useState();
   const [value, setValue] = useState("");
-
+  const [value, setValue] = useState('');
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
   const [favourited, setFavourited] = useState(false);
+  const [attempts, setAttempts] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows.filter(att => att.question_id == qnID)));
+  }, [qnID, submitted]);
+
 
   const getQuestions = async () => {
     const res = await axios.get("http://localhost:3001/routes/getQuestions");
@@ -69,6 +81,10 @@ const Room = () => {
     }
     setFilteredTitles(filtered);
   };
+
+  const detectSubmission = () => {
+    setSubmitted(!submitted);
+  }
 
   const handleThumbsUp = () => {
     setThumbsUp(!thumbsUp);
@@ -144,6 +160,7 @@ const Room = () => {
           ></Select>
           <Space h="sm" />
           <Card shadow="sm" padding="sm" radius="sm" withBorder>
+
             <Group>
               <Text size="xl" span fw={600}>
                 {getCurr().title}
@@ -194,11 +211,16 @@ const Room = () => {
             </Text>
             <Text> {getCurr().description}</Text>
           </Card>
+          <Space h="xl"/>
+          <Title order={5}>Past Attempts:</Title>
+          <Card shadow="sm" padding="xs" radius="sm" withBorder w={360}>
+          <AttemptList attempts={attempts}></AttemptList>
+          </Card>
         </ScrollArea>
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <RoomMainArea roomID={roomID} />
+        <RoomMainArea roomID={roomID} question={getCurr()._id} detectSubmission={detectSubmission} />
       </AppShell.Main>
     </AppShell>
   );

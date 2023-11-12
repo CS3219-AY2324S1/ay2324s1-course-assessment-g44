@@ -16,8 +16,11 @@ router.post(`/userMarkQuestionAsCompleted`, userController.userMarkQuestionAsCom
 
 router.post(`/userMarkQuestionAsIncomplete`, userController.userMarkQuestionAsIncomplete);
 
-// router.post(`/getUserInfo`, userController.getUserInfo);
 router.post(`/isAdminOrUser`, userController.isUserOrAdmin);
+
+router.post(`/submitAttempt`, userController.submitAttempt);
+
+router.get(`/getAttempts`, userController.getAttempts);
 
 module.exports = router;
 

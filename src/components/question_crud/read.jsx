@@ -9,7 +9,7 @@ import { IconCheck } from '@tabler/icons-react';
 import View from './view';
 import Create from './create';
 import axios from 'axios';
-import { isUserOrAdminApi } from '../../services/user_services';
+import { isUserOrAdminApi, getAttemptsApi } from '../../services/user_services';
 
 const Read = (props) => {
 
@@ -21,6 +21,7 @@ const Read = (props) => {
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
   const [adminState, setAdminState] = useState(false);
+  const [attempts, setAttempts] = useState([]);
   const [isViewQuestions, setIsViewQuestions] = useState(props.isViewQuestions);
 
 
@@ -73,6 +74,9 @@ const Read = (props) => {
         setAdminState(true);
       }
     });
+
+    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows));
+
   }, []);
 
 
@@ -89,7 +93,7 @@ const Read = (props) => {
 
   function AccordionLabel({ title, category, difficulty, completed }) {
     return (
-      <Group noWrap>
+      <Group>
         <div>
           <Group>
             <Text>{title}</Text>
@@ -115,7 +119,7 @@ const Read = (props) => {
         {item.description}
       </Text>
       <Space h="md" />
-      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
+      <Button variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
   ))

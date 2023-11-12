@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Group, Code, Button, Space, Tabs, rem } from "@mantine/core";
 import {
   IconAbacus,
-  IconFilter
+  IconFilter,
+  IconHistory
 } from "@tabler/icons-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Portal } from "semantic-ui-react";
+
 
 
 function QuestionNavbar(props) {
@@ -18,6 +19,7 @@ function QuestionNavbar(props) {
       <Tabs.List>
         <Tabs.Tab value="viewQuestions" leftSection={<IconAbacus style={iconStyle}/>}>All Questions</Tabs.Tab>
         <Tabs.Tab value="tagQuestions" leftSection={<IconFilter style={iconStyle}/>}>Tagging</Tabs.Tab>
+        <Tabs.Tab value="attemptHistory" leftSection={<IconHistory style={iconStyle}/>}>History</Tabs.Tab>
       </Tabs.List>
     </Tabs>
   );

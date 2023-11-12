@@ -217,4 +217,37 @@ exports.isUserOrAdmin = async (req, res) => {
   } catch (err) {
     console.log(err.message);
   }
+}
+
+
+exports.submitAttempt = async (req, res) => {
+  try {
+    const { email, questionId, date, code, language_label, language_id } = req.body;
+    await pool.query(
+      `INSERT INTO attempts VALUES (DEFAULT, '${email}', '${questionId}', '${date}', '${code}', '${language_label}', '${language_id}')`
+    )
+    
+    return res.status(201).send({
+      message: questionId
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+exports.getAttempts = async (req, res) => {
+  try {
+    const { email } = req.query;
+    console.log(email);
+    const response = await pool.query(
+      `SELECT * FROM attempts WHERE email_address = '${email}'`
+    )
+    return res.status(200).send({
+      message: response,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
 };
+

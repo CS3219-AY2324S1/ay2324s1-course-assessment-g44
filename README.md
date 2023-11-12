@@ -14,9 +14,13 @@
   ```
   DROP TABLE IF EXISTS Users;
 
-  CREATE TABLE Users(email_address VARCHAR(255) PRIMARY KEY, username VARCHAR(50) NOT NULL, password VARCHAR(50) NOT NULL, id VARCHAR(255) UNIQUE NOT NULL, role VARCHAR(50) NOT NULL);
+  CREATE TABLE Users (
+  email_address VARCHAR(255) PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(50) NOT NULL
+  );
 
-  INSERT INTO Users(email_address, username, password, id, role) VALUES ('admin123@gmail.com', 'admin', 'adminpassword', '1', 'admin');
+  INSERT INTO Users(email_address, username, password) VALUES ('alicetan123@gmail.com', 'alice123', 'password123'), ('thisisbob@gmail.com', 'bob07', 'unicornlululul');
 
   ```
   in your database.

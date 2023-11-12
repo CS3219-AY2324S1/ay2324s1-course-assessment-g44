@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react';
 import View from './view';
 import Create from './create';
 import axios from 'axios';
+import { isUserOrAdminApi } from '../../services/user_services';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../backend/user_backend/features/auth';
 
 const Read = (props) => {
   const [questions, setQuestions] = useState(null);
@@ -11,6 +14,16 @@ const Read = (props) => {
   const [questionToView, setQuestionToView] = useState(null);
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
+  const [adminState, setAdminState] = useState(false);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    isUserOrAdminApi(user).then((isAdmin) => {
+      if (isAdmin) {
+        setAdminState(true);
+      }
+    });
+  })
 
   
   //handle fetching of data from local json server
@@ -122,9 +135,9 @@ const Read = (props) => {
       <Space h="lg" />
         <div style={{ display: 'flex' }}>
           <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-          <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+          {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
             New Question
-          </Button>
+          </Button>}
         </div>
         <Space h="lg" />
         <Accordion variant="contained">

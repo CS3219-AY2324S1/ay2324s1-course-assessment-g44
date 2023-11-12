@@ -12,6 +12,8 @@ router.post(`/updateUser`, userController.updateUser);
 
 router.post(`/deleteUser`, userController.deleteUser);
 
+router.post(`/isAdminOrUser`, userController.isUserOrAdmin);
+
 module.exports = router;
 
 

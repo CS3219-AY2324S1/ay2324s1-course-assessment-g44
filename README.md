@@ -10,5 +10,19 @@
   PG_PASSWORD=<database_password>
   ```
   in a `.env` file outside of `src`
+  - You can run an example sql query like 
+  ```
+  DROP TABLE IF EXISTS Users;
+
+  CREATE TABLE Users (
+  email_address VARCHAR(255) PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(50) NOT NULL
+  );
+
+  INSERT INTO Users(email_address, username, password) VALUES ('alicetan123@gmail.com', 'alice123', 'password123'), ('thisisbob@gmail.com', 'bob07', 'unicornlululul');
+
+  ```
+  in your database.
 4. Open a new terminal process, type `cd src/backend/question_backend` and run `node index.js`. This is to run the question database.
 5. In a separate terminal process, type `npm start` to run the frontend.

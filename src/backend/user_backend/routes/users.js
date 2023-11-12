@@ -22,6 +22,8 @@ router.post(`/submitAttempt`, userController.submitAttempt);
 
 router.get(`/getAttempts`, userController.getAttempts);
 
+router.get(`/getQuestionsAttemptedPerUser`, userController.getQuestionsAttemptedPerUser);
+
 module.exports = router;
 
 

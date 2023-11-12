@@ -215,3 +215,19 @@ exports.getAttempts = async (req, res) => {
     console.log(err.message);
   }
 }
+
+
+exports.getQuestionsAttemptedPerUser = async (req, res) => {
+  try {
+    const { email } = req.query;
+    console.log(email);
+    const response = await pool.query(
+      `SELECT a.email_address, COUNT(DISTINCT a.question_id) FROM attempts a GROUP BY a.email_address`
+    )
+    return res.status(200).send({
+      message: response,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}

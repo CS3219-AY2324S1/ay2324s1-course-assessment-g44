@@ -249,5 +249,4 @@ exports.getAttempts = async (req, res) => {
     console.log(err.message);
   }
 }
-};
 

@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  build-and-run-server:
     runs-on: ubuntu-latest
     env:
       ENV: PROD
@@ -23,6 +23,9 @@ jobs:
       - name: Install Dependencies
         working-directory: ./src/backend/question_backend
         run: npm i
-      - name: Run Tests
-        working-directory: ./src/backend/question_backend
-        run: npm test
+      - name: Install typescript
+        working-directory: ./src/cypress
+        run: npm install --save-dev typescript
+      - name: Run test cases
+        working-directory: ./src
+        run: node backend/question_backend/index.js & npx cypress run --spec "cypress/e2e/question_api.cy.js"

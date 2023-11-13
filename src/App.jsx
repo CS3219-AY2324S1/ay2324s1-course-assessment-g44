@@ -6,6 +6,9 @@ import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
 import Home from './pages/home';
 import MatchFound from "./components/matching_elements/matchFound"
+import Room from "./pages/Room"
+import ChatboxPage from "./pages/ChatboxPage";
+
 // import Login from "./pages/Login";
 // import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -15,6 +18,8 @@ import Logout from "./pages/Logout";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import TagQuestions from "./pages/TagQuestions";
+import QuestionNavbar from "./components/question_crud/questionNavbar";
 
 function App() {
   
@@ -28,12 +33,14 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/viewQuestions" element={<ViewQuestions />} />
+            <Route path="tagQuestions" element={<TagQuestions/>} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/matchFound" element={<MatchFound/>}/>
+            <Route path="/room/:roomID" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />
+            <Route path="/chatbox" element={<ChatboxPage/>} />
           </Routes>
         </Router>
-        <Notifications />
+        <Notifications/>
       </ModalsProvider>
     </MantineProvider>
   );

@@ -5,8 +5,10 @@ import axios from 'axios';
 import Read from './read';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { current } from '@reduxjs/toolkit';
+import { NOFILTER } from './tag_components/taggingProcess';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
-export default function Create() {
+export default function Create(props) {
   const [submitted, setSubmitted] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
@@ -91,8 +93,8 @@ export default function Create() {
 
 
     return (
-      cancelled ? <Read /> :
-      submitted ? <Read state={"created"}/> :
+      cancelled ? <Read filters={NOFILTER} isViewQuestions={props.isViewQuestions}/> :
+      submitted ? <Read state={"created"} filters={NOFILTER} isViewQuestions={props.isViewQuestions}/> :
       <Card shadow="sm" padding="xl" radius="md" withBorder>
         <Title order={2}>Create A New Question</Title>
         <Space h="lg" />

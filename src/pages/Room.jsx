@@ -42,16 +42,11 @@ const Room = () => {
   const [filteredQns, setFilteredQns] = useState();
   const [filteredTitles, setFilteredTitles] = useState();
   const [value, setValue] = useState("");
-  const [value, setValue] = useState('');
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
   const [favourited, setFavourited] = useState(false);
   const [attempts, setAttempts] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows.filter(att => att.question_id == qnID)));
-  }, [qnID, submitted]);
 
 
   const getQuestions = async () => {
@@ -121,7 +116,9 @@ const Room = () => {
     return currJSON
   }
 
-  useEffect(() => {});
+  useEffect(() => {
+    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows.filter(att => att.question_id == getCurr()._id)));
+  }, [getCurr()._id, submitted]);
 
   return (
     <AppShell

@@ -13,7 +13,7 @@ import MessageInput from "./messageinput";
 
 function Chatbox(props) {
   const [socket, setSocket] = useState(null);
-  const roomID = props.roomID.roomID;
+  const roomID = props.roomID;
 
   useEffect(() => {
     const newSocket = io(`http://${window.location.hostname}:3000`);

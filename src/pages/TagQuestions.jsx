@@ -1,47 +1,42 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Header from '../components/header';
 import Navbar from '../components/navbar';
 import Read from '../components/question_crud/read';
-import Create from '../components/question_crud/create';
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Button, Tabs, rem, Space } from '@mantine/core';
+import { AppShell, Burger, Tabs, rem, Space, LoadingOverlay, Grid } from '@mantine/core';
 import { IconPhoto, IconMessageCircle, IconSettings, IconAbacus, IconFilter } from '@tabler/icons-react';
 import { selectUser } from '../backend/user_backend/features/auth';
 import { useSelector } from 'react-redux';
 import verifyAccessToken from '../backend/user_backend/utils/Utils';
-import { getAttemptsApi, isUserOrAdminApi } from '../services/user_services';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuestionNavbar from '../components/question_crud/questionNavbar';
+import TagMenu from '../components/question_crud/tag_components/tagMenu';
+import TagStatus from '../components/question_crud/tag_components/tagStatus';
 import { NOFILTER } from '../components/question_crud/tag_components/taggingProcess';
 
 
-function ViewQuestions() {
+function TagQuestions() {
   const navigate = useNavigate();
   const [opened, { toggle }] = useDisclosure();
-  const [createState, setCreateState] = useState(false);
-  const [adminState, setAdminState] = useState(false);
   const user = useSelector(selectUser);
+  const [filters, setFilters] = useState(NOFILTER);
 
   const iconStyle = { width: rem(12), height: rem(12) };
+
+  const getFilter = (data) => {
+    setFilters(data);
+  }
 
   useEffect(() => {
     verifyAccessToken(user).then(isVerified => {
       if (!isVerified) {
         navigate("/login");
       }
-    });
-
-    isUserOrAdminApi(user).then((isAdmin) => {
-      if (isAdmin) {
-        setAdminState(true);
-      }
-    });
-
+    })
   });
 
     return (
-      createState ? <Create /> :
         <AppShell
         header={{ height: 100 }}
         navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
@@ -56,12 +51,21 @@ function ViewQuestions() {
           </AppShell.Navbar>
     
           <AppShell.Main>
-            <QuestionNavbar currentValue="viewQuestions"/>
+            <QuestionNavbar currentValue="tagQuestions"/>
             <Space h="lg"/>
-            <Read filters={NOFILTER} isViewQuestions={true}/>
+            <Grid>
+            <Grid.Col span={4}>
+            <TagMenu getFilterFunction={getFilter}/>
+            </Grid.Col>
+            <Grid.Col span={4}>
+            <TagStatus filters={filters} />
+            </Grid.Col>
+            </Grid>
+            <Space h="md" />
+            <Read filters={filters} isViewQuestions={false}/>
           </AppShell.Main>
         </AppShell>
       );
     }
   
-  export default ViewQuestions;
+  export default TagQuestions;

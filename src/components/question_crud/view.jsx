@@ -14,7 +14,6 @@ import { selectUser } from '../../backend/user_backend/features/auth';
 import verifyAccessToken from '../../backend/user_backend/utils/Utils';
 import { useNavigate } from 'react-router-dom';
 import { isUserOrAdminApi } from '../../services/user_services';
-
 export default function View(props) {
 
   const user = useSelector(selectUser);
@@ -93,7 +92,7 @@ export default function View(props) {
       });
 
       return (
-      <Read state={"deleted"} />
+      <Read state={"deleted"} filters={props.filters} isViewQuestions={props.isViewQuestions}/>
       );
   };
   
@@ -102,7 +101,7 @@ export default function View(props) {
   const handleUpdate = (questionToView) => {
     console.log(questionToView);
     return (
-      <Update question={questionToView}/>
+      <Update question={questionToView} filters={props.filters} isViewQuestions={props.isViewQuestions}/>
     );
   }
 
@@ -151,7 +150,10 @@ export default function View(props) {
 
   function viewScreen(question) {
     return (
+      <>
+      <Space h="md" />
       <Card shadow="sm" padding="lg" radius="md" withBorder key={key}>
+        
         <Group>
           <Text fw={500} size="lg">{question.title}</Text>
           <>{completedBadge(props.question.completed)}</>
@@ -188,15 +190,16 @@ export default function View(props) {
           {adminState && <Button variant="light" color="red" radius="md" onClick={() => openDeleteModal(props.question)}>Delete</Button>}
         </Group>
       </Card>
+      </>
     );
   }
 
 
   return (
-    backState ? <Read />
+    backState ? <Read filters={props.filters} isViewQuestions={props.isViewQuestions}/>
     : deleteState ? <>{handleDelete(props.question)}</>
     : updateState ? <>{handleUpdate(props.question)}</>
-    : toggleCompleteState ? <Read state={"toggled"} question={props.question}/>  
+    : toggleCompleteState ? <Read state={"toggled"} question={props.question} filters={props.filters}/>  
     : <>{viewScreen(props.question)}</> 
   );
 

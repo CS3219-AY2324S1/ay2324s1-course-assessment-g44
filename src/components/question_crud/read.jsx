@@ -1,14 +1,15 @@
-import { Accordion, Badge, Button, Group, Space, Text, Title, rem } from '@mantine/core';
+import { Accordion, Badge, Button, Card, Group, Space, Text, Title, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../backend/user_backend/features/auth";
 import { mapQuestions, difficultyBadge, completedBadge } from './question';
+import { filterQuestions } from './tag_components/taggingProcess';
 import React, { useEffect, useState } from 'react';
 import { IconCheck } from '@tabler/icons-react';
 import View from './view';
 import Create from './create';
 import axios from 'axios';
-import { isUserOrAdminApi } from '../../services/user_services';
+import { isUserOrAdminApi, getAttemptsApi } from '../../services/user_services';
 
 const Read = (props) => {
 
@@ -20,15 +21,19 @@ const Read = (props) => {
   const [viewId, setViewId] = useState(0);
   const [createState, setCreateState] = useState(false);
   const [adminState, setAdminState] = useState(false);
+  const [attempts, setAttempts] = useState([]);
+  const [isViewQuestions, setIsViewQuestions] = useState(props.isViewQuestions);
 
 
   useEffect(() => {
     axios.get("http://localhost:3001/routes/getQuestions")
-    .then(response =>{
-      setQuestions(mapQuestions(response.data, user.completedQuestions));
+    .then(response => {
+      const mappedQuestions = mapQuestions(response.data, user.completedQuestions);
+      const filteredQuestions = filterQuestions(mappedQuestions, props.filters);
+      setQuestions(filteredQuestions);
     })
     .catch(error => console.error(error));
-  }, [])
+  }, [props.filters])
 
 
   //toggle a notification if question was just deleted or created
@@ -69,7 +74,10 @@ const Read = (props) => {
         setAdminState(true);
       }
     });
-  }, [])
+
+    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows));
+
+  }, []);
 
 
 
@@ -85,7 +93,7 @@ const Read = (props) => {
 
   function AccordionLabel({ title, category, difficulty, completed }) {
     return (
-      <Group noWrap>
+      <Group>
         <div>
           <Group>
             <Text>{title}</Text>
@@ -111,7 +119,7 @@ const Read = (props) => {
         {item.description}
       </Text>
       <Space h="md" />
-      <Button fullwidth variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
+      <Button variant="light" color="gray" mt="md" onClick={() => {setView(item.id, item.title)}}>View</Button>
       </Accordion.Panel>
     </Accordion.Item>
   ))
@@ -121,14 +129,6 @@ const Read = (props) => {
   function showAccordian() {
     return (
       <>
-      <Space h="lg"/>
-      <Space h="lg" />
-        <div style={{ display: 'flex' }}>
-          <Title style={{ paddingRight:'50px' }}order={2}>All Questions</Title>
-         {adminState && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
-            New Question
-          </Button>}
-        </div>
         <Space h="lg" />
         <Accordion variant="contained">
           {items}
@@ -143,9 +143,14 @@ const Read = (props) => {
 
 
   return (
-      viewState ? <View question={questionToView}/> :
-      createState ? <Create /> :
-      <>{showAccordian()}</>
+      viewState ? <View question={questionToView} filters={props.filters} isViewQuestions={props.isViewQuestions}/> :
+      createState ? <Create isViewQuestions={props.isViewQuestions}/> :
+      <>
+      {adminState && isViewQuestions && <Button variant="light" color="grape" size="sm" onClick={() => setCreateState(true)} >
+            New Question
+            </Button>}
+      {showAccordian()}
+      </>
       
    
   );

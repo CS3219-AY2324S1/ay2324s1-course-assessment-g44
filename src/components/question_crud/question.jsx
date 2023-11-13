@@ -63,7 +63,7 @@ export const completedBadgeSmall = (questionCompleted) => {
 export const setComplete = async (question, user) => {
     const req = {
         email: user.email,
-        questionId: question.id
+        questionId: question._id
     }
 
     const res = await userMarkQuestionAsCompletedApi(req);
@@ -98,7 +98,7 @@ export const setIncomplete = async (question, user) => {
 
     const req = {
         email: user.email,
-        questionId: question.id
+        questionId: question._id
     }
 
     const res = await userMarkQuestionAsIncompleteApi(req);

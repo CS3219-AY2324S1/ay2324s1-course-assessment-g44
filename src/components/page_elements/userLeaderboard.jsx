@@ -60,8 +60,8 @@ function UserLeaderboard() {
     },
     {
       title: "userRank",
-      bigWord: formatPosition(getPosition(sortedUsers()) + 1),
-      smallWord: `Your ranking out of all ${questionsAttemptedPerUser.length} users in terms of number of questions attempted!`,
+      bigWord: (questionsAttemptedCount === 0) ? "No Attempts Yet!" : formatPosition(getPosition(sortedUsers()) + 1),
+      smallWord: (questionsAttemptedCount === 0) ? "Start matching with your peers to attempt questions!" : `Your ranking out of all ${questionsAttemptedPerUser.length} users in terms of number of questions attempted!`,
       stat: getPosition(sortedUsers()) + 1,
       total: questionsAttemptedPerUser.length,
       button: '',
@@ -147,14 +147,15 @@ function UserLeaderboard() {
         </>
         }
 
-        {title === "userRank" &&
+        {title === "userRank" && 
         <HoverCard>
         <HoverCardTarget>
         <RingProgress
         size={105}
         label={
         <>
-        <Text ta="center" size={20}>{Math.round(100 - percentage)}%</Text>
+        {questionsAttemptedCount === 0 ? <Text ta="center" size={20}>0%</Text> :
+        <Text ta="center" size={20}>{Math.round(100 - percentage)}%</Text>}
         </>
         }
         thickness={10}

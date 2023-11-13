@@ -15,7 +15,7 @@ const io =  new Server(http, {
     cors: {origin: "*"}
 });
 
-const ampqURL = 'amqps://ctkrippq:VOktAb86Bup5TVgqhHCa1sljcwFUHYSG@armadillo.rmq.cloudamqp.com/ctkrippq';
+const ampqURL = process.env.AMPQURL;
 const PORT = 8002;
 
 

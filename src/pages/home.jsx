@@ -35,7 +35,7 @@ function Home() {
       >
         <AppShell.Header>
           <Header />
-        </AppShell.Header>
+        </AppShell.Header>  
         
           <AppShell.Navbar p="lg">
             <Navbar/>

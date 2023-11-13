@@ -1,0 +1,13 @@
+FROM node:16
+
+WORKDIR /usr/src/code
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 6969
+
+CMD [ "node", "index.js" ]

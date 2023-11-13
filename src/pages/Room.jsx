@@ -27,43 +27,35 @@ import { useLocation } from "react-router-dom";
 import { selectUser } from "../backend/user_backend/features/auth";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import session from "redux-persist/lib/storage/session";
 import { getAttemptsApi } from "../services/user_services";
 import AttemptList from "../components/collab_elements/attemptList";
 import { formatQuestionDescription } from "../components/question_crud/question";
 
 const Room = () => {
   const [opened, { toggle }] = useDisclosure();
-  const [processing, setProcessing] = useState(null);
   const location = useLocation();
-  const { username, question, roomID} = location.state;
+  const { username, question, roomID } = location.state;
   const user = useSelector(selectUser);
 
   const questionJSON = JSON.parse(JSON.stringify(question));
 
   const [filteredQns, setFilteredQns] = useState();
   const [filteredTitles, setFilteredTitles] = useState();
-  const [value, setValue] = useState('');
-  const [qnTitle, setQnTitle] = useState();
-  const [qnDiff, setQnDiff] = useState();
-  const [qnCat, setQnCat] = useState();
-  const [qnDesc, setQnDesc] = useState();
-  const [qnID, setQnID] = useState(questionJSON._id);
+  const [value, setValue] = useState("");
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
   const [favourited, setFavourited] = useState(false);
   const [attempts, setAttempts] = useState([]);
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows.filter(att => att.question_id == qnID)));
-  }, [qnID, submitted]);
-
 
   const getQuestions = async () => {
     const res = await axios.get("http://localhost:3001/routes/getQuestions");
     const questions = res.data;
     const filtered = questions.filter(
-      (question) => question.difficulty === questionJSON.difficulty.toLowerCase()
+      (qn) =>
+        qn.difficulty === question.difficulty.toLowerCase()
     );
 
     for (let i = 0; i < filtered.length; i++) {
@@ -76,7 +68,8 @@ const Room = () => {
     const res = await axios.get("http://localhost:3001/routes/getQuestions");
     const questions = res.data;
     const filtered = questions.filter(
-      (question) => question.difficulty === questionJSON.difficulty.toLowerCase()
+      (qn) =>
+        qn.difficulty === question.difficulty.toLowerCase()
     );
 
     for (let i = 0; i < filtered.length; i++) {
@@ -105,23 +98,29 @@ const Room = () => {
 
   const onSelectQuestion = () => {
     getQuestions();
-    const filtered = filteredQns
+    const filtered = filteredQns;
     for (let i = 0; i < filtered.length; i++) {
       filtered[i] = JSON.parse(filtered[i]);
     }
     for (let i = 0; i < filtered.length; i++) {
       const f = filtered[i];
       if (f.title == value) {
-        setQnTitle(f.title);
-        setQnCat(f.category);
-        setQnDiff(f.difficulty);
-        setQnDesc(f.description);
-        setQnID(f._id);
+        sessionStorage.setItem(roomID, JSON.stringify(f));
+        break
       }
     }
+  };
+
+  const getCurr = () => {
+    const currQuestion = sessionStorage.getItem(roomID) ? sessionStorage.getItem(roomID) : JSON.stringify(question);
+    const currJSON = JSON.parse(currQuestion);
+    return currJSON
   }
 
-  
+  useEffect(() => {
+    getAttemptsApi({email: user.email}).then(res => setAttempts(res.data.message.rows.filter(att => att.question_id == getCurr()._id)));
+  }, [getCurr()._id, submitted]);
+
   return (
     <AppShell
       navbar={{ width: 400, breakpoint: "sm", collapsed: { mobile: !opened } }}
@@ -147,29 +146,28 @@ const Room = () => {
 
         <Space h="lg" />
         <ScrollArea>
-        <Select
-              placeholder={qnTitle ? qnTitle : questionJSON.title}
-              data={filteredTitles}
-              value = {value}
-              onChange={setValue}
-              onSelect={onSelectQuestion}
-              onClick={getTitles}
-              searchable
-              nothingFoundMessage="No such questions found..."
-
-            ></Select>
-            <Space h="sm"/>
-          <Card shadow="sm" padding="md" radius="sm" withBorder w={360}>
+          <Select
+            placeholder={getCurr().title}
+            data={filteredTitles}
+            value={value}
+            onChange={setValue}
+            onSelect={onSelectQuestion}
+            onClick={getTitles}
+            searchable
+            nothingFoundMessage="No such questions found..."
+          ></Select>
+          <Space h="sm" />
+          <Card shadow="sm" padding="sm" radius="sm" withBorder>
 
             <Group>
               <Text size="xl" span fw={600}>
-                {qnTitle ? qnTitle : questionJSON.title}
+                {getCurr().title}
               </Text>
             </Group>
             <Space h="md" />
             <Group>
               <Badge variant="light" color="green">
-                {qnDiff ? qnDiff : questionJSON.difficulty}
+                {getCurr().difficulty}
               </Badge>
               <ActionIcon
                 radius="lg"
@@ -203,13 +201,13 @@ const Room = () => {
                 {" "}
                 Category:
               </Text>{" "}
-              {qnCat ? qnCat : questionJSON.category}
+              {getCurr().category}
             </Text>
             <Space h="lg" />
             <Text span fw={600}>
               Description:
             </Text>
-            <Text> {qnDesc ? formatQuestionDescription(qnDesc, "md", "black") : formatQuestionDescription(questionJSON.description, "md", "black")}</Text>
+            <Text> {getCurr().description}</Text>
           </Card>
           <Space h="xl"/>
           <Title order={5}>Past Attempts:</Title>
@@ -220,7 +218,7 @@ const Room = () => {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <RoomMainArea roomID={roomID} question={qnID} detectSubmission={detectSubmission} />
+        <RoomMainArea roomID={roomID} question={getCurr()._id} detectSubmission={detectSubmission} />
       </AppShell.Main>
     </AppShell>
   );

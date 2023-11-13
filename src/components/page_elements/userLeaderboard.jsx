@@ -62,7 +62,7 @@ function UserLeaderboard() {
       title: "userRank",
       bigWord: (questionsAttemptedCount === 0) ? "No Attempts Yet!" : formatPosition(getPosition(sortedUsers()) + 1),
       smallWord: (questionsAttemptedCount === 0) ? "Start matching with your peers to attempt questions!" : `Your ranking out of all ${questionsAttemptedPerUser.length} users in terms of number of questions attempted!`,
-      stat: getPosition(sortedUsers()) + 1,
+      stat: getPosition(sortedUsers()),
       total: questionsAttemptedPerUser.length,
       button: '',
       buttonNavigate: "",

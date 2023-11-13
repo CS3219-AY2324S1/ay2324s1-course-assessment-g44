@@ -109,3 +109,24 @@ export const getQuestionsAttemptedPerUserApi = async (req) => {
   }
 }
 
+export const getAttemptsPerQuestionApi = async (req) => {
+  try {
+    const res = await axios.get(`${basePath}/getAttemptsPerQuestion`).then(result => {
+      return result;
+    });
+    return res; 
+  } catch (error) {
+    return "error";
+  }
+}
+
+export const getLanguageUsageApi = async (req) => {
+  try {
+    const res = await axios.get(`${basePath}/getLanguageUsage`).then(result => {
+      return result;
+    });
+    return res; 
+  } catch (error) {
+    return "error";
+  }
+}

@@ -219,10 +219,37 @@ exports.getAttempts = async (req, res) => {
 
 exports.getQuestionsAttemptedPerUser = async (req, res) => {
   try {
-    const { email } = req.query;
-    console.log(email);
     const response = await pool.query(
       `SELECT a.email_address, COUNT(DISTINCT a.question_id) FROM attempts a GROUP BY a.email_address`
+    )
+    return res.status(200).send({
+      message: response,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+
+exports.getAttemptsPerQuestion= async (req, res) => {
+  try {
+    const response = await pool.query(
+      `SELECT a.question_id, COUNT(DISTINCT a.email_address) FROM attempts a GROUP BY a.question_id`
+    )
+    return res.status(200).send({
+      message: response,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+exports.getLanguageUsage= async (req, res) => {
+  try {
+    const response = await pool.query(
+      `SELECT a.language_label, COUNT(DISTINCT a.id)
+      FROM attempts a
+      GROUP BY a.language_label`
     )
     return res.status(200).send({
       message: response,

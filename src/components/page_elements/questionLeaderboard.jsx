@@ -62,18 +62,18 @@ function QuestionLeaderboard() {
   function findTopQuestion() {
     return attemptsPerQuestion.length > 0 ? 
     attemptsPerQuestion.reduce((prev, current) => (prev.count > current.count) ? prev : current).question_id :
-    questions[0];
+    "";
   }
 
   function findQuestion(id) {
     const q =  questions.filter(q => q._id === id)[0];
-    return q ? q.title : "";
+    return q ? q.title : "No Data Available";
   }
 
   function findTopLanguage() {
     return languageCount.length > 0 ? 
     languageCount.reduce((prev, current) => (prev.count > current.count) ? prev : current).language_label :
-    languageOptions[63];
+    "No Data Available";
   }
 
 

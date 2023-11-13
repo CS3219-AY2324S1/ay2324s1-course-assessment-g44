@@ -32,6 +32,10 @@ function UserLeaderboard() {
 
     getQuestionsAttemptedPerUserApi().then(res => {
       const allUserAttempts = res.data.message.rows;
+      console.log(allUserAttempts);
+      if (allUserAttempts.length === 0) {
+        return;
+      }
       setQuestionsAttemptedPerUser(allUserAttempts);
       setQuestionsAttemptedCount(allUserAttempts.filter(item => item.email_address === user.email)[0].count)
     });
@@ -51,10 +55,10 @@ function UserLeaderboard() {
     },
     {
       title: "topUser",
-      bigWord: findTopAttemptUser().email_address,
+      bigWord: findTopAttemptUser() === null ? "admin123@gmail.com" : findTopAttemptUser().email_address,
       smallWord: "User with the most number of questions attempted.",
-      stat: findTopAttemptUser().count,
-      total: findTopAttemptUser().count,
+      stat: findTopAttemptUser() === null ? 0 : findTopAttemptUser().count,
+      total: findTopAttemptUser() === null ? 0 : findTopAttemptUser().count,
       button: '',
       buttonNavigate: "",
     },
@@ -73,7 +77,7 @@ function UserLeaderboard() {
   function findTopAttemptUser() {
     return questionsAttemptedPerUser.length > 0 ? 
     questionsAttemptedPerUser.reduce((prev, current) => (prev.count > current.count) ? prev : current) :
-    user;
+    null;
   }
 
   function sortedUsers() {

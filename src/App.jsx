@@ -21,6 +21,7 @@ import TagQuestions from "./pages/TagQuestions";
 import QuestionNavbar from "./components/question_crud/questionNavbar";
 import AttemptHistory from "./pages/AttemptHistory";
 import AttemptMenu from "./pages/AttemptMenu";
+import '@mantine/carousel/styles.css';
 
 function App() {
   

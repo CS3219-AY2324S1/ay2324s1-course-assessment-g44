@@ -206,8 +206,6 @@ function RoomMainArea({roomID, question, detectSubmission}) {
           >
             Quit
           </Button>
-          <Button style={{ backgroundColor: 'orange', color: 'black' }}>Previous</Button>
-          <Button style={{ backgroundColor: 'green', color: 'white' }}>Next</Button>
         </Flex>
         </Container>
       {modal}

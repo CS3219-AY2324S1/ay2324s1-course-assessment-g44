@@ -1,0 +1,145 @@
+version: '3'
+services:
+  postgres_db:
+    image: postgres:latest ## Or pull using `docker pull postgres`
+    container_name: postgresCont
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: <PG password>
+      POSTGRES_DB: user_services
+    ports:
+      - "5432:5432"
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.2
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/var/lib/postgresql/data
+
+  pgadmin4:
+    image: dpage/pgadmin4 ## Or pull using `docker pull dpage/pgadmin4`
+    environment:
+      PGADMIN_DEFAULT_EMAIL: justin@test.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.3 
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    user: root
+
+  user-backend:
+    build:
+      context: ./backend/user_backend
+      dockerfile: dockerfile
+    image: user-backend:latest
+    environment:
+      PG_USER: postgres
+      PG_PASSWORD: <PG password>
+      PG_DATABASE: user_services
+      PG_HOST: 172.18.0.2
+    depends_on:
+      - postgres_db
+    ports: 
+      - 4200:4200
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.4
+
+  question-backend:
+    build:
+      context: ./backend/question_backend
+      dockerfile: dockerfile
+    image: question-backend:latest
+    ports:
+      - 3001:3001
+    environment:
+      mongoString: <MONGOSTRING>
+
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.5
+
+  matching-backend:
+    build:
+      context: ./backend/matching_backend
+      dockerfile: dockerfile
+    image: matching-backend:latest
+    environment:
+      HOST_NAME: 172.18.0.5
+      AMPQURL: <AMPQ URL>
+
+    ports:
+      - 8002:8002
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.6
+
+  frontend-1:
+    build: .
+    image: frontend:latest
+    environment:
+      PORT: 8080
+    ports:
+      - 8080:8080
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.7
+
+  frontend-2:
+    image: frontend:latest
+    environment:
+      PORT: 8081
+    ports:
+      - 8081:8081
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.8
+
+  collab-service:
+    image: ipirozhenko/y-websocket:latest
+    ports:
+      - 1234:1234
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.9
+
+  chatbox:
+    build:
+      context: ./backend/chatbox_backend
+      dockerfile: dockerfile
+    image: chatbox:latest
+    ports:
+      - 3000:3000
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.10
+  code-execution:
+    build:
+      context: ./backend/code_execution_backend
+      dockerfile: dockerfile
+    image: code-execution:latest
+    ports:
+      - 6969:6969
+    environment:
+      KEY: <API KEY>
+      HOST: judge0-ce.p.rapidapi.com
+      URL: https://judge0-ce.p.rapidapi.com
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.11
+
+volumes:
+  postgres:
+  pgadmin-data:
+
+
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24

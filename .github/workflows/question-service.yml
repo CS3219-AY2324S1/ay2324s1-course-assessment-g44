@@ -24,7 +24,7 @@ jobs:
         working-directory: ./src/backend/question_backend
         run: npm i
       - name: Install typescript and cypress
-        working-directory: ./cypress
+        working-directory: .
         run: npm install --save-dev typescript & npm install --save-dev cypress
       - name: Run test cases
         working-directory: .

@@ -1,5 +1,4 @@
 node_modules/
 src/backend/question_backend/.env
 .env
-docker-compose.yml
 cypress/screenshots

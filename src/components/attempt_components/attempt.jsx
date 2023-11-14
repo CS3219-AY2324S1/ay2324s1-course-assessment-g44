@@ -21,7 +21,7 @@ const Attempt = ({attempt, questionId, attNo}) => {
     }
 
     function formatTime(date) {
-        return String((parseInt(date.substring(11,13)) + 8) % 24) + date.substring(13,19);
+        return date.substring(11,19);
     }
 
     function handleBack() {

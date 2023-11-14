@@ -5,8 +5,6 @@ import ViewQuestions from "./pages/ViewQuestions";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
 import Home from "./pages/home";
-import Room from "./pages/Room"
-import ChatboxPage from "./pages/ChatboxPage";
 // import Login from "./pages/Login";
 // import Profile from "./components/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -30,9 +28,7 @@ function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/viewQuestions" element={<ViewQuestions />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/room/:roomID" element={<Room/>}/>
             <Route path="/logout" element={<Logout/>} />
-            <Route path="/chatbox" element={<ChatboxPage/>} />
           </Routes>
         </Router>
         <Notifications />

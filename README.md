@@ -2,7 +2,7 @@
 
 ### Setup
 
-First, start by ensuring that you have NodeJS installed. The following commands should show the version of NodeJS you have installed on your local machine.
+First, start by ensuring that you have NodeJS installed. The following command should show the version of NodeJS you have installed on your local machine.
 ```
 node --version
 ```

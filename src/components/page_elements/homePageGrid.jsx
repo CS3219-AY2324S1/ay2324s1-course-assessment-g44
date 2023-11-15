@@ -6,6 +6,8 @@ import { selectUser } from '../../backend/user_backend/features/auth';
 import { useState, useEffect } from 'react';
 import { completedCount, mapQuestions } from '../question_crud/question';
 import axios from 'axios';
+import UserLeaderboard from './userLeaderboard';
+import QuestionLeaderboard from './questionLeaderboard';
 
 
 const PRIMARY_COL_HEIGHT = rem(300);
@@ -39,10 +41,10 @@ export default function LeadGrid() {
             <ProgressCard completedNumber={completedNumber} questionsLength={questions.length}/>
           </Grid.Col>
           <Grid.Col span={6}>
-            <Skeleton height={SECONDARY_COL_HEIGHT} radius="md" animate={false} />
+            <QuestionLeaderboard/>
           </Grid.Col>
           <Grid.Col span={6}>
-            <Skeleton height={SECONDARY_COL_HEIGHT} radius="md" animate={false} />
+            <UserLeaderboard/>            
           </Grid.Col>
         </Grid>
       </SimpleGrid>

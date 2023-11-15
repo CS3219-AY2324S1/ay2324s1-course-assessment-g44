@@ -10,7 +10,7 @@ import axios from "axios";
 import { getAttemptsApi } from "../services/user_services";
 import { useSelector } from "react-redux";
 import { selectUser } from "../backend/user_backend/features/auth";
-import { difficultyBadge } from "../components/question_crud/question";
+import { difficultyBadge, formatQuestionDescription } from "../components/question_crud/question";
 import { IconArrowLeft, IconChessRook } from "@tabler/icons-react";
 
 
@@ -29,6 +29,8 @@ const Attempt = () => {
             setQuestion(q); 
         }).catch(error => console.error(error));
     }, []);
+
+    console.log(question);
 
 
     return (

@@ -2,7 +2,7 @@ import { Card, Title, Text, Badge, Button, Group, Space, closeOnEscape } from '@
 import {modals} from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import React, { useEffect, useState } from "react";
-import { difficultyBadge, completedBadge, setComplete, setIncomplete } from './question';
+import { difficultyBadge, completedBadge, setComplete, setIncomplete, formatQuestionDescription } from './question';
 import { useDispatch } from "react-redux";
 import { login } from "../../backend/user_backend/features/auth";
 import Read from "./read"
@@ -159,9 +159,7 @@ export default function View(props) {
           <>{completedBadge(props.question.completed)}</>
         </Group>
         <Space h="sm" />
-        <Text size="md" c="dimmed">
-          {question.description}
-        </Text>
+        <>{formatQuestionDescription(question.description, 'sm', 'dimmed')}</>
   
         <Space h="lg" />
         <Space h="lg" />

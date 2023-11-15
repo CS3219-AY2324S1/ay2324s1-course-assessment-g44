@@ -37,3 +37,10 @@ On two different browsers, you can now use the app by connecting to http://local
 <img width="1437" alt="image" src="https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g44/assets/61372278/af189d4d-89d4-4d1e-9ff3-ccb8331f1f69">
 
 <img width="1438" alt="image" src="https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g44/assets/61372278/98f64c2d-558c-4bd4-b680-fba32bca5ab7">
+
+### Instructions to stop the containers
+
+Run the following command to stop all containers and remove them.
+```
+docker-compose -f src/docker-compose.yml down
+```

@@ -18,7 +18,7 @@ services:
       - postgres:/var/lib/postgresql/data
 
   pgadmin4:
-    image: dpage/pgadmin4 ## Or pull using docker pull dpage/pgadmin4
+    image: dpage/pgadmin4 ## Or pull using `docker pull dpage/pgadmin4`
     environment:
       PGADMIN_DEFAULT_EMAIL: justin@test.com
       PGADMIN_DEFAULT_PASSWORD: admin
@@ -38,7 +38,7 @@ services:
     image: user-backend:latest
     environment:
       PG_USER: postgres
-      PG_PASSWORD: <YourPassword>
+      PG_PASSWORD: <PG password>
       PG_DATABASE: user_services
       PG_HOST: 172.18.0.2
     depends_on:
@@ -57,7 +57,7 @@ services:
     ports:
       - 3001:3001
     environment:
-      mongoString: <MongoDBConnectionString>
+      mongoString: <MONGOSTRING>
     networks:
       my_network:
         ipv4_address: 172.18.0.5
@@ -69,7 +69,7 @@ services:
     image: matching-backend:latest
     environment:
       HOST_NAME: 172.18.0.5
-      AMPQURL: <AmqpURL>
+      AMPQURL: <AMPQ URL>
     ports:
       - 8002:8002
     networks:
@@ -123,7 +123,7 @@ services:
     ports:
       - 6969:6969
     environment:
-      KEY: <YourApiKey>
+      KEY: <API KEY>
       HOST: judge0-ce.p.rapidapi.com
       URL: https://judge0-ce.p.rapidapi.com
     networks:

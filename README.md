@@ -19,6 +19,8 @@
   INSERT INTO Users(email_address, username, password, id, role) VALUES ('admin123@gmail.com', 'admin', 'adminpassword', '1', 'admin');
 
   ```
-  in your database.
+  in your database. You will have an admin account inside your database that has access to CRUD operations for questions.
+
 4. Open a new terminal process, type `cd src/backend/question_backend` and run `node index.js`. This is to run the question database.
 5. In a separate terminal process, type `npm start` to run the frontend.
+6. Feel free to register more users via our app, but these users will not have the rights for question CRUD operations.

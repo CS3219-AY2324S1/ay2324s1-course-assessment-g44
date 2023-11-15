@@ -22,7 +22,7 @@ Next, we need to configure some environment variables first. There are few envir
 * `AMPQURL` in `matching-backend`
 * `KEY` in `code-execution`
 
-The values for all 5 environment variables can be found in Assignment5-environmentVariables.txt that was uploaded to Canvas.
+The values for the last 3 environment variables can be found in Assignment5-environmentVariables.txt that was uploaded to Canvas. However, for `POSTGRES_PASSWORD` and `PG_PASSWORD`, please input your own password to your own Postgres(i.e. the values for both `POSTGRES_PASSWORD` and `PG_PASSWORD` is the same, which is your own password to postgres). The default password should be `postgres`.
 
 Next, run the following command to ensure that the docker images are built, in order to run the app.
 ```

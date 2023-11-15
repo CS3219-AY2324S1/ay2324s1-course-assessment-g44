@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: <PG password>
+      POSTGRES_PASSWORD: fattysam1503
       POSTGRES_DB: user_services
     ports:
       - "5432:5432"
@@ -38,7 +38,7 @@ services:
     image: user-backend:latest
     environment:
       PG_USER: postgres
-      PG_PASSWORD: <PG password>
+      PG_PASSWORD: fattysam1503
       PG_DATABASE: user_services
       PG_HOST: 172.18.0.2
     depends_on:
@@ -57,7 +57,8 @@ services:
     ports:
       - 3001:3001
     environment:
-      mongoString: <MONGOSTRING>
+      mongoString: mongodb+srv://derrickkhoo2000:123465@questions.o1ost6e.mongodb.net/
+
 
     networks:
       my_network:
@@ -70,7 +71,8 @@ services:
     image: matching-backend:latest
     environment:
       HOST_NAME: 172.18.0.5
-      AMPQURL: <AMPQ URL>
+      AMPQURL: amqps://ctkrippq:VOktAb86Bup5TVgqhHCa1sljcwFUHYSG@armadillo.rmq.cloudamqp.com/ctkrippq
+
 
     ports:
       - 8002:8002
@@ -125,7 +127,7 @@ services:
     ports:
       - 6969:6969
     environment:
-      KEY: <API KEY>
+      KEY: 4fc4ae7f07msh57822c0f08ca5e0p12bc49jsn471adfbc063c
       HOST: judge0-ce.p.rapidapi.com
       URL: https://judge0-ce.p.rapidapi.com
     networks:

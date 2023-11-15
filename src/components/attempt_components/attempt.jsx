@@ -36,7 +36,7 @@ const Attempt = ({attempt, questionId, attNo}) => {
         <Space h="md"/>
         <Card withBorder radius='sm'>
             <Group>
-            <Text fw={500} size="lg">Attempt {attNo}</Text>
+            <Text fw={500} size="lg">Attempt</Text>
             <Space w="md"/>
             </Group>
             <Space h="xs"/>

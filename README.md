@@ -22,7 +22,7 @@ Next, we need to configure some environment variables first. There are few envir
 * `AMPQURL` in `matching-backend`
 * `KEY` in `code-execution`
 
-The values for the first 4 environment variables can be found in Assignment5-environmentVariables.txt that was uploaded to Canvas.
+The values for all 5 environment variables can be found in Assignment5-environmentVariables.txt that was uploaded to Canvas.
 
 Next, run the following command to ensure that the docker images are built, in order to run the app.
 ```

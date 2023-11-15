@@ -1,12 +1,12 @@
 version: '3'
 services:
   postgres_db:
-    image: postgres:latest ## Or pull using `docker pull postgres`
+    image: postgres:latest ## Or pull using docker pull postgres
     container_name: postgresCont
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: <PG password>
+      POSTGRES_PASSWORD: <YourPassword>
       POSTGRES_DB: user_services
     ports:
       - "5432:5432"
@@ -58,7 +58,6 @@ services:
       - 3001:3001
     environment:
       mongoString: <MONGOSTRING>
-
     networks:
       my_network:
         ipv4_address: 172.18.0.5
@@ -71,7 +70,6 @@ services:
     environment:
       HOST_NAME: 172.18.0.5
       AMPQURL: <AMPQ URL>
-
     ports:
       - 8002:8002
     networks:

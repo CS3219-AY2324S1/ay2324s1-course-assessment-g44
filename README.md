@@ -20,7 +20,7 @@ git clone https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g44.git
 
 Start the Docker Daemon on your local machine by running the Docker application.
 
-Next, we need to configure some environment variables first. There are few environment variables that needs to be configured in `src/docker-compose.yml`, before running the app. They are listed below in the follow format: variableName in serviceName
+Next, we need to configure some environment variables first. There are a few environment variables that needs to be configured in `src/docker-compose.yml`, before running the app. They are listed below in the following format: variableName in serviceName
 * `POSTGRES_PASSWORD` in `postgres_db`
 * `PG_PASSWORD` in `user-backend`
 * `mongoString` in `question-backend`

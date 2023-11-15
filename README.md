@@ -12,7 +12,9 @@ Next, ensure that you have docker installed on your local machine by running the
 docker --version
 ```
 Then, clone the app on your desired directory on your local machine, using the following command.
-`git clone https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g44.git`
+```
+git clone https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g44.git
+```
 
 ### Instructions to run app locally
 
